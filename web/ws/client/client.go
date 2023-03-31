@@ -1,8 +1,8 @@
 package client
 
 import (
+	"common/web/response"
 	"errors"
-	"game_server/pkg/web/response"
 	"log"
 	"sync/atomic"
 	"time"

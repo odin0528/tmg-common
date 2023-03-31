@@ -1,9 +1,9 @@
 package logs
 
 import (
+	"common/configs"
 	"encoding/json"
 	"fmt"
-	"game_server/pkg/configs"
 	"log"
 	"os"
 	"reflect"
