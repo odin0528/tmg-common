@@ -2,6 +2,8 @@
 
 使用須知: 路徑固定不可變更，若變更須調整logs/logs.go和web/ws/client/client.go中的config import路徑，且須修改此文件敘述
 
+PS:若已加入過的專案跳至第6步，初始化submodule 內容
+
 ## 1. 新專案使用時請從master切一分支並命名為你的專案名稱並改用小寫+底線組合命名
     Ex: 專案 gameServer
     $ git checkout -b game_server
@@ -19,13 +21,19 @@
     Ex: 後端的gameServer專案中的 gameserver層，不可進入wow_gaming or pkg 資料夾內下
     $ cd gameserver
 
-## 5. 初始化子專案
+## 5. 變更submodule branch
+    $ git config -f .gitmodules submodule.common.branch xxxxx(branch)
+    Ex:
+    $ git config -f .gitmodules submodule.common.branch game_server
+
+## 6. 初始化子專案
     $ git submodule init
 
-## 6. 若該子專案資料夾內無資料使用底下cmd下載
+## 7. 若該子專案資料夾內無資料使用底下cmd下載
     $ git submodule update --init
+    
    若還是無法則使用底下cmd，再無法請自行查詢網路
     $ git submodule update --remote --recursive
 
-## 7. go run 執行新的專案
+## 8. go run 執行新的專案
     $ go run main.go
