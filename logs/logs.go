@@ -1,13 +1,13 @@
 package logs
 
 import (
-	"common/configs"
 	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"reflect"
 	"strings"
+	"xxx/common/configs"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -46,7 +46,6 @@ func InitLogs() {
 
 	initSystemLog()
 	// initPanicLog()
-
 }
 
 func isEnableDebugLog() bool {
@@ -58,6 +57,7 @@ func initSystemLog() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 }
 
+// TODO: 確認panic 是否要用 (需分linux/windows版本)
 // For linux
 // func initPanicLog() {
 // 	if configs.NO == configs.Get(configs.SECTION_LOG, configs.LOG_KEY_PANIC_TO_FILE, configs.NO) {
@@ -144,8 +144,6 @@ func newLogger(filepath string) *zap.Logger {
 }
 
 func getLogger(logType string) *zap.Logger {
-	// TODO: 確認panic 是否要用 (需分linux/windows版本)
-
 	var outputLogger *zap.Logger
 	switch logType {
 	case CMS:
@@ -164,8 +162,8 @@ func Debug(logType, logKey, msg string, payload interface{}, fields ...Field) {
 		zapFields := transferMappingToFields(logKey, fields)
 		zapFields = append(zapFields,
 			zap.Any(FIELD_KEY_PAYLOAD, payload),
-			zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(1)),
-			zap.String(FIELD_KEY_FUNC_CALLER_STACK, strings.Join(getAllFuncCallerNameList(1), " < ")),
+			zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(BASE_SKIP_LAYER)), //Skip "Debug" layer
+			zap.String(FIELD_KEY_FUNC_CALLER_STACK, combinFuncCallerName(getAllFuncCallerNameList(BASE_SKIP_LAYER))),
 		)
 		if log := getLogger(logType); log != nil {
 			log.Debug(msg, zapFields...)
@@ -177,7 +175,7 @@ func Info(logType, logKey, msg string, payload interface{}, fields ...Field) {
 	zapFields := transferMappingToFields(logKey, fields)
 	zapFields = append(zapFields,
 		zap.Any(FIELD_KEY_PAYLOAD, payload),
-		zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(1)),
+		zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(BASE_SKIP_LAYER)), //Skip "Info" layer
 	)
 
 	if log := getLogger(logType); log != nil {
@@ -189,8 +187,8 @@ func Error(logType, logKey, msg string, payload interface{}, fields ...Field) {
 	zapFields := transferMappingToFields(logKey, fields)
 	zapFields = append(zapFields,
 		zap.Any(FIELD_KEY_PAYLOAD, payload),
-		zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(1)),
-		zap.String(FIELD_KEY_FUNC_CALLER_STACK, strings.Join(getAllFuncCallerNameList(1), " < ")),
+		zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(BASE_SKIP_LAYER)), //Skip "Error" layer
+		zap.String(FIELD_KEY_FUNC_CALLER_STACK, combinFuncCallerName(getAllFuncCallerNameList(BASE_SKIP_LAYER))),
 	)
 
 	if logger := getLogger(logType); nil != logger {

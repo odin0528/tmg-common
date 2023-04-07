@@ -1,11 +1,11 @@
 package client
 
 import (
-	"common/web/response"
 	"errors"
 	"log"
 	"sync/atomic"
 	"time"
+	"xxx/common/web/response"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
