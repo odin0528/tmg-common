@@ -7,13 +7,11 @@ import (
 )
 
 const (
-	// Section
 	SECTION_SYSTEM  = "system"
 	SECTION_WEB_API = "web_api"
 	SECTION_MOCK    = "mock"
 	SECTION_LOG     = "log"
 
-	// Key
 	SYSTEM_HTTP_PORT           string = "http_port"
 	SYSTEM_APP_MODE            string = "app_mode"
 	SYSTEM_ID                  string = "id"
@@ -28,12 +26,11 @@ const (
 
 	LOG_FILE_PATH        = "file_path"
 	LOG_FILE             = "file"
-	LOG_ENABLE_STD_OUT   = "enable_std_out" //value rename
+	LOG_ENABLE_STD_OUT   = "enable_std_out"
 	LOG_ENABLE_DEBUG_LOG = "enable_debug_log"
 	LOG_KEYS             = "log_keys"
 	LOG_PANIC_TO_FILE    = "panic_to_file"
 
-	// Value
 	MODE_PRODUCTION  string = "production"
 	MODE_DEVELOPMENT string = "development"
 	MODE_DEBUG       string = "debug"

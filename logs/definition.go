@@ -23,9 +23,13 @@ const (
 	CMS    = "cms"
 
 	SAVE_BET_RECORD = "Save bet record info"
+	UNKNOWN_CALLER  = "Unknown caller"
+
+	MAX_CALLER_COUNT  = 20
+	BASE_SKIP_LAYER   = 1
+	CALLER_SKIP_LAYER = 2
 )
 
-// Service tpye (Log主要歸屬, Ex: XX遊戲)
 const (
 	FUNC_CALLER = "func_caller"
 
@@ -40,7 +44,6 @@ const (
 	SLOT_PLAYER         = "slot_player"
 )
 
-// Field key (附屬資訊的Key)
 const (
 	FIELD_KEY_LOG_KEY           = "log_key"
 	FIELD_KEY_FUNC_NAME         = "func_name"

@@ -1,7 +1,7 @@
 package logs
 
 import (
-	"common/configs"
+	"game_server/common/configs"
 	"testing"
 )
 
@@ -11,7 +11,6 @@ func TestWriteLog(t *testing.T) {
 
 	InitLogs()
 
-	// system test
 	Debug(SYSTEM, "test", "system debug test", nil)
 	Debug(SYSTEM, "test", "system debug test 2", map[string]interface{}{
 		"test_data1": "abc",
@@ -30,7 +29,6 @@ func TestWriteLog(t *testing.T) {
 		"test_data6": 741,
 	})
 
-	// record test
 	Debug(RECORD, "test", "record debug test", nil)
 	Debug(RECORD, "test", "record debug test 2", map[string]interface{}{
 		"test_data1": "abc",
@@ -64,7 +62,6 @@ func TestWriteLog(t *testing.T) {
 	}
 	Record("test", betRecords)
 
-	// cms test
 	Debug(CMS, "test", "cms debug test", nil)
 	Debug(CMS, "test", "cms debug test 2", map[string]interface{}{
 		"test_data1": "abc",

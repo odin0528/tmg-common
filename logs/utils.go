@@ -4,29 +4,27 @@ import (
 	"fmt"
 	"runtime"
 	"runtime/debug"
+	"strings"
 )
 
 func getFuncCallerName(skipFrames int) string {
-	// skip getFuncCallerName
-	funNameList := getAllFuncCallerNameList(skipFrames + 1)
+	funNameList := getAllFuncCallerNameList(skipFrames + 1) //Add skip this function (getFuncCallerName) layer
 
 	if 0 >= len(funNameList) {
-		return "unknown"
+		return UNKNOWN_CALLER
 	}
 
 	return funNameList[0]
 }
 
-// getAllFuncCallerNameList - get 20 of caller func names stack except for runtime.Callers and getAllFuncCallerNameList
 func getAllFuncCallerNameList(skipFrames int) []string {
 	defer handlePanic()
 
 	funNameList := []string{}
 
-	// Set size to skipFrames+20 to ensure we have room for 20 more callers than we need
-	programCounters := make([]uintptr, skipFrames+20)
-	// Skip 2, runtime.Callers and getAllFuncCallerNameList
-	n := runtime.Callers(2, programCounters)
+	programCounters := make([]uintptr, skipFrames+MAX_CALLER_COUNT)
+
+	n := runtime.Callers(CALLER_SKIP_LAYER, programCounters) // Skip "runtime.Callers" and "getAllFuncCallerNameList"
 
 	if n > 0 {
 		frames := runtime.CallersFrames(programCounters[:n])
@@ -47,4 +45,8 @@ func handlePanic() {
 	if err := recover(); err != nil {
 		Error(PANIC, FUNC_CALLER, fmt.Sprintln(err)+string(debug.Stack()), map[string]interface{}{})
 	}
+}
+
+func combinFuncCallerName(callers []string) string {
+	return strings.Join(getAllFuncCallerNameList(BASE_SKIP_LAYER+1), " < ") //Add skip this function (combinFuncCallerName) layer
 }
