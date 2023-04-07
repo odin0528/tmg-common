@@ -31,9 +31,9 @@ PS:若已加入過的專案跳至第6步，初始化submodule 內容
 
 ## 7. 若該子專案資料夾內無資料使用底下cmd下載
     $ git submodule update --init
-    
-   若還是無法則使用底下cmd，再無法請自行查詢網路
+
+## 8. 若還是無法則使用底下cmd，再無法請自行查詢網路
     $ git submodule update --remote --recursive
 
-## 8. go run 執行新的專案
+## 9. go run 執行新的專案
     $ go run main.go
