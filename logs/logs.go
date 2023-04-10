@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"mgmt/common/configs"
 	"os"
 	"reflect"
 	"strings"
-	"xxx/common/configs"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

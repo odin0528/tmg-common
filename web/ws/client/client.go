@@ -3,9 +3,9 @@ package client
 import (
 	"errors"
 	"log"
+	"mgmt/common/web/response"
 	"sync/atomic"
 	"time"
-	"xxx/common/web/response"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
