@@ -2,10 +2,10 @@ package client
 
 import (
 	"errors"
+	"game_server/common/web/response"
 	"log"
 	"sync/atomic"
 	"time"
-	"xxx/common/web/response"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
