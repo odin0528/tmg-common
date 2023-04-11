@@ -146,9 +146,9 @@ func newLogger(filepath string) *zap.Logger {
 func getLogger(logType string) *zap.Logger {
 	var outputLogger *zap.Logger
 	switch logType {
-	case CMS:
+	case LOG_TYPE_CMS:
 		outputLogger = cmsLogger
-	case RECORD:
+	case LOG_TYPE_RECORD:
 		outputLogger = recordLogger
 	default:
 		outputLogger = systemLogger
@@ -206,7 +206,7 @@ func Record(logKey string, betRecordList interface{}) {
 		zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(1)),
 	)
 
-	if log := getLogger(RECORD); log != nil {
+	if log := getLogger(LOG_TYPE_RECORD); log != nil {
 		log.Info(SAVE_BET_RECORD, zapFields...)
 	}
 }
