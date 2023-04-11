@@ -3,7 +3,7 @@ package client
 import (
 	"errors"
 	"game_server/common/web/response"
-	"log"
+
 	"sync/atomic"
 	"time"
 
@@ -21,7 +21,6 @@ func NewWsClient(socket *websocket.Conn) *WsClient {
 
 func (client *WsClient) InitReader(callback func(client *WsClient, message []byte, err error)) {
 	if client.socket == nil {
-		log.Println("InitReader(...) error: socket is null")
 		return
 	}
 	go func() {

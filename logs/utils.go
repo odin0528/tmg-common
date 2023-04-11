@@ -43,7 +43,7 @@ func getAllFuncCallerNameList(skipFrames int) []string {
 
 func handlePanic() {
 	if err := recover(); err != nil {
-		Error(PANIC, FUNC_CALLER, fmt.Sprintln(err)+string(debug.Stack()), map[string]interface{}{})
+		Error(LOG_TYPE_PANIC, LOG_KEY_FUNC_CALLER, fmt.Sprintln(err)+string(debug.Stack()), map[string]interface{}{})
 	}
 }
 
