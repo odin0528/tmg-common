@@ -8,110 +8,109 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-func FloatAdd(fs ...float64) float64 {
-	d := decimal.Zero
-	for k := range fs {
-		d = d.Add(decimal.NewFromFloat(fs[k]))
+func FloatAdd(terms ...float64) float64 {
+	temp := decimal.Zero
+	for _, term := range terms {
+		temp = temp.Add(decimal.NewFromFloat(term))
 	}
-	f, _ := d.Float64()
-	return f
+
+	result, _ := temp.Float64()
+	return result
 }
 
-func FloatSub(fs ...float64) float64 {
-	if len(fs) == 0 {
+func FloatSub(terms ...float64) float64 {
+	if len(terms) == 0 {
 		return 0
-	} else if len(fs) == 1 {
-		return fs[0]
-	}
-	d := decimal.NewFromFloat(fs[0])
-	for _, v := range fs[1:] {
-		d = d.Sub(decimal.NewFromFloat(v))
-	}
-	f, _ := d.Float64()
-	return f
-}
-
-func FloatMul(f1 float64, f2 float64) float64 {
-	f, _ := decimal.NewFromFloat(f1).Mul(decimal.NewFromFloat(f2)).Float64()
-	return f
-}
-
-func FloatDiv(f1 float64, f2 float64) float64 {
-	if f2 == 0 {
-		return f1
+	} else if len(terms) == 1 {
+		return terms[0]
 	}
 
-	f, _ := decimal.NewFromFloat(f1).Div(decimal.NewFromFloat(f2)).Float64()
-	return f
+	temp := decimal.NewFromFloat(terms[0])
+	for _, term := range terms[1:] {
+		temp = temp.Sub(decimal.NewFromFloat(term))
+	}
+
+	result, _ := temp.Float64()
+	return result
 }
 
-func IsFloatEqual(f1 float64, f2 float64) bool {
-	return floatCompare(FLOAT_CMP_EQUAL, f1, f2)
+func FloatMul(multiplier float64, multiplicand float64) float64 {
+	result, _ := decimal.NewFromFloat(multiplier).Mul(decimal.NewFromFloat(multiplicand)).Float64()
+	return result
 }
 
-func IsFloatGreaterThan(f1 float64, f2 float64) bool {
-	return floatCompare(FLOAT_CMP_GREATER_THAN, f1, f2)
+func FloatDiv(dividend float64, divisor float64) float64 {
+	if divisor == 0 {
+		return dividend
+	}
+
+	result, _ := decimal.NewFromFloat(dividend).Div(decimal.NewFromFloat(divisor)).Float64()
+	return result
 }
 
-func IsFloatGreaterThanOrEqual(f1 float64, f2 float64) bool {
-	return floatCompare(FLOAT_CMP_GREATER_THAN_OR_EQUAL, f1, f2)
+func IsFloatEqual(src float64, dst float64) bool {
+	return floatCompare(FLOAT_CMP_EQUAL, src, dst)
 }
 
-func IsFloatLessThan(f1 float64, f2 float64) bool {
-	return floatCompare(FLOAT_CMP_LESS_THAN, f1, f2)
+func IsFloatGreaterThan(src float64, dst float64) bool {
+	return floatCompare(FLOAT_CMP_GREATER_THAN, src, dst)
 }
 
-func IsFloatLessThanOrEqual(f1 float64, f2 float64) bool {
-	return floatCompare(FLOAT_CMP_LESS_THAN_OR_EQUAL, f1, f2)
+func IsFloatGreaterThanOrEqual(src float64, dst float64) bool {
+	return floatCompare(FLOAT_CMP_GREATER_THAN_OR_EQUAL, src, dst)
 }
 
-func floatCompare(cmp FloatCompare, f1 float64, f2 float64) bool {
-	d1 := decimal.NewFromFloat(f1)
-	d2 := decimal.NewFromFloat(f2)
+func IsFloatLessThan(src float64, dst float64) bool {
+	return floatCompare(FLOAT_CMP_LESS_THAN, src, dst)
+}
+
+func IsFloatLessThanOrEqual(src float64, dst float64) bool {
+	return floatCompare(FLOAT_CMP_LESS_THAN_OR_EQUAL, src, dst)
+}
+
+func floatCompare(cmp FloatCompare, src float64, dst float64) bool {
+	srcDecimal := decimal.NewFromFloat(src)
+	dstDecimal := decimal.NewFromFloat(dst)
 
 	switch cmp {
 	case FLOAT_CMP_EQUAL:
-		return d1.Equal(d2)
+		return srcDecimal.Equal(dstDecimal)
 	case FLOAT_CMP_GREATER_THAN:
-		return d1.GreaterThan(d2)
+		return srcDecimal.GreaterThan(dstDecimal)
 	case FLOAT_CMP_GREATER_THAN_OR_EQUAL:
-		return d1.GreaterThanOrEqual(d2)
+		return srcDecimal.GreaterThanOrEqual(dstDecimal)
 	case FLOAT_CMP_LESS_THAN:
-		return d1.LessThan(d2)
+		return srcDecimal.LessThan(dstDecimal)
 	case FLOAT_CMP_LESS_THAN_OR_EQUAL:
-		return d1.LessThanOrEqual(d2)
+		return srcDecimal.LessThanOrEqual(dstDecimal)
 	}
 
 	return false
 }
 
-func Cmp(f1 float64, f2 float64) CmpVal {
-	/*	-1 if f1 <  f2
-	 	 0 if f1 == f2
-		+1 if f1 >  f2 */
+func Cmp(src float64, dst float64) CmpValue {
+	srcDecimal := decimal.NewFromFloat(src)
+	dstDecimal := decimal.NewFromFloat(dst)
 
-	d1 := decimal.NewFromFloat(f1)
-	d2 := decimal.NewFromFloat(f2)
-
-	return CmpVal(d1.Cmp(d2))
+	return CmpValue(srcDecimal.Cmp(dstDecimal))
 }
 
-func GetMoneyFloatDecimal(retVal float64) float64 {
-	if CMP_BIGGER_THAN == Cmp(retVal, 0.0) {
-		retVal = GetFloatDecimal(retVal, ROUND_PRECISION)
+func GetMoneyFloatDecimal(value float64) float64 {
+	if CMP_BIGGER_THAN == Cmp(value, 0.0) {
+		value = GetFloatDecimal(value, ROUND_PRECISION)
 	} else {
-		retVal = GetFloatDecimal(retVal, ROUND_PRECISION+1)
+		value = GetFloatDecimal(value, ROUND_PRECISION+1)
 	}
 
-	return retVal
+	return value
 }
 
-func GetFloatDecimal(val float64, place int) float64 {
+func GetFloatDecimal(value float64, place int) float64 {
 	var tail float64
 
 	format := "%." + strconv.Itoa(place+1) + "f"
-	truncVal := math.Trunc(val)
-	tail = val - truncVal
+	truncVal := math.Trunc(value)
+	tail = value - truncVal
 	strDecimal := fmt.Sprintf(format, tail)
 	strDecimal = strDecimal[:place+2]
 	tail, _ = strconv.ParseFloat(strDecimal, 64)
