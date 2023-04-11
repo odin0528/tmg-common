@@ -11,38 +11,38 @@ func TestWriteLog(t *testing.T) {
 
 	InitLogs()
 
-	Debug(SYSTEM, "test", "system debug test", nil)
-	Debug(SYSTEM, "test", "system debug test 2", map[string]interface{}{
+	Debug(LOG_TYPE_SYSTEM, "test", "system debug test", nil)
+	Debug(LOG_TYPE_SYSTEM, "test", "system debug test 2", map[string]interface{}{
 		"test_data1": "abc",
 		"test_data2": 123,
 	})
 
-	Info(SYSTEM, "test", "system info test", nil)
-	Info(SYSTEM, "test", "system info test 2", map[string]interface{}{
+	Info(LOG_TYPE_SYSTEM, "test", "system info test", nil)
+	Info(LOG_TYPE_SYSTEM, "test", "system info test 2", map[string]interface{}{
 		"test_data3": "xyz",
 		"test_data4": 987,
 	})
 
-	Error(SYSTEM, "test", "system error test", nil)
-	Error(SYSTEM, "test", "system error test 2", map[string]interface{}{
+	Error(LOG_TYPE_SYSTEM, "test", "system error test", nil)
+	Error(LOG_TYPE_SYSTEM, "test", "system error test 2", map[string]interface{}{
 		"test_data5": "qaz",
 		"test_data6": 741,
 	})
 
-	Debug(RECORD, "test", "record debug test", nil)
-	Debug(RECORD, "test", "record debug test 2", map[string]interface{}{
+	Debug(LOG_TYPE_RECORD, "test", "record debug test", nil)
+	Debug(LOG_TYPE_RECORD, "test", "record debug test 2", map[string]interface{}{
 		"test_data1": "abc",
 		"test_data2": 123,
 	})
 
-	Info(RECORD, "test", "record info test", nil)
-	Info(RECORD, "test", "record info test 2", map[string]interface{}{
+	Info(LOG_TYPE_RECORD, "test", "record info test", nil)
+	Info(LOG_TYPE_RECORD, "test", "record info test 2", map[string]interface{}{
 		"test_data3": "xyz",
 		"test_data4": 987,
 	})
 
-	Error(RECORD, "test", "record error test", nil)
-	Error(RECORD, "test", "record error test 2", map[string]interface{}{
+	Error(LOG_TYPE_RECORD, "test", "record error test", nil)
+	Error(LOG_TYPE_RECORD, "test", "record error test 2", map[string]interface{}{
 		"test_data5": "qaz",
 		"test_data6": 741,
 	})
@@ -62,20 +62,20 @@ func TestWriteLog(t *testing.T) {
 	}
 	Record("test", betRecords)
 
-	Debug(CMS, "test", "cms debug test", nil)
-	Debug(CMS, "test", "cms debug test 2", map[string]interface{}{
+	Debug(LOG_TYPE_CMS, "test", "cms debug test", nil)
+	Debug(LOG_TYPE_CMS, "test", "cms debug test 2", map[string]interface{}{
 		"test_data1": "abc",
 		"test_data2": 123,
 	})
 
-	Info(CMS, "test", "cms info test", nil)
-	Info(CMS, "test", "cms info test 2", map[string]interface{}{
+	Info(LOG_TYPE_CMS, "test", "cms info test", nil)
+	Info(LOG_TYPE_CMS, "test", "cms info test 2", map[string]interface{}{
 		"test_data3": "xyz",
 		"test_data4": 987,
 	})
 
-	Error(CMS, "test", "cms error test", nil)
-	Error(CMS, "test", "cms error test 2", map[string]interface{}{
+	Error(LOG_TYPE_CMS, "test", "cms error test", nil)
+	Error(LOG_TYPE_CMS, "test", "cms error test 2", map[string]interface{}{
 		"test_data5": "qaz",
 		"test_data6": 741,
 	})
