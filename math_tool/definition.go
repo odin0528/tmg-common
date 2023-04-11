@@ -4,7 +4,7 @@ import "sync"
 
 type FloatOperation string
 type FloatCompare string
-type CmpVal int
+type CmpValue int
 
 const (
 	FLOAT_OP_ADD FloatOperation = "add"
@@ -20,9 +20,9 @@ const (
 
 	ROUND_PRECISION = 6
 
-	CMP_LESS_THAN   CmpVal = -1
-	CMP_EQUAL       CmpVal = 0
-	CMP_BIGGER_THAN CmpVal = 1
+	CMP_LESS_THAN   CmpValue = -1
+	CMP_EQUAL       CmpValue = 0
+	CMP_BIGGER_THAN CmpValue = 1
 )
 
 var randomOnce sync.Once
