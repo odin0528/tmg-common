@@ -16,11 +16,11 @@ const (
 	MESSAGE_KEY    = "msg"
 	STACKTRACE_KEY = "stacktrace"
 
-	ALL    = "all"
-	PANIC  = "panic"
-	SYSTEM = "system"
-	RECORD = "record"
-	CMS    = "cms"
+	LOG_TYPE_ALL    = "all"
+	LOG_TYPE_PANIC  = "panic"
+	LOG_TYPE_SYSTEM = "system"
+	LOG_TYPE_RECORD = "record"
+	LOG_TYPE_CMS    = "cms"
 
 	SAVE_BET_RECORD = "Save bet record info"
 	UNKNOWN_CALLER  = "Unknown caller"
@@ -31,17 +31,20 @@ const (
 )
 
 const (
-	FUNC_CALLER = "func_caller"
+	LOG_KEY_FUNC_CALLER = "func_caller"
+	LOG_KEY_GAME_HUB    = "game_hub"
+	LOG_KEY_MATCH_POOL  = "match_pool"
+	LOG_KEY_BET_RECORD  = "bet_record"
 
-	BASE_ROOM           = "base_room"
-	BASE_PLAYER         = "base_player"
-	BATTLE_ROOM         = "battle_room"
-	BATTLE_PLAYER       = "battle_player"
-	BATTLE_ROOM_ADVANCE = "battle_room_advance"
-	HUNDRED_ROOM        = "hundred_room"
-	HUNDRED_PLAYER      = "hundred_player"
-	SLOT_ROOM           = "slot_room"
-	SLOT_PLAYER         = "slot_player"
+	LOG_KEY_BASE_ROOM           = "base_room"
+	LOG_KEY_BASE_PLAYER         = "base_player"
+	LOG_KEY_BATTLE_ROOM         = "battle_room"
+	LOG_KEY_BATTLE_PLAYER       = "battle_player"
+	LOG_KEY_BATTLE_ROOM_ADVANCE = "battle_room_advance"
+	LOG_KEY_HUNDRED_ROOM        = "hundred_room"
+	LOG_KEY_HUNDRED_PLAYER      = "hundred_player"
+	LOG_KEY_SLOT_ROOM           = "slot_room"
+	LOG_KEY_SLOT_PLAYER         = "slot_player"
 )
 
 const (
