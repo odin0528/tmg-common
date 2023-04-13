@@ -2,6 +2,12 @@ package response
 
 // basic
 const (
+	SUCCESS        = 200
+	INVALID_PARAMS = 400
+	UNAUTHORIZED   = 401
+	FORBIDDEN      = 403
+	ERROR          = 500
+
 	CODE_SUCCESS = 0
 )
 
