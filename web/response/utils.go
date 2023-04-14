@@ -3,7 +3,6 @@ package response
 import (
 	"errors"
 	"fmt"
-	"net/http"
 	"strings"
 )
 
@@ -15,25 +14,32 @@ func GetCustomFormatError(str string, args ...interface{}) error {
 	return fmt.Errorf(str, args[:count]...)
 }
 
-func GetSuccessResponse() (int, Response) {
-	return http.StatusOK, Response{
+func GetSuccessResponse() Response {
+	return Response{
 		Code: CODE_SUCCESS,
 		Msg:  GetMsg(CODE_SUCCESS),
 	}
 }
 
-func GetSuccessResponseWithData(data interface{}) (int, Response) {
-	return http.StatusOK, Response{
+func GetSuccessResponseWithData(data interface{}) Response {
+	return Response{
 		Code: CODE_SUCCESS,
 		Msg:  GetMsg(CODE_SUCCESS),
 		Data: data,
 	}
 }
 
-func GetResponse(errCode int) (int, Response) {
-	return http.StatusOK, Response{
+func GetErrorCodeResponse(errCode int) Response {
+	return Response{
 		Code: errCode,
 		Msg:  GetMsg(errCode),
+	}
+}
+
+func GetResponse(errCode int, msg string) Response {
+	return Response{
+		Code: errCode,
+		Msg:  msg,
 	}
 }
 
