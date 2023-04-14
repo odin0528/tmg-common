@@ -2,14 +2,24 @@ package response
 
 // basic
 const (
+	//TODO: remove http status code and always return customized error code
+	SUCCESS        = 200
+	INVALID_PARAMS = 400
+	UNAUTHORIZED   = 401
+	FORBIDDEN      = 403
+	ERROR          = 500
+	HTTP_STATUS_OK = 200
+
 	CODE_SUCCESS = 0
 )
 
 // api
 const (
-	CODE_API_CENTER_SUCCESS  = 200
-	CODE_API_PARAMETER_ERROR = 10001
-	CODE_API_CENTER_ERROR    = 10002
+	CODE_API_CENTER_SUCCESS    = 200
+	CODE_API_INVALID_PARAMETER = 10001
+	//TODO: Unify api error code with mgmt
+	CODE_API_CENTER_ERROR      = 10002
+	CODE_API_ILLEGAL_PARAMETER = 10003
 )
 
 // ws
@@ -46,7 +56,12 @@ const (
 	CODE_ROOM_IS_FINISH          = 13006
 )
 
-// http
+// db
 const (
-	HTTP_STATUS_OK = 200
+	CODE_DATABASE_ABNORMAL = 14001
+)
+
+// auth error
+const (
+	CODE_AUTH_UNAUTHORIZED = 15001
 )

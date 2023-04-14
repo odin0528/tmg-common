@@ -13,3 +13,40 @@ func GetCustomFormatError(str string, args ...interface{}) error {
 	}
 	return fmt.Errorf(str, args[:count]...)
 }
+
+func GetSuccessResponse() Response {
+	return Response{
+		Code: CODE_SUCCESS,
+		Msg:  GetMsg(CODE_SUCCESS),
+	}
+}
+
+func GetSuccessResponseWithData(data interface{}) Response {
+	return Response{
+		Code: CODE_SUCCESS,
+		Msg:  GetMsg(CODE_SUCCESS),
+		Data: data,
+	}
+}
+
+func GetErrorCodeResponse(errCode int) Response {
+	return Response{
+		Code: errCode,
+		Msg:  GetMsg(errCode),
+	}
+}
+
+func GetResponse(errCode int, msg string) Response {
+	return Response{
+		Code: errCode,
+		Msg:  msg,
+	}
+}
+
+func GetMsg(code int) string {
+	if msg, ok := API_CODE_MSG_MAP[code]; ok {
+		return msg
+	}
+
+	return API_CODE_MSG_MAP[ERROR]
+}
