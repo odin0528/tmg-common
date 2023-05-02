@@ -36,6 +36,7 @@ const (
 	LOG_KEY_MATCH_POOL  = "match_pool"
 	LOG_KEY_BET_RECORD  = "bet_record"
 
+	LOG_KEY_CACHE               = "cache"
 	LOG_KEY_BASE_ROOM           = "base_room"
 	LOG_KEY_BASE_PLAYER         = "base_player"
 	LOG_KEY_BATTLE_ROOM         = "battle_room"
@@ -59,6 +60,10 @@ const (
 	FIELD_KEY_PLAYER_NAME = "player_name"
 	FIELD_KEY_ROOM_ID     = "room_id"
 	FIELD_KEY_ROUND_ID    = "round_id"
+	FIELD_KEY_REDIST_KEY  = "redis_key"
+	FIELD_KEY_START       = "start"
+	FIELD_KEY_END         = "end"
+	FIELD_KEY_TIMEOUT     = "timeout"
 )
 
 var level zap.AtomicLevel
