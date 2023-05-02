@@ -12,6 +12,7 @@ const (
 	SECTION_MOCK               = "mock"
 	SECTION_LOG                = "log"
 	SECTION_DATABASE_REAL_TIME = "database_real_time"
+	SECTION_DATABASE_RECORD    = "database_record"
 
 	SYSTEM_HTTP_PORT           string = "http_port"
 	SYSTEM_APP_MODE            string = "app_mode"
