@@ -112,7 +112,7 @@ func (rc *Cache) Keys(pattern string, count int) []string {
 
 	iterMutex.Lock()
 	var iter = 0
-	redisPrefix := configs.Get("cache", "prefix_key", "zio_center_redis") + ":"
+	redisPrefix := configs.Get(configs.SECTION_CACHE, configs.CACHE_PREFIX_KEY, "xxx_redis") + ":" // TODO: Should rename xxx_redis
 	keys := []string{}
 	retKeys := []string{}
 	keyNum := 0

@@ -7,11 +7,11 @@ import (
 )
 
 const (
-	SECTION_SYSTEM             = "system"
-	SECTION_WEB_API            = "web_api"
-	SECTION_MOCK               = "mock"
-	SECTION_LOG                = "log"
-	SECTION_DATABASE_REAL_TIME = "database_real_time"
+	SECTION_SYSTEM  = "system"
+	SECTION_WEB_API = "web_api"
+	SECTION_MOCK    = "mock"
+	SECTION_LOG     = "log"
+	SECTION_CACHE   = "cache"
 
 	SYSTEM_HTTP_PORT           string = "http_port"
 	SYSTEM_APP_MODE            string = "app_mode"
@@ -24,6 +24,14 @@ const (
 	MOCK_PLAYER             = "mock_player"
 	MOCK_ENABLE_MOCK_PLAYER = "enable_mock_player"
 	MOCK_ENABLE_MOCK_RESULT = "enable_mock_result"
+
+	CACHE_ENGINE     = "engine"
+	CACHE_PREFIX_KEY = "prefix_key"
+	CACHE_HOST       = "host"
+	CACHE_PORT       = "port"
+	CACHE_DB_NUM     = "dn_num"
+	CACHE_PASSWORD   = "password"
+	CACHE_USE_TLS    = "use_tls"
 
 	LOG_FILE_PATH        = "file_path"
 	LOG_FILE             = "file"
