@@ -20,14 +20,14 @@ var cacheAdapter cache.Cache = nil
 var mutexMap sync.Map
 
 func getRedisSettings() string {
-	section := "cache"
+	section := configs.SECTION_CACHE
 	setting := fmt.Sprintf("{\"key\":\"%s\", \"conn\":\"%s:%s\", \"dbNum\":\"%s\", \"password\":\"%s\", \"use_tls\":\"%s\"}",
-		configs.Get(section, "prefix_key", ""),
-		configs.Get(section, "host", "localhost"),
-		configs.Get(section, "port", "6379"),
-		configs.Get(section, "dbNum", "0"),
-		configs.Get(section, "password", ""),
-		configs.Get(section, "use_tls", "no"),
+		configs.Get(section, configs.CACHE_PREFIX_KEY, ""),
+		configs.Get(section, configs.CACHE_HOST, "localhost"),
+		configs.Get(section, configs.CACHE_PORT, "6379"),
+		configs.Get(section, configs.CACHE_DB_NUM, "0"),
+		configs.Get(section, configs.CACHE_PASSWORD, ""),
+		configs.Get(section, configs.CACHE_USE_TLS, "no"),
 	)
 
 	return setting
@@ -38,7 +38,7 @@ func getRedisSettings() string {
 // Support for memory, file, redis and memcache as cache engine.
 func ConfigNewCache() {
 	var err error
-	cacheAdapter, err = cache.NewCache(configs.Get("cache", "engine", ""), getRedisSettings())
+	cacheAdapter, err = cache.NewCache(configs.Get(configs.SECTION_CACHE, configs.CACHE_ENGINE, ""), getRedisSettings())
 
 	if err != nil {
 		panic(err)
