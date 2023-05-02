@@ -35,13 +35,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"mgmt/common/caches"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 	"reflect"
 	"strconv"
 	"sync"
 	"time"
-	"xxx/common/caches"
-	"xxx/common/configs"
-	"xxx/common/logs"
 
 	"github.com/alicebob/miniredis"
 	"github.com/gomodule/redigo/redis"
@@ -112,7 +112,7 @@ func (rc *Cache) Keys(pattern string, count int) []string {
 
 	iterMutex.Lock()
 	var iter = 0
-	redisPrefix := configs.Get(configs.SECTION_CACHE, configs.CACHE_PREFIX_KEY, "xxx_redis") + ":" // TODO: Should rename xxx_redis
+	redisPrefix := configs.Get(configs.SECTION_CACHE, configs.CACHE_PREFIX_KEY, "mgmt_redis") + ":"
 	keys := []string{}
 	retKeys := []string{}
 	keyNum := 0

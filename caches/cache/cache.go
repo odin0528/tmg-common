@@ -3,13 +3,13 @@ package cache
 import (
 	"errors"
 	"fmt"
+	cache "mgmt/common/caches"
+	"mgmt/common/caches/redis"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 	"reflect"
 	"sync"
 	"time"
-	cache "xxx/common/caches"
-	"xxx/common/caches/redis"
-	"xxx/common/configs"
-	"xxx/common/logs"
 
 	"github.com/alicebob/miniredis"
 	"github.com/go-redsync/redsync"

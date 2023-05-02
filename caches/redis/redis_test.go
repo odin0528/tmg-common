@@ -16,9 +16,9 @@ package redis
 
 import (
 	"fmt"
+	"mgmt/common/caches"
 	"testing"
 	"time"
-	"xxx/common/caches"
 
 	"github.com/gomodule/redigo/redis"
 )

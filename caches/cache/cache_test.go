@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"mgmt/common/configs"
 	"strconv"
 	"testing"
 	"time"
-	"xxx/common/configs"
 )
 
 func TestBatchRedisLock(t *testing.T) {
