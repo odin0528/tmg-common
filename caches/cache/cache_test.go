@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"testing"
 	"time"
-	"xxx/common/configs"
+	"game_server/common/configs"
 )
 
 func TestBatchRedisLock(t *testing.T) {

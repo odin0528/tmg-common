@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"testing"
 	"time"
-	"xxx/common/caches"
+	"game_server/common/caches"
 
 	"github.com/gomodule/redigo/redis"
 )

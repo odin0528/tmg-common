@@ -39,9 +39,9 @@ import (
 	"strconv"
 	"sync"
 	"time"
-	"xxx/common/caches"
-	"xxx/common/configs"
-	"xxx/common/logs"
+	"game_server/common/caches"
+	"game_server/common/configs"
+	"game_server/common/logs"
 
 	"github.com/alicebob/miniredis"
 	"github.com/gomodule/redigo/redis"
