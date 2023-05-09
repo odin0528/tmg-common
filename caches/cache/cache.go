@@ -500,7 +500,7 @@ func RedisUnlock(key string) bool {
 		logs.Error(
 			logs.LOG_TYPE_SYSTEM,
 			logs.LOG_KEY_CACHE,
-			fmt.Sprintf("Unlock redis failed err: %s", err.Error()),
+			fmt.Sprintf("Unlock redis failed err: %v", err),
 			map[string]interface{}{
 				logs.FIELD_KEY_REDIST_KEY: key,
 			},

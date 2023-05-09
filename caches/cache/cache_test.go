@@ -30,7 +30,7 @@ func TestBatchRedisLock(t *testing.T) {
 }
 
 func TestPipeline(t *testing.T) {
-	configs.Init("../../../")
+	configs.Init("../../configs/example/")
 	ConfigNewCache()
 
 	testSlice := [][]string{
