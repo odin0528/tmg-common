@@ -11,7 +11,10 @@ const (
 	METHOD_DELETE HTTP_METHOD = "DELETE"
 	METHOD_PUT    HTTP_METHOD = "PUT"
 
-	HEADER_AUTHORIZATION = "authorization"
+	HEADER_KEY_CONTENT_TYPE = "Content-Type"
+	HEADER_KEY_AUTH         = "Authorization"
+
+	CONTENT_TYPE_JSON = "application/json;charset=UTF-8"
 )
 
 type Response struct {

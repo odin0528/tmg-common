@@ -55,9 +55,6 @@ func sendRequest(method HTTP_METHOD, url string, header map[string]string, body 
 func SendWebAPIAsync(method HTTP_METHOD, url string, header map[string]string, body interface{}, callback WebAPICallback, callerInfo interface{}) {
 	go func(callback func([]byte, interface{}, error), callerInfo interface{}) {
 		respBytes, err := sendRequest(method, url, header, body, (DEFAULT_API_TIME_OUT * time.Second))
-		if err != nil {
-			return
-		}
 		callback(respBytes, callerInfo, err)
 	}(callback, callerInfo)
 }
