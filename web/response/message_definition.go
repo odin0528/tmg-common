@@ -12,6 +12,7 @@ const (
 	MSG_API_CENTER_ERROR              = "api center response error"
 	MSG_PARSE_API_RESPONSE_ERROR      = "parse api response error"
 	MSG_PARSE_API_RESPONSE_DATA_ERROR = "parse api response data error"
+	MSG_API_INTERNAL_SERVER_ERROR     = "Internal server error"
 )
 
 // ws
