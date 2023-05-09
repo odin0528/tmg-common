@@ -3,6 +3,8 @@ package cache
 const (
 	WOW_MUTEX_PREFIX string = "wow_mutex:"
 
+	BET_RECORD_KEY string = "bet_record"
+
 	MUTEX_DURATION_SECOND = 20
 )
 
