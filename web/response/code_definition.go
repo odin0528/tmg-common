@@ -59,7 +59,8 @@ const (
 
 // db
 const (
-	CODE_DATABASE_ABNORMAL = 14001
+	CODE_DATABASE_ABNORMAL      = 14001
+	CODE_DATABASE_NOT_FIND_DATA = 14002
 )
 
 // auth error
