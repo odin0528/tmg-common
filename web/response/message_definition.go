@@ -51,3 +51,9 @@ const (
 	MSG_CONVERT_TYPE_ERROR = "convert type error"
 	MSG_DATA_NOT_FOUND     = "%s doesn't exist %s"
 )
+
+// database
+const (
+	MSG_DATABASE_ABNORMAL      = "database abnormal"
+	MSG_DATABASE_NOT_FIND_DATA = "database can not find data"
+)

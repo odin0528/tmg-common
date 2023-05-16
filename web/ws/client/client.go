@@ -52,8 +52,28 @@ func (client *WsClient) Send(message []byte) {
 		if client.IsClose() {
 			return
 		}
+
+		defer func() {
+			if err := recover(); err != nil {
+				client.SetClose()
+			}
+		}()
+
+		if client.isSendChanClose() {
+			return
+		}
+
 		client.sendChannal <- message
 	}()
+}
+
+func (client *WsClient) isSendChanClose() bool {
+	select {
+	case _, received := <-client.sendChannal:
+		return !received
+	default:
+	}
+	return false
 }
 
 func (client *WsClient) SendThenClose(message []byte, delayTime time.Duration) {
