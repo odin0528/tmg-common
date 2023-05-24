@@ -3,7 +3,9 @@ package utils
 import (
 	"encoding/json"
 	"errors"
-	"game_server/common/web/response"
+	"xxx/common/web/response"
+
+	"github.com/gonum/stat/sampleuv"
 )
 
 func ToGenericSlice[T any](input []T) []any {
@@ -32,4 +34,19 @@ func ToStringSpecifiedTypeMap[T any](input map[string]interface{}) (map[string]T
 	}
 
 	return result, nil
+}
+
+func PickByWeights(weights []float64) (idx int) {
+	if len(weights) == 0 {
+		return 0
+	}
+
+	weightHandler := sampleuv.NewWeighted(
+		weights,
+		nil,
+	)
+
+	idx, _ = weightHandler.Take()
+
+	return idx
 }
