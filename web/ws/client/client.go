@@ -50,6 +50,9 @@ func (client *WsClient) InitSender() {
 
 func (client *WsClient) Send(message []byte) {
 	go func() {
+		client.mutex.Lock()
+		defer client.mutex.Unlock()
+
 		if client.IsClose() {
 			return
 		}
@@ -60,21 +63,8 @@ func (client *WsClient) Send(message []byte) {
 			}
 		}()
 
-		if client.isSendChanClose() {
-			return
-		}
-
 		client.sendChannal <- message
 	}()
-}
-
-func (client *WsClient) isSendChanClose() bool {
-	select {
-	case _, received := <-client.sendChannal:
-		return !received
-	default:
-	}
-	return false
 }
 
 func (client *WsClient) SendThenClose(message []byte, delayTime time.Duration) {
@@ -87,6 +77,9 @@ func (client *WsClient) SendThenClose(message []byte, delayTime time.Duration) {
 }
 
 func (client *WsClient) Close() error {
+	client.mutex.Lock()
+	defer client.mutex.Unlock()
+
 	if client.IsClose() {
 		return errors.New(response.MSG_WS_IS_CLOSED)
 	}
