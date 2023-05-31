@@ -1,7 +1,9 @@
-package cache
+package redis
 
 const (
-	WOW_MUTEX_PREFIX string = "wow_mutex:"
+	WOW_GAMING_MUTEX_PREFIX     string = "wow_gaming_mutex:"
+	AI_LIVE_CASINO_MUTEX_PREFIX string = "ai_live_casino_mutex:"
+	API_CENTER_MUTEX_PREFIX     string = "wow_gaming_mutex:"
 
 	BET_RECORD_KEY string = "bet_record"
 
