@@ -179,3 +179,24 @@ func TestRedisStruct(t *testing.T) {
 
 	t.Log("Redis struct ok")
 }
+
+func TestRedisLock(t *testing.T) {
+	err := InitRedis(context.Background())
+	if err != nil {
+		t.Fatal("InitRedis err:", err.Error())
+	}
+
+	key := "lock_key"
+
+	if isLock := RedisLock(WOW_GAMING_MUTEX_PREFIX, key); !isLock {
+		t.Fatal("Redis lock lock failed")
+	}
+
+	if isLock := RedisLock(WOW_GAMING_MUTEX_PREFIX, key); isLock {
+		t.Fatal("Redis lock duplicate lock")
+	}
+
+	if isLock := RedisUnlock(WOW_GAMING_MUTEX_PREFIX, key); !isLock {
+		t.Fatal("Redis lock  unlock failed")
+	}
+}

@@ -203,12 +203,8 @@ func getMutex(cacheKey string) *redsync.Mutex {
 		pool := goredis.NewPool(redisConn)
 		rs := redsync.New(pool)
 
-		mutex := rs.NewMutex(cacheKey)
+		mutex = rs.NewMutex(cacheKey)
 		if mutex == nil {
-			return nil
-		}
-
-		if err := mutex.Lock(); err != nil {
 			return nil
 		}
 
