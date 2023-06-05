@@ -28,6 +28,7 @@ const (
 	MOCK_PLAYER             = "mock_player"
 	MOCK_ENABLE_MOCK_PLAYER = "enable_mock_player"
 	MOCK_ENABLE_MOCK_RESULT = "enable_mock_result"
+	MOCK_CURRENCY           = "TEST"
 
 	CACHE_ENGINE     = "engine"
 	CACHE_PREFIX_KEY = "prefix_key"
