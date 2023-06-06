@@ -64,7 +64,7 @@ func Put(key string, value interface{}, timeout time.Duration) (err error) {
 				logs.LOG_KEY_CACHE,
 				fmt.Sprintf("failed to Marshal value. err: %s", err.Error()),
 				map[string]interface{}{
-					logs.FIELD_KEY_REDIS_KEY: key,
+					logs.FIELD_KEY_CACHE_KEY: key,
 					logs.FIELD_KEY_PAYLOAD:   value,
 					logs.FIELD_KEY_TIMEOUT:   timeout,
 				},
@@ -93,7 +93,7 @@ func PutNoExpiry(key string, value interface{}) (err error) {
 				logs.LOG_KEY_CACHE,
 				fmt.Sprintf("failed to Marshal value. err: %s", err.Error()),
 				map[string]interface{}{
-					logs.FIELD_KEY_REDIS_KEY: key,
+					logs.FIELD_KEY_CACHE_KEY: key,
 					logs.FIELD_KEY_PAYLOAD:   value,
 				},
 			)
@@ -167,7 +167,7 @@ func GetStructData(key string, data interface{}) bool {
 				logs.LOG_KEY_CACHE,
 				fmt.Sprintf("failed to get key value. err: %s", err.Error()),
 				map[string]interface{}{
-					logs.FIELD_KEY_REDIS_KEY: key,
+					logs.FIELD_KEY_CACHE_KEY: key,
 					logs.FIELD_KEY_PAYLOAD:   value,
 				},
 			)
@@ -218,7 +218,7 @@ func getMutex(cacheKey string) *redsync.Mutex {
 				logs.LOG_KEY_CACHE,
 				"Convert redis mutex failed",
 				map[string]interface{}{
-					logs.FIELD_KEY_REDIS_KEY: cacheKey,
+					logs.FIELD_KEY_CACHE_KEY: cacheKey,
 				},
 			)
 			return nil
@@ -237,7 +237,7 @@ func RedisUnlock(serverPrefix, key string) bool {
 			logs.LOG_KEY_CACHE,
 			"Get redis lock failed",
 			map[string]interface{}{
-				logs.FIELD_KEY_REDIS_KEY: cacheKey,
+				logs.FIELD_KEY_CACHE_KEY: cacheKey,
 			},
 		)
 		return false
@@ -250,7 +250,7 @@ func RedisUnlock(serverPrefix, key string) bool {
 			logs.LOG_KEY_CACHE,
 			fmt.Sprintf("Unlock redis failed err: %v", err),
 			map[string]interface{}{
-				logs.FIELD_KEY_REDIS_KEY: key,
+				logs.FIELD_KEY_CACHE_KEY: key,
 			},
 		)
 
