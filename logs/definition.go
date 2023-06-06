@@ -67,6 +67,7 @@ const (
 	FIELD_KEY_START         = "start"
 	FIELD_KEY_END           = "end"
 	FIELD_KEY_TIMEOUT       = "timeout"
+	FIELD_KEY_CACHE_KEY     = "key"
 	FIELD_KEY_CURRENCY      = "currency"
 	FIELD_KEY_ROOM_LEVEL    = "room_level"
 )
