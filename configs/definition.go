@@ -34,7 +34,7 @@ const (
 	CACHE_PREFIX_KEY = "prefix_key"
 	CACHE_HOST       = "host"
 	CACHE_PORT       = "port"
-	CACHE_DB_NUM     = "dn_num"
+	CACHE_DB_NUM     = "db_num"
 	CACHE_PASSWORD   = "password"
 	CACHE_USE_TLS    = "use_tls"
 
