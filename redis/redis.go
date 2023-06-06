@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 	"sync"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"

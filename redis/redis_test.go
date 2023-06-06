@@ -3,9 +3,9 @@ package redis
 import (
 	"context"
 	"fmt"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 	"testing"
-	"xxx/common/configs"
-	"xxx/common/logs"
 )
 
 func init() {
