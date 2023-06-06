@@ -1,6 +1,7 @@
 package client
 
 import (
+	"sync"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -19,4 +20,5 @@ type WsClient struct {
 	socket      *websocket.Conn
 	sendChannal chan []byte
 	isClose     int64
+	mutex       sync.Mutex
 }

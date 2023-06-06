@@ -46,6 +46,8 @@ const (
 	LOG_KEY_HUNDRED_PLAYER      = "hundred_player"
 	LOG_KEY_SLOT_ROOM           = "slot_room"
 	LOG_KEY_SLOT_PLAYER         = "slot_player"
+	LOG_KEY_SINGLE_ROOM         = "single_room"
+	LOG_KEY_SINGLE_PLAYER       = "single_player"
 )
 
 const (
@@ -54,16 +56,20 @@ const (
 	FIELD_KEY_FUNC_CALLER_STACK = "func_caller_stack"
 	FIELD_KEY_PAYLOAD           = "data"
 
-	FIELD_KEY_FSM_STATE   = "fsm_state"
-	FIELD_KEY_BET_RECORD  = "bet_record"
-	FIELD_KEY_GAME_NAME   = "game_name"
-	FIELD_KEY_PLAYER_NAME = "player_name"
-	FIELD_KEY_ROOM_ID     = "room_id"
-	FIELD_KEY_ROUND_ID    = "round_id"
-	FIELD_KEY_REDIST_KEY  = "redis_key"
-	FIELD_KEY_START       = "start"
-	FIELD_KEY_END         = "end"
-	FIELD_KEY_TIMEOUT     = "timeout"
+	FIELD_KEY_FSM_STATE     = "fsm_state"
+	FIELD_KEY_BET_RECORD    = "bet_record"
+	FIELD_KEY_PLATFORM_NAME = "platform_name"
+	FIELD_KEY_GAME_NAME     = "game_name"
+	FIELD_KEY_PLAYER_NAME   = "player_name"
+	FIELD_KEY_ROOM_ID       = "room_id"
+	FIELD_KEY_ROUND_ID      = "round_id"
+	FIELD_KEY_REDIST_KEY    = "redis_key"
+	FIELD_KEY_START         = "start"
+	FIELD_KEY_END           = "end"
+	FIELD_KEY_TIMEOUT       = "timeout"
+	FIELD_KEY_CACHE_KEY     = "key"
+	FIELD_KEY_CURRENCY      = "currency"
+	FIELD_KEY_ROOM_LEVEL    = "room_level"
 )
 
 var level zap.AtomicLevel
