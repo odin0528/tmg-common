@@ -3,10 +3,10 @@ package redis
 import (
 	"context"
 	"fmt"
+	"game_server/common/configs"
+	"game_server/common/logs"
 	"testing"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
 )
 
 func init() {
