@@ -6,6 +6,9 @@ import (
 	"mgmt/common/configs"
 	"mgmt/common/logs"
 	"testing"
+	"time"
+	"xxx/common/configs"
+	"xxx/common/logs"
 )
 
 func init() {
@@ -199,4 +202,30 @@ func TestRedisLock(t *testing.T) {
 	if isLock := RedisUnlock(WOW_GAMING_MUTEX_PREFIX, key); !isLock {
 		t.Fatal("Redis lock  unlock failed")
 	}
+}
+
+func TestExist(t *testing.T) {
+	InitRedis(context.Background())
+
+	key := "key_test_exist"
+
+	if IsExist(key) {
+		info, ok := GetString(key)
+		if !ok {
+			t.Fatal("get redis failed")
+		} else {
+			t.Fatal("info:", info)
+		}
+		t.Fatal("Key can't exist")
+	}
+
+	if err := Put(key, 1, time.Second); err != nil {
+		t.Fatal("Put key failed. err:", err.Error())
+	}
+
+	if !IsExist(key) {
+		t.Fatal("Key can't find")
+	}
+
+	t.Log("Exist finish")
 }

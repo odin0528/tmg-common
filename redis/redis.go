@@ -177,6 +177,11 @@ func GetStructData(key string, data interface{}) bool {
 	return ok
 }
 
+func IsExist(key string) bool {
+	err := redisConn.Get(context.Background(), key).Err()
+	return err == nil
+}
+
 func RedisLock(serverPrefix, key string) bool {
 	cacheKey := serverPrefix + key
 	mutex := getMutex(cacheKey)
@@ -258,4 +263,53 @@ func RedisUnlock(serverPrefix, key string) bool {
 	}
 
 	return true
+}
+
+func BatchRedisLock(redisKeys []string) ([]string, bool) {
+	successKeyList := []string{}
+	wg := sync.WaitGroup{}
+	wg.Add(len(redisKeys))
+	for _, key := range redisKeys {
+		go func(redisKey string) {
+			isLock := RedisLock(API_CENTER_MUTEX_PREFIX, redisKey)
+			if isLock {
+				successKeyList = append(successKeyList, redisKey)
+			}
+
+			wg.Done()
+		}(key)
+	}
+
+	wg.Wait()
+
+	isAllSuccess := false
+	if len(successKeyList) == len(redisKeys) {
+		isAllSuccess = true
+	}
+
+	return successKeyList, isAllSuccess
+}
+
+func BatchRedisUnlock(redisKeys []string) ([]string, bool) {
+	successKeyList := []string{}
+	wg := sync.WaitGroup{}
+	wg.Add(len(redisKeys))
+	for _, key := range redisKeys {
+		go func(redisKey string) {
+			isLock := RedisUnlock(API_CENTER_MUTEX_PREFIX, redisKey)
+			if isLock {
+				successKeyList = append(successKeyList, redisKey)
+			}
+
+			wg.Done()
+		}(key)
+	}
+	wg.Wait()
+
+	isAllSuccess := false
+	if len(successKeyList) == len(redisKeys) {
+		isAllSuccess = true
+	}
+
+	return successKeyList, isAllSuccess
 }
