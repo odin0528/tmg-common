@@ -7,8 +7,6 @@ import (
 	"mgmt/common/logs"
 	"testing"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
 )
 
 func init() {
