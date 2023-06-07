@@ -2,7 +2,9 @@ package redis
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 	"xxx/common/configs"
@@ -226,4 +228,164 @@ func TestExist(t *testing.T) {
 	}
 
 	t.Log("Exist finish")
+}
+
+func TestHashMap(t *testing.T) {
+	InitRedis(context.Background())
+	key := "testHashKey"
+
+	fileds, err := GetHashMapFileds(key)
+	if err != nil {
+		t.Fatal("GetHashMapKeys err:", err.Error())
+	}
+
+	if err := DelHashMap(key, fileds); err != nil {
+		t.Fatal("Del hash map faild. err:", err.Error())
+	}
+
+	results, err := GetAllHashMap(key)
+	if err != nil {
+		t.Fatal("Redis get hash failed. er:", err.Error())
+	} else if len(results) > 0 {
+		t.Fatal("Put hash data error. real data=", results)
+	}
+
+	type MoneyInfo struct {
+		Account string  `json:"acoount"`
+		Money   float64 `json:"money"`
+	}
+
+	account := "player_1"
+	account2 := "player_2"
+
+	value := map[string]interface{}{}
+
+	value[account] = 10.0
+	value[account] = 20
+	value[account2] = 50.5
+
+	if err := PutInHashMap(key, value); err != nil {
+		t.Fatal("Redis put hash failed. er:", err.Error())
+	}
+
+	moneyInfo := MoneyInfo{
+		Account: "bot",
+		Money:   1000.0,
+	}
+
+	value = map[string]interface{}{}
+	value["bot"] = moneyInfo
+	if err := PutInHashMap(key, value); err != nil {
+		t.Fatal("Redis put hash failed. er:", err.Error())
+	}
+
+	results, err = GetAllHashMap(key)
+	if err != nil {
+		t.Fatal("Redis get hash failed. er:", err.Error())
+	} else if len(results) != 3 {
+		t.Fatal("Put hash data loss. real len=", len(results))
+	}
+
+	for k, v := range results {
+
+		if k == "player_1" {
+			num, err := strconv.Atoi(v)
+			if err != nil {
+				t.Fatal("atoi err:", err.Error())
+			}
+
+			if num != 20 {
+				t.Log("get int failed")
+			}
+		} else if k == "player_2" {
+			num, err := strconv.ParseFloat(v, 32)
+			if err != nil {
+				t.Fatal("atoi err:", err.Error())
+			}
+
+			if num != 50.5 {
+				t.Log("get float failed")
+			}
+		} else if k == "bot" {
+			info := MoneyInfo{}
+			if err := json.Unmarshal([]byte(v), &info); err != nil {
+				t.Fatal("Unmarshal money info failed. err:", err.Error())
+			}
+		}
+	}
+
+	if value, err := GetHashMap(key, "player_1"); err != nil {
+		t.Fatal("Redis get hash failed. er:", err.Error())
+	} else {
+		num, err := strconv.Atoi(value)
+		if err != nil {
+			t.Fatal("atoi err:", err.Error())
+		}
+
+		if num != 20 {
+			t.Fatal("get int failed")
+		}
+	}
+
+	fileds, err = GetHashMapFileds(key)
+	if err != nil {
+		t.Fatal("GetHashMapKeys err:", err.Error())
+	}
+
+	if err := DelHashMap(key, fileds); err != nil {
+		t.Fatal("Del hash map faild. err:", err.Error())
+	}
+}
+
+func TestHashMapReuse(t *testing.T) {
+	InitRedis(context.Background())
+	key := "testHashKey"
+	account := "player_1"
+	betIds := []string{"abc123", "zzz321"}
+	value := map[string]interface{}{
+		account: betIds,
+	}
+
+	if err := PutInHashMap(key, value); err != nil {
+		t.Fatal("Redis put hash failed. er:", err.Error())
+	}
+
+	results, err := GetHashMap(key, account)
+	if err != nil {
+		t.Fatal("Redis get hash failed. er:", err.Error())
+	}
+
+	getList := []string{}
+	if err := json.Unmarshal([]byte(results), &getList); err != nil {
+		t.Fatal("Unmarshal err:", err.Error())
+	} else if len(getList) != 2 {
+		t.Fatal("data loss. getList:", getList)
+	} else if getList[0] != betIds[0] || getList[1] != betIds[1] {
+		t.Fatal("data is not equal. get list:", getList, "origin list:", betIds)
+	}
+
+	betIds = append(betIds, "qqq132")
+	value[account] = betIds
+	if err := PutInHashMap(key, value); err != nil {
+		t.Fatal("Redis put hash failed. er:", err.Error())
+	}
+
+	results, err = GetHashMap(key, account)
+	if err != nil {
+		t.Fatal("Redis get hash failed. er:", err.Error())
+	}
+
+	getList = []string{}
+	if err := json.Unmarshal([]byte(results), &getList); err != nil {
+		t.Fatal("Unmarshal err:", err.Error())
+	} else if len(getList) != 3 {
+		t.Fatal("data loss. getList:", getList)
+	} else if getList[0] != betIds[0] || getList[1] != betIds[1] || getList[2] != betIds[2] {
+		t.Fatal("data is not equal. get list:", getList, "origin list:", getList)
+	}
+
+	t.Log("getList:", getList)
+	if err := DelHashMap(key, []string{account}); err != nil {
+		t.Fatal("Del hash map faild. err:", err.Error())
+	}
 }
