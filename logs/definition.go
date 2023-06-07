@@ -57,6 +57,7 @@ const (
 	FIELD_KEY_PAYLOAD           = "data"
 
 	FIELD_KEY_FSM_STATE     = "fsm_state"
+	FIELD_KEY_SETTLEMENT    = "settlement"
 	FIELD_KEY_BET_RECORD    = "bet_record"
 	FIELD_KEY_PLATFORM_NAME = "platform_name"
 	FIELD_KEY_GAME_NAME     = "game_name"
@@ -70,6 +71,7 @@ const (
 	FIELD_KEY_CACHE_KEY     = "key"
 	FIELD_KEY_CURRENCY      = "currency"
 	FIELD_KEY_ROOM_LEVEL    = "room_level"
+	FIELD_KEY_PLAYER        = "player"
 )
 
 var level zap.AtomicLevel

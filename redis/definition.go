@@ -3,9 +3,12 @@ package redis
 const (
 	WOW_GAMING_MUTEX_PREFIX     string = "wow_gaming_mutex:"
 	AI_LIVE_CASINO_MUTEX_PREFIX string = "ai_live_casino_mutex:"
-	API_CENTER_MUTEX_PREFIX     string = "wow_gaming_mutex:"
+	API_CENTER_MUTEX_PREFIX     string = "api_center_mutex:"
+	COMMON_PREFIX               string = "common_mutex:"
 
-	BET_RECORD_KEY string = "bet_record"
+	BET_RECORD_KEY   string = "bet_record"
+	BET_KEY          string = "bet"
+	UNSETTLE_BET_KEY string = "unsettle_bet"
 
 	MUTEX_DURATION_SECOND = 20
 
