@@ -2,6 +2,7 @@ package redis
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"mgmt/common/configs"
@@ -312,4 +313,34 @@ func BatchRedisUnlock(redisKeys []string) ([]string, bool) {
 	}
 
 	return successKeyList, isAllSuccess
+}
+
+func PutInHashMap(key string, values map[string]interface{}) (err error) {
+	setValueMap := map[string]interface{}{}
+	for k, v := range values {
+		jsonBytes, err := json.Marshal(v)
+		if err != nil {
+			setValueMap[k] = v
+		} else {
+			setValueMap[k] = jsonBytes
+		}
+	}
+
+	return redisConn.HSet(context.Background(), key, setValueMap).Err()
+}
+
+func GetHashMap(key string, field string) (result string, err error) {
+	return redisConn.HGet(context.Background(), key, field).Result()
+}
+
+func GetAllHashMap(key string) (result map[string]string, err error) {
+	return redisConn.HGetAll(context.Background(), key).Result()
+}
+
+func DelHashMap(key string, field []string) (err error) {
+	return redisConn.HDel(context.Background(), key, field...).Err()
+}
+
+func GetHashMapFileds(key string) (keys []string, err error) {
+	return redisConn.HKeys(context.Background(), key).Result()
 }
