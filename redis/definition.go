@@ -3,10 +3,15 @@ package redis
 import "github.com/go-redis/redis/v8"
 
 const (
-	WOW_GAMING_MUTEX_PREFIX     string = "wow_gaming_mutex:"
-	AI_LIVE_CASINO_MUTEX_PREFIX string = "ai_live_casino_mutex:"
-	API_CENTER_MUTEX_PREFIX     string = "api_center_mutex:"
-	COMMON_PREFIX               string = "common_mutex:"
+	WOW_GAMING_MUTEX_PREFIX     string = "wow_gaming_mutex"
+	AI_LIVE_CASINO_MUTEX_PREFIX string = "ai_live_casino_mutex"
+	API_CENTER_MUTEX_PREFIX     string = "api_center_mutex"
+	COMMON_MUTEX_PREFIX               string = "common_mutex"
+
+	WOW_GAMING_PREFIX     string = "wow_gaming"
+	AI_LIVE_CASINO_PREFIX string = "ai_live_casino"
+	API_CENTER_PREFIX     string = "api_center"
+	COMMON_PREFIX         string = "common"
 
 	BET_RECORD_KEY           string = "bet_record"
 	BET_KEY                  string = "bet"
