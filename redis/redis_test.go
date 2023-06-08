@@ -239,8 +239,10 @@ func TestHashMap(t *testing.T) {
 		t.Fatal("GetHashMapKeys err:", err.Error())
 	}
 
-	if err := DelHashMap(key, fileds); err != nil {
-		t.Fatal("Del hash map faild. err:", err.Error())
+	if len(fileds) > 0 {
+		if err := DelHashMap(key, fileds); err != nil {
+			t.Fatal("Del hash map faild. err:", err.Error())
+		}
 	}
 
 	results, err := GetAllHashMap(key)

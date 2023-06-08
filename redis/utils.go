@@ -1,11 +1,9 @@
 package redis
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func GetPlayerBetHashKey(account string) string {
-	return fmt.Sprintf("%s_%s", BET_KEY, account)
-}
-
-func GetUnsettleBetHashKey(account string) string {
+func GetPlayerBetInfoHashKey(account string) string {
 	return fmt.Sprintf("%s_%s", BET_KEY, account)
 }
