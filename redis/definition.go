@@ -1,14 +1,18 @@
 package redis
 
+import "github.com/go-redis/redis/v8"
+
 const (
 	WOW_GAMING_MUTEX_PREFIX     string = "wow_gaming_mutex:"
 	AI_LIVE_CASINO_MUTEX_PREFIX string = "ai_live_casino_mutex:"
 	API_CENTER_MUTEX_PREFIX     string = "api_center_mutex:"
 	COMMON_PREFIX               string = "common_mutex:"
 
-	BET_RECORD_KEY   string = "bet_record"
-	BET_KEY          string = "bet"
-	UNSETTLE_BET_KEY string = "unsettle_bet"
+	BET_RECORD_KEY           string = "bet_record"
+	BET_KEY                  string = "bet"
+	UNSETTLE_BET_KEY         string = "unsettle_bet"
+	UNSETTLE_BET_ID_HASH_KEY string = "unsettle_bet_id_hash"
+	UNSTORE_SETTLEMENT_KEY   string = "unstore_settlement"
 
 	MUTEX_DURATION_SECOND = 20
 
@@ -17,3 +21,5 @@ const (
 	JWT_ACCOUNT_TOKEN       string = "jwt_account_token_"
 	JWT_TOKEN_ACCOUNT       string = "jwt_token_account_"
 )
+
+var REDIS_IS_NIL_ERR error = redis.Nil
