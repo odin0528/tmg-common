@@ -191,15 +191,15 @@ func TestRedisLock(t *testing.T) {
 
 	key := "lock_key"
 
-	if isLock := RedisLock(WOW_GAMING_MUTEX_PREFIX, key); !isLock {
+	if isLock := RedisLock(GetCacheKey(WOW_GAMING_MUTEX_PREFIX, key)); !isLock {
 		t.Fatal("Redis lock lock failed")
 	}
 
-	if isLock := RedisLock(WOW_GAMING_MUTEX_PREFIX, key); isLock {
+	if isLock := RedisLock(GetCacheKey(WOW_GAMING_MUTEX_PREFIX, key)); isLock {
 		t.Fatal("Redis lock duplicate lock")
 	}
 
-	if isLock := RedisUnlock(WOW_GAMING_MUTEX_PREFIX, key); !isLock {
+	if isLock := RedisUnlock(GetCacheKey(WOW_GAMING_MUTEX_PREFIX, key)); !isLock {
 		t.Fatal("Redis lock  unlock failed")
 	}
 }

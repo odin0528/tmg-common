@@ -183,9 +183,8 @@ func IsExist(key string) bool {
 	return err == nil
 }
 
-func RedisLock(serverPrefix, key string) bool {
-	cacheKey := serverPrefix + key
-	mutex := getMutex(cacheKey)
+func RedisLock(key string) bool {
+	mutex := getMutex(key)
 	if mutex == nil {
 		return false
 	}
@@ -194,7 +193,7 @@ func RedisLock(serverPrefix, key string) bool {
 	if err != nil {
 		logs.Error(logs.LOG_TYPE_SYSTEM, logs.LOG_KEY_CACHE, err.Error(),
 			map[string]interface{}{
-				logs.FIELD_KEY_CACHE_KEY: cacheKey,
+				logs.FIELD_KEY_CACHE_KEY: key,
 			})
 		return false
 	}
@@ -234,16 +233,15 @@ func getMutex(cacheKey string) *redsync.Mutex {
 	return mutex
 }
 
-func RedisUnlock(serverPrefix, key string) bool {
-	cacheKey := serverPrefix + key
-	mutex := getMutex(cacheKey)
+func RedisUnlock(key string) bool {
+	mutex := getMutex(key)
 	if nil == mutex {
 		logs.Error(
 			logs.LOG_TYPE_SYSTEM,
 			logs.LOG_KEY_CACHE,
 			"Get redis lock failed",
 			map[string]interface{}{
-				logs.FIELD_KEY_CACHE_KEY: cacheKey,
+				logs.FIELD_KEY_CACHE_KEY: key,
 			},
 		)
 		return false
@@ -272,7 +270,7 @@ func BatchRedisLock(redisKeys []string) ([]string, bool) {
 	wg.Add(len(redisKeys))
 	for _, key := range redisKeys {
 		go func(redisKey string) {
-			isLock := RedisLock(API_CENTER_MUTEX_PREFIX, redisKey)
+			isLock := RedisLock(redisKey)
 			if isLock {
 				successKeyList = append(successKeyList, redisKey)
 			}
@@ -297,7 +295,7 @@ func BatchRedisUnlock(redisKeys []string) ([]string, bool) {
 	wg.Add(len(redisKeys))
 	for _, key := range redisKeys {
 		go func(redisKey string) {
-			isLock := RedisUnlock(API_CENTER_MUTEX_PREFIX, redisKey)
+			isLock := RedisUnlock(redisKey)
 			if isLock {
 				successKeyList = append(successKeyList, redisKey)
 			}
