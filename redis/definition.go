@@ -6,7 +6,7 @@ const (
 	WOW_GAMING_MUTEX_PREFIX     string = "wow_gaming_mutex"
 	AI_LIVE_CASINO_MUTEX_PREFIX string = "ai_live_casino_mutex"
 	API_CENTER_MUTEX_PREFIX     string = "api_center_mutex"
-	COMMON_MUTEX_PREFIX               string = "common_mutex"
+	COMMON_MUTEX_PREFIX         string = "common_mutex"
 
 	WOW_GAMING_PREFIX     string = "wow_gaming"
 	AI_LIVE_CASINO_PREFIX string = "ai_live_casino"
@@ -15,6 +15,7 @@ const (
 
 	BET_RECORD_KEY           string = "bet_record"
 	BET_KEY                  string = "bet"
+	BET_PLAYER_LIST_HASH_KEY string = "bet_player_list_hash"
 	UNSETTLE_BET_KEY         string = "unsettle_bet"
 	UNSETTLE_BET_ID_HASH_KEY string = "unsettle_bet_id_hash"
 	UNSTORE_SETTLEMENT_KEY   string = "unstore_settlement"

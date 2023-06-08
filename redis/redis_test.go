@@ -391,3 +391,77 @@ func TestHashMapReuse(t *testing.T) {
 		t.Fatal("Del hash map faild. err:", err.Error())
 	}
 }
+
+func TestIncreaseHashMap(t *testing.T) {
+	InitRedis(context.Background())
+	hashKey := "incrHashKey"
+	filed := "player_1"
+	filed2 := "player_2"
+	num := 1
+
+	if err := DelHashMap(hashKey, []string{filed, filed2}); err != nil {
+		t.Fatal("Delete hash key err:", err.Error())
+	}
+
+	if count, err := IncreaseInHashMap(hashKey, filed, num); err != nil {
+		t.Fatal("IncreaseInHashMap err:", err.Error())
+	} else {
+		t.Log("count:", count)
+	}
+
+	if resultMap, err := GetAllHashMap(hashKey); err != nil {
+		t.Fatal("GetAllHashMap err:", err.Error())
+	} else if len(resultMap) != 1 {
+		t.Fatal("GetAllHashMap data loss:", resultMap)
+	} else {
+		t.Log("resultMap:", resultMap)
+	}
+
+	num = 3
+	if count, err := IncreaseInHashMap(hashKey, filed, num); err != nil {
+		t.Fatal("IncreaseInHashMap err:", err.Error())
+	} else {
+		t.Log("count:", count)
+	}
+
+	if resultMap, err := GetAllHashMap(hashKey); err != nil {
+		t.Fatal("GetAllHashMap err:", err.Error())
+	} else if len(resultMap) != 1 {
+		t.Fatal("GetAllHashMap data loss:", resultMap)
+	} else {
+		t.Log("resultMap:", resultMap)
+	}
+
+	if count, err := IncreaseInHashMap(hashKey, filed2, num); err != nil {
+		t.Fatal("IncreaseInHashMap err:", err.Error())
+	} else {
+		t.Log("count:", count)
+	}
+
+	if resultMap, err := GetAllHashMap(hashKey); err != nil {
+		t.Fatal("GetAllHashMap err:", err.Error())
+	} else if len(resultMap) != 2 {
+		t.Fatal("GetAllHashMap data loss:", resultMap)
+	} else {
+		t.Log("resultMap:", resultMap)
+	}
+
+	num = -2
+	if count, err := IncreaseInHashMap(hashKey, filed2, num); err != nil {
+		t.Fatal("IncreaseInHashMap err:", err.Error())
+	} else {
+		t.Log("count:", count)
+	}
+
+	if resultMap, err := GetAllHashMap(hashKey); err != nil {
+		t.Fatal("GetAllHashMap err:", err.Error())
+	} else if len(resultMap) != 2 {
+		t.Fatal("GetAllHashMap data loss:", resultMap)
+	} else {
+		t.Log("resultMap:", resultMap)
+	}
+
+	if err := DelHashMap(hashKey, []string{filed, filed2}); err != nil {
+		t.Fatal("Delete hash key err:", err.Error())
+	}
+}
