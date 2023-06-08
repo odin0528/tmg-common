@@ -342,3 +342,8 @@ func DelHashMap(key string, field []string) (err error) {
 func GetHashMapFileds(key string) (keys []string, err error) {
 	return redisConn.HKeys(context.Background(), key).Result()
 }
+
+func IncreaseInHashMap(key, filed string, increaseNum int) (int, error) {
+	count, err := redisConn.HIncrBy(context.Background(), key, filed, int64(increaseNum)).Result()
+	return int(count), err
+}
