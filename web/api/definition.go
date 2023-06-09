@@ -5,6 +5,7 @@ type WebAPICallback func([]byte, interface{}, error)
 
 const (
 	DEFAULT_API_TIME_OUT = 30
+	BET_API_TIME_OUT     = 3
 
 	METHOD_GET    HTTP_METHOD = "GET"
 	METHOD_POST   HTTP_METHOD = "POST"
