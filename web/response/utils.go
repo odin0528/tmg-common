@@ -48,5 +48,5 @@ func GetMsg(code int) string {
 		return msg
 	}
 
-	return API_CODE_MSG_MAP[ERROR]
+	return API_CODE_MSG_MAP[CODE_INTERNAL_ERROR]
 }
