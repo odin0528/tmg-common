@@ -35,7 +35,7 @@ func InitRedis(ctx context.Context) error {
 	})
 
 	if redisClient == nil {
-		return errors.New("New redis client failed")
+		return errors.New("new redis client failed")
 	}
 
 	_, err := redisClient.Ping(context.Background()).Result()

@@ -62,3 +62,7 @@ func SendWebAPIAsync(method HTTP_METHOD, url string, header map[string]string, b
 func SendWebAPI(method HTTP_METHOD, url string, header map[string]string, body interface{}) ([]byte, error) {
 	return sendRequest(method, url, header, body, (DEFAULT_API_TIME_OUT * time.Second))
 }
+
+func SendWebAPIWithSpecifySec(method HTTP_METHOD, url string, header map[string]string, body interface{}, timeout time.Duration) ([]byte, error) {
+	return sendRequest(method, url, header, body, timeout)
+}
