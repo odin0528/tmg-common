@@ -26,6 +26,8 @@ const (
 	JWT_SECRET_KEY_PREVIOUS string = "jwt_secret_key_previous"
 	JWT_ACCOUNT_TOKEN       string = "jwt_account_token_"
 	JWT_TOKEN_ACCOUNT       string = "jwt_token_account_"
+
+	IS_PLAYING string = "is_playing"
 )
 
 var REDIS_IS_NIL_ERR error = redis.Nil
