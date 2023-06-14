@@ -9,6 +9,7 @@ const (
 // api
 const (
 	MSG_PARAMETER_ERROR               = "invalid parameters"
+	MSG_ILLEGAL_PARAMETER             = "illegal parameters"
 	MSG_API_CENTER_ERROR              = "api center response error"
 	MSG_PARSE_API_RESPONSE_ERROR      = "parse api response error"
 	MSG_PARSE_API_RESPONSE_DATA_ERROR = "parse api response data error"
@@ -58,4 +59,19 @@ const (
 const (
 	MSG_DATABASE_ABNORMAL      = "database abnormal"
 	MSG_DATABASE_NOT_FIND_DATA = "database can not find data"
+)
+
+// auth error
+const (
+	MSG_AUTH_UNAUTHORIZED         = "unauthrized"
+	MSG_AUTH_API_KEY_FAILED       = "auth api key failed"
+	MSG_AUTH_GENERATE_TOKEN_ERROR = "generate token failed"
+	MSG_AUTH_TOKEN_ERROR          = "auth token error"
+)
+
+// cache
+const (
+	MSG_CACHE_KEY_COLLISION = "cache key collision"
+	MSG_CACHE_PUT_ERROR     = "fail to put cache"
+	MSG_CACHE_GET_ERROR     = "fail to get cache"
 )
