@@ -112,13 +112,23 @@ func Delete(keys []string) error {
 }
 
 func GetString(key string) (retValue string, ok bool) {
-	value := redisConn.Get(context.Background(), key).Val()
+	cmd := redisConn.Get(context.Background(), key)
+	if cmd == nil {
+		return "", false
+	}
+
+	value := cmd.Val()
 
 	return value, true
 }
 
 func GetInt(key string) (retValue int, ok bool) {
-	value, err := redisConn.Get(context.Background(), key).Int()
+	cmd := redisConn.Get(context.Background(), key)
+	if cmd == nil {
+		return 0, false
+	}
+
+	value, err := cmd.Int()
 	if err != nil {
 		return 0, false
 	}
@@ -127,7 +137,12 @@ func GetInt(key string) (retValue int, ok bool) {
 }
 
 func GetFloat64(key string) (retValue float64, ok bool) {
-	value, err := redisConn.Get(context.Background(), key).Float64()
+	cmd := redisConn.Get(context.Background(), key)
+	if cmd == nil {
+		return 0, false
+	}
+
+	value, err := cmd.Float64()
 	if err != nil {
 		return 0, false
 	}
@@ -136,7 +151,12 @@ func GetFloat64(key string) (retValue float64, ok bool) {
 }
 
 func GetBool(key string) (retValue bool, ok bool) {
-	byteValues, err := redisConn.Get(context.Background(), key).Bytes()
+	cmd := redisConn.Get(context.Background(), key)
+	if cmd == nil {
+		return false, false
+	}
+
+	byteValues, err := cmd.Bytes()
 	if err != nil {
 		return false, false
 	}
