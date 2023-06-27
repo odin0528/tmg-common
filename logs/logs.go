@@ -7,6 +7,7 @@ import (
 	"os"
 	"reflect"
 	"strings"
+	"syscall"
 	"xxx/common/configs"
 
 	"go.uber.org/zap"
@@ -45,8 +46,7 @@ func InitLogs() {
 	}
 
 	initSystemLog()
-	// Turn on panic log in linux environment
-	//initPanicLog()
+	initPanicLog()
 }
 
 func isEnableDebugLog() bool {
@@ -59,7 +59,6 @@ func initSystemLog() {
 }
 
 // Turn on panic log in linux environment
-/*
 func initPanicLog() {
 	if configs.NO == configs.Get(configs.SECTION_LOG, configs.LOG_PANIC_TO_FILE, configs.NO) {
 		return
@@ -77,7 +76,6 @@ func initPanicLog() {
 		return
 	}
 }
-*/
 
 func newLogger(filepath string) *zap.Logger {
 	fWriter, _, err := zap.Open(filepath)
