@@ -26,10 +26,11 @@ const (
 	WEB_API_JWT_SECRET_KEY_DURATION_HOURS string = "jwt_secret_key_duration_hours"
 	WEB_API_AUTH_TOKEN_DURATION_HOURS     string = "auth_token_duration_hours"
 
-	MOCK_PLAYER             = "mock_player"
-	MOCK_ENABLE_MOCK_PLAYER = "enable_mock_player"
-	MOCK_ENABLE_MOCK_RESULT = "enable_mock_result"
-	MOCK_CURRENCY           = "TEST"
+	MOCK_PLAYER                   = "mock_player"
+	MOCK_ENABLE_MOCK_PLAYER       = "enable_mock_player"
+	MOCK_ENABLE_MOCK_RESULT       = "enable_mock_result"
+	MOCK_CURRENCY                 = "TEST"
+	MOCK_ENABLE_MOCK_GAME_SETTING = "enable_mock_game_setting"
 
 	CACHE_ENGINE     = "engine"
 	CACHE_PREFIX_KEY = "prefix_key"
