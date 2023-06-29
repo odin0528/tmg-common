@@ -48,6 +48,7 @@ const (
 	LOG_KEY_SLOT_PLAYER         = "slot_player"
 	LOG_KEY_SINGLE_ROOM         = "single_room"
 	LOG_KEY_SINGLE_PLAYER       = "single_player"
+	LOG_KEY_MQ                  = "mq"
 )
 
 const (

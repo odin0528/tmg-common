@@ -465,3 +465,27 @@ func TestIncreaseHashMap(t *testing.T) {
 		t.Fatal("Delete hash key err:", err.Error())
 	}
 }
+
+func TestPushAndPop(t *testing.T) {
+	InitRedis(context.Background())
+	testTime := 3
+	key := "push_pop_key"
+
+	for i := 0; i < testTime; i++ {
+		if err := LPush(key, i); err != nil {
+			t.Fatal("LPush err:", err.Error())
+		}
+	}
+
+	for i := 0; i < testTime; i++ {
+		if valueStr, ok := RPop(key); !ok {
+			t.Fatal("RPop failed")
+		} else if value, err := strconv.Atoi(valueStr); err != nil {
+			t.Fatal("Convert value to int failed. err:", err.Error())
+		} else if i != value {
+			t.Fatal("value is err.", value)
+		} else {
+			t.Log("value =", value)
+		}
+	}
+}

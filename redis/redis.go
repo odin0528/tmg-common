@@ -367,3 +367,42 @@ func IncreaseInHashMap(key, filed string, increaseNum int) (int, error) {
 	count, err := redisConn.HIncrBy(context.Background(), key, filed, int64(increaseNum)).Result()
 	return int(count), err
 }
+
+func LPush(key string, value interface{}) (err error) {
+	var putValue interface{}
+
+	switch value.(type) {
+	case string, bool, float32, float64, int, int8, int16, int32, int64:
+		putValue = value
+	default:
+		json := jsoniter.ConfigCompatibleWithStandardLibrary
+		putValue, err = json.Marshal(value)
+
+		if nil != err {
+			logs.Error(
+				logs.LOG_TYPE_SYSTEM,
+				logs.LOG_KEY_CACHE,
+				fmt.Sprintf("failed to Marshal value. err: %s", err.Error()),
+				map[string]interface{}{
+					logs.FIELD_KEY_CACHE_KEY: key,
+					logs.FIELD_KEY_PAYLOAD:   value,
+				},
+			)
+
+			return err
+		}
+	}
+
+	return redisConn.LPush(context.Background(), key, putValue).Err()
+}
+
+func RPop(key string) (retValue string, ok bool) {
+	cmd := redisConn.RPop(context.Background(), key)
+	if cmd == nil {
+		return "", false
+	}
+
+	value := cmd.Val()
+
+	return value, true
+}
