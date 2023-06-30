@@ -30,6 +30,8 @@ const (
 	JWT_TOKEN_ACCOUNT       string = "jwt_token_account_"
 
 	IS_PLAYING string = "is_playing"
+
+	DEFAULT_SCAN_AMOUNT = 100
 )
 
 var REDIS_IS_NIL_ERR error = redis.Nil

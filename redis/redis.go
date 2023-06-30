@@ -406,3 +406,24 @@ func RPop(key string) (retValue string, ok bool) {
 
 	return value, true
 }
+
+func Scan(pattern string) ([]string, error) {
+	var cursor uint64
+	scanAmount := DEFAULT_SCAN_AMOUNT
+	result := []string{}
+
+	for {
+		keys, cursor, err := redisConn.Scan(redisConn.Context(), cursor, pattern, int64(scanAmount)).Result()
+		if err != nil {
+			return []string{}, err
+		}
+
+		result = append(result, keys...)
+
+		if cursor == 0 {
+			break
+		}
+	}
+
+	return result, nil
+}
