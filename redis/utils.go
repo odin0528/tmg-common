@@ -20,3 +20,16 @@ func GetCacheKey(keys ...string) string {
 
 	return result
 }
+
+func GetAllCacheKey(keys ...string) string {
+	result := ""
+	for i, key := range keys {
+		result += key
+
+		if i != (len(keys) - 1) {
+			result += ":"
+		}
+	}
+
+	return result + ":*"
+}
