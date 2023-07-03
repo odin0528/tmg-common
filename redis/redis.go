@@ -413,7 +413,9 @@ func Scan(pattern string) ([]string, error) {
 	result := []string{}
 
 	for {
-		keys, cursor, err := redisConn.Scan(redisConn.Context(), cursor, pattern, int64(scanAmount)).Result()
+		var err error
+		var keys []string
+		keys, cursor, err = redisConn.Scan(redisConn.Context(), cursor, pattern, int64(scanAmount)).Result()
 		if err != nil {
 			return []string{}, err
 		}
