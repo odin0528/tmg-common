@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"game_server/common/configs"
+	"game_server/common/logs"
 	"sync"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -413,7 +413,9 @@ func Scan(pattern string) ([]string, error) {
 	result := []string{}
 
 	for {
-		keys, cursor, err := redisConn.Scan(redisConn.Context(), cursor, pattern, int64(scanAmount)).Result()
+		var err error
+		var keys []string
+		keys, cursor, err = redisConn.Scan(redisConn.Context(), cursor, pattern, int64(scanAmount)).Result()
 		if err != nil {
 			return []string{}, err
 		}
