@@ -20,6 +20,8 @@ const (
 	UNSETTLE_BET_ID_HASH_KEY string = "unsettle_bet_id_hash"
 	UNSTORE_SETTLEMENT_KEY   string = "unstore_settlement"
 
+	MQ_BET_KEY string = "mq_bet"
+
 	MUTEX_DURATION_SECOND = 20
 
 	JWT_SECRET_KEY          string = "jwt_secret_key"
@@ -28,6 +30,8 @@ const (
 	JWT_TOKEN_ACCOUNT       string = "jwt_token_account_"
 
 	IS_PLAYING string = "is_playing"
+
+	DEFAULT_SCAN_AMOUNT = 100
 )
 
 var REDIS_IS_NIL_ERR error = redis.Nil
