@@ -2,10 +2,10 @@ package cache
 
 import "time"
 
-type CacheRepository struct {
+type RedisCacheRepository struct {
 }
 
-type ICacheRepository interface {
+type IRedisCacheRepository interface {
 	GetSecretKeyValue() (string, bool)
 	GetSecretKey() string
 	GetPreviousSecretKey() string
