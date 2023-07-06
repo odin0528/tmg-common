@@ -36,3 +36,15 @@ func (repository *CacheRepository) Delete(keys []string) error {
 func (repository *CacheRepository) IsExist(key string) bool {
 	return redis.IsExist(key)
 }
+
+func (repository *CacheRepository) GetStructData(key string, data interface{}) bool {
+	return redis.GetStructData(key, &data)
+}
+
+func (repository *CacheRepository) Lock(key string) bool {
+	return redis.RedisLock(key)
+}
+
+func (repository *CacheRepository) Unlock(key string) bool {
+	return redis.RedisUnlock(key)
+}
