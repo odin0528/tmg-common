@@ -13,4 +13,7 @@ type ICacheRepository interface {
 	Get(key string) (string, bool)
 	Delete(keys []string) error
 	IsExist(key string) bool
+	GetStructData(key string, data interface{}) bool
+	Lock(key string) bool
+	Unlock(key string) bool
 }
