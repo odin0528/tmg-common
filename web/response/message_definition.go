@@ -67,6 +67,8 @@ const (
 	MSG_AUTH_API_KEY_FAILED       = "auth api key failed"
 	MSG_AUTH_GENERATE_TOKEN_ERROR = "generate token failed"
 	MSG_AUTH_TOKEN_ERROR          = "auth token error"
+	MSG_AUTH_GET_TOKEN_ERROR      = "get token error"
+	MSG_AUTH_DELETE_TOKEN_ERROR   = "delete token error"
 )
 
 // cache

@@ -7,19 +7,21 @@ import (
 )
 
 const (
-	SECTION_SYSTEM             = "system"
-	SECTION_WEB_API            = "web_api"
-	SECTION_MOCK               = "mock"
-	SECTION_LOG                = "log"
-	SECTION_DATABASE_REAL_TIME = "database_real_time"
-	SECTION_DATABASE_RECORD    = "database_record"
-	SECTION_CACHE              = "cache"
+	SECTION_SYSTEM                = "system"
+	SECTION_WEB_API               = "web_api"
+	SECTION_MOCK                  = "mock"
+	SECTION_LOG                   = "log"
+	SECTION_DATABASE_REAL_TIME    = "database_real_time"
+	SECTION_DATABASE_RECORD       = "database_record"
+	SECTION_MONGO_DATABASE_RECORD = "mongo_database_record"
+	SECTION_CACHE                 = "cache"
 
 	SYSTEM_HTTP_PORT           string = "http_port"
 	SYSTEM_APP_MODE            string = "app_mode"
 	SYSTEM_ID                  string = "id"
 	SYSTEM_MATCH_WORKER_AMOUNT string = "match_worker_amount"
 	SYSTEM_USE_CACHE           string = "use_cache"
+	SYSTEM_ENABLE_BET_CHECK    string = "enble_bet_check"
 
 	WEB_API_API_CENTER_DOMAIN             string = "api_center_domain"
 	WEB_API_ALLOW_CORS_DOMAIN             string = "allowed_cors_domain"

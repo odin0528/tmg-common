@@ -7,3 +7,7 @@ func FailOnError(err error, msg string) {
 		log.Fatalf("%s: %s", msg, err)
 	}
 }
+
+func IsAlphanumeric(s string) bool {
+	return alphanumericRegex.MatchString(s)
+}
