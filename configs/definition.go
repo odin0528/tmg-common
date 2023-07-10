@@ -21,6 +21,7 @@ const (
 	SYSTEM_ID                  string = "id"
 	SYSTEM_MATCH_WORKER_AMOUNT string = "match_worker_amount"
 	SYSTEM_USE_CACHE           string = "use_cache"
+	SYSTEM_ENABLE_BET_CHECK    string = "enble_bet_check"
 
 	WEB_API_API_CENTER_DOMAIN             string = "api_center_domain"
 	WEB_API_ALLOW_CORS_DOMAIN             string = "allowed_cors_domain"
