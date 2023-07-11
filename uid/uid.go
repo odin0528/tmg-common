@@ -2,7 +2,7 @@ package uid
 
 import (
 	"log"
-	"mgmt/common/configs"
+	"game_server/common/configs"
 	"os"
 	"strconv"
 
