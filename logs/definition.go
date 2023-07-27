@@ -5,9 +5,10 @@ import (
 )
 
 const (
-	LOG_FILE_SYSTEM = "system.log"
-	LOG_FILE_RECORD = "record.log"
-	LOG_FILE_CMS    = "cms.log"
+	LOG_FILE_SYSTEM        = "system.log"
+	LOG_FILE_RECORD        = "record.log"
+	LOG_FILE_CMS           = "cms.log"
+	LOG_FILE_PANIC_RECOVER = "panic_recover.log"
 
 	TIME_KEY       = "created_at"
 	LEVEL_KEY      = "level"
@@ -16,11 +17,11 @@ const (
 	MESSAGE_KEY    = "msg"
 	STACKTRACE_KEY = "stacktrace"
 
-	LOG_TYPE_ALL    = "all"
-	LOG_TYPE_PANIC  = "panic"
-	LOG_TYPE_SYSTEM = "system"
-	LOG_TYPE_RECORD = "record"
-	LOG_TYPE_CMS    = "cms"
+	LOG_TYPE_ALL           = "all"
+	LOG_TYPE_SYSTEM        = "system"
+	LOG_TYPE_RECORD        = "record"
+	LOG_TYPE_CMS           = "cms"
+	LOG_TYPE_PANIC_RECOVER = "panic_recover"
 
 	SAVE_BET_RECORD = "Save bet record info"
 	UNKNOWN_CALLER  = "Unknown caller"
@@ -79,6 +80,7 @@ var level zap.AtomicLevel
 var systemLogger *zap.Logger
 var recordLogger *zap.Logger
 var cmsLogger *zap.Logger
+var panicRecvoerLogger *zap.Logger
 
 type Field struct {
 	Name string

@@ -37,6 +37,10 @@ func InitLogs() {
 		if file == LOG_FILE_CMS {
 			cmsLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_CMS))
 		}
+
+		if file == LOG_FILE_PANIC_RECOVER {
+			panicRecvoerLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_PANIC_RECOVER))
+		}
 	}
 
 	if isEnableDebugLog() {
@@ -150,6 +154,8 @@ func getLogger(logType string) *zap.Logger {
 		outputLogger = cmsLogger
 	case LOG_TYPE_RECORD:
 		outputLogger = recordLogger
+	case LOG_TYPE_PANIC_RECOVER:
+		outputLogger = panicRecvoerLogger
 	default:
 		outputLogger = systemLogger
 	}
