@@ -3,8 +3,8 @@ package logs
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"game_server/common/configs"
+	"log"
 	"os"
 	"reflect"
 	"strings"
