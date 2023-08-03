@@ -4,21 +4,6 @@ import (
 	"time"
 )
 
-func ParseMongoDbTimeToTime(dateTime string) (time.Time, bool) {
-	result, err := time.Parse(TIME_FORMAT_WITH_MICRO_SEC, dateTime)
-
-	return result, (nil == err)
-}
-
-func FormatMongoDbTimeToString(t time.Time) string {
-	return t.Format(TIME_FORMAT_WITH_MICRO_SEC)
-}
-
-func FormatMongoDbTimeToUTC8String(t time.Time) string {
-	utc8Time := t.UTC().Add(time.Hour * 8)
-	return utc8Time.Format(TIME_FORMAT_WITH_MICRO_SEC)
-}
-
 func ParseTimeInterval(from, to string) (fromTime, toTime time.Time, success bool) {
 	var err error
 
@@ -84,4 +69,8 @@ func getMaxBoundOfSeconds(interval int, unit TimeUnit) float64 {
 	}
 
 	return maxBoundOfSeconds
+}
+
+func FormatTimeToMicrosecondString(when time.Time) string {
+	return when.Format(TIME_FORMAT_WITH_MICRO_SEC)
 }
