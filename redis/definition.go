@@ -30,7 +30,7 @@ const (
 	JWT_TOKEN_ACCOUNT       string = "jwt_token_account_"
 
 	IS_PLAYING string = "is_playing"
-	FOCUS_ROOM string = "focus_room"
+	FOCUS_GAME string = "focus_game"
 
 	DEFAULT_SCAN_AMOUNT = 100
 )
