@@ -28,6 +28,7 @@ func TestAll(t *testing.T) {
 	TestRedisFloat(t)
 	TestRedisBool(t)
 	TestRedisStruct(t)
+	TestIncrease(t)
 }
 
 func TestRedisConnect(t *testing.T) {
@@ -488,4 +489,20 @@ func TestPushAndPop(t *testing.T) {
 			t.Log("value =", value)
 		}
 	}
+}
+
+func TestIncrease(t *testing.T) {
+	InitRedis(context.Background())
+	key := "incKey"
+
+	if err := Increase(key); err != nil {
+		t.Fatal("Increase key err:", err.Error())
+	}
+
+	value, ok := GetInt(key)
+	if !ok {
+		t.Fatal("GetInt failed")
+	}
+
+	t.Log("value:", value)
 }

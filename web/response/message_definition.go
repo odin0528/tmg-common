@@ -77,3 +77,8 @@ const (
 	MSG_CACHE_PUT_ERROR     = "fail to put cache"
 	MSG_CACHE_GET_ERROR     = "fail to get cache"
 )
+
+// CMS
+const (
+	MSG_PERMISSION_IS_NOT_ALLOW = "permission is not allow"
+)
