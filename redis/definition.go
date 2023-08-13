@@ -32,6 +32,8 @@ const (
 	IS_PLAYING string = "is_playing"
 	FOCUS_GAME string = "focus_game"
 
+	AGENT_ID_SERIAL_NUMBER_PREFIX string = "agent_id_serial_num_"
+
 	DEFAULT_SCAN_AMOUNT = 100
 )
 
