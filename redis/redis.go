@@ -106,6 +106,10 @@ func PutNoExpiry(key string, value interface{}) (err error) {
 	return redisConn.Set(context.Background(), key, putValue, 0).Err()
 }
 
+func Increase(key string) error {
+	return redisConn.Incr(context.Background(), key).Err()
+}
+
 func Delete(keys []string) error {
 
 	return redisConn.Del(context.Background(), keys...).Err()

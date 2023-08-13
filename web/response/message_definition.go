@@ -30,7 +30,7 @@ const (
 	MSG_PLAYER_MOENY_IS_OUT_OF_MAX_BET   = "player's bet money is out of max bet"
 	MSG_PLAYER_CURRENT_ROUND_HAS_BET     = "player current round has bet"
 	MSG_PLAYER_LAST_ROUND_NOT_BET        = "player last round not bet"
-	MSG_PLAYER_IS_IN_ANOTHER_GAME        = "player is in another game: %s"
+	MSG_PLAYER_IS_IN_ANOTHER_GAME        = "player is in another game: %s, room id: %s, room level: %s"
 	MSG_PLAYER_ACTION_IN_WRONG_STATE     = "player can't use this action in the state"
 	MSG_PLAYER_REQUEST_TOO_FREQUENTLY    = "player request too frequently"
 	MSG_PLAYER_ACTOION_ALREADY_DONE      = "player's action already done"
@@ -76,4 +76,9 @@ const (
 	MSG_CACHE_KEY_COLLISION = "cache key collision"
 	MSG_CACHE_PUT_ERROR     = "fail to put cache"
 	MSG_CACHE_GET_ERROR     = "fail to get cache"
+)
+
+// CMS
+const (
+	MSG_PERMISSION_IS_NOT_ALLOW = "permission is not allow"
 )
