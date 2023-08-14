@@ -82,3 +82,7 @@ const (
 const (
 	CODE_PERMISSION_IS_NOT_ALLOW = 17001
 )
+
+const (
+	CODE_SYSTEM_MAINTENANCE_MODE = 18001
+)
