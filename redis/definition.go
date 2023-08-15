@@ -29,8 +29,9 @@ const (
 	JWT_ACCOUNT_TOKEN       string = "jwt_account_token_"
 	JWT_TOKEN_ACCOUNT       string = "jwt_token_account_"
 
-	IS_PLAYING string = "is_playing"
-	FOCUS_GAME string = "focus_game"
+	IS_PLAYING       string = "is_playing"
+	IS_PLAYING_COUNT string = "is_playing_count"
+	FOCUS_GAME       string = "focus_game"
 
 	AGENT_ID_SERIAL_NUMBER_PREFIX string = "agent_id_serial_num_"
 
