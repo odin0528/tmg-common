@@ -48,3 +48,19 @@ func (repository *RedisCacheRepository) Lock(key string) bool {
 func (repository *RedisCacheRepository) Unlock(key string) bool {
 	return redis.RedisUnlock(key)
 }
+
+func (repository *RedisCacheRepository) Scan(pattern string) ([]string, error) {
+	return redis.Scan(pattern)
+}
+
+func (repository *RedisCacheRepository) HGet(key, field string) (string, error) {
+	return redis.HGet(key, field)
+}
+
+func (repository *RedisCacheRepository) HSet(key, field, value string) error {
+	return redis.HSet(key, field, value)
+}
+
+func (repository *RedisCacheRepository) HGetAll(key string) (map[string]string, error) {
+	return redis.HGetAll(key)
+}
