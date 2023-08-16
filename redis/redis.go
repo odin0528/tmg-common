@@ -110,6 +110,10 @@ func Increase(key string) error {
 	return redisConn.Incr(context.Background(), key).Err()
 }
 
+func Decrease(key string) (int64, error) {
+	return redisConn.Decr(context.Background(), key).Result()
+}
+
 func Delete(keys []string) error {
 
 	return redisConn.Del(context.Background(), keys...).Err()
@@ -432,12 +436,4 @@ func Scan(pattern string) ([]string, error) {
 	}
 
 	return result, nil
-}
-
-func Incr(key string) (int64, error) {
-	return redisConn.Incr(context.Background(), key).Result()
-}
-
-func Decr(key string) (int64, error) {
-	return redisConn.Decr(context.Background(), key).Result()
 }
