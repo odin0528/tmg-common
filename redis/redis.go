@@ -437,3 +437,38 @@ func Scan(pattern string) ([]string, error) {
 
 	return result, nil
 }
+
+func Scan(pattern string) ([]string, error) {
+	var cursor uint64
+	scanAmount := DEFAULT_SCAN_AMOUNT
+	result := []string{}
+
+	for {
+		var err error
+		var keys []string
+		keys, cursor, err = redisConn.Scan(redisConn.Context(), cursor, pattern, int64(scanAmount)).Result()
+		if err != nil {
+			return []string{}, err
+		}
+
+		result = append(result, keys...)
+
+		if cursor == 0 {
+			break
+		}
+	}
+
+	return result, nil
+}
+
+func HGet(key, field string) (string, error) {
+	return redisConn.HGet(context.Background(), key, field).Result()
+}
+
+func HSet(key, field, value string) error {
+	return redisConn.HSet(context.Background(), key, field, value).Err()
+}
+
+func HGetAll(key string) (map[string]string, error) {
+	return redisConn.HGetAll(context.Background(), key).Result()
+}
