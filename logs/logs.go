@@ -7,7 +7,6 @@ import (
 	"os"
 	"reflect"
 	"strings"
-	"syscall"
 	"xxx/common/configs"
 
 	"go.uber.org/zap"
@@ -64,21 +63,21 @@ func initSystemLog() {
 
 // Turn on panic log in linux environment
 func initPanicLog() {
-	if configs.NO == configs.Get(configs.SECTION_LOG, configs.LOG_PANIC_TO_FILE, configs.NO) {
-		return
-	}
+	// if configs.NO == configs.Get(configs.SECTION_LOG, configs.LOG_PANIC_TO_FILE, configs.NO) {
+	// 	return
+	// }
 
-	fileName := configs.Get(configs.SECTION_LOG, configs.LOG_FILE_PATH, configs.LOG_DEFAULT_PATH) + "/" + configs.Get(configs.SECTION_LOG, "panic_file", "panic.log")
-	file, err := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	// fileName := configs.Get(configs.SECTION_LOG, configs.LOG_FILE_PATH, configs.LOG_DEFAULT_PATH) + "/" + configs.Get(configs.SECTION_LOG, "panic_file", "panic.log")
+	// file, err := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 
-	if err != nil {
-		log.Panicln(err)
-		return
-	}
-	if err = syscall.Dup2(int(file.Fd()), int(os.Stderr.Fd())); err != nil {
-		log.Panicln(err)
-		return
-	}
+	// if err != nil {
+	// 	log.Panicln(err)
+	// 	return
+	// }
+	// if err = syscall.Dup2(int(file.Fd()), int(os.Stderr.Fd())); err != nil {
+	// 	log.Panicln(err)
+	// 	return
+	// }
 }
 
 func newLogger(filepath string) *zap.Logger {
