@@ -181,6 +181,8 @@ func (_m *IRedisCacheRepository) HSet(key string, field string, value string) er
 	return r0
 }
 
+
+
 // IsExist provides a mock function with given fields: key
 func (_m *IRedisCacheRepository) IsExist(key string) bool {
 	ret := _m.Called(key)
@@ -262,6 +264,20 @@ func (_m *IRedisCacheRepository) Unlock(key string) bool {
 
 	return r0
 }
+
+func (_m *IRedisCacheRepository)PutInHashMap(key string, values map[string]interface{}) error{
+	return nil
+}
+
+func (_m *IRedisCacheRepository)GetHashMap(key string, field string) (result string, err error){
+	return "",nil
+}
+
+func (_m *IRedisCacheRepository)DelHashMap(key string, field []string) (err error){
+	return nil
+}
+
+
 
 // NewIRedisCacheRepository creates a new instance of IRedisCacheRepository. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
