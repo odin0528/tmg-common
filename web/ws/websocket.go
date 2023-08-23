@@ -27,7 +27,7 @@ func GetServerErrorResponse(code int, msg string) []byte {
 func ParseEvent(message []byte) (Event, error) {
 	var event Event
 
-	decode := base64Decode(message)
+	decode, _ := base64Decode(message)
 
 	err := json.Unmarshal(decode, &event)
 
