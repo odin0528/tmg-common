@@ -11,7 +11,6 @@ type IRedisCacheRepository interface {
 	GetPreviousSecretKey() string
 	Put(key string, value interface{}, timeout time.Duration) error
 	Get(key string) (string, bool)
-	GetKey(key string) bool
 	Delete(keys []string) error
 	IsExist(key string) bool
 	GetStructData(key string, data interface{}) bool
