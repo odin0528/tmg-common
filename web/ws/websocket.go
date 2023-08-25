@@ -3,6 +3,7 @@ package ws
 import (
 	"encoding/base64"
 	"encoding/json"
+	"game_server/common/configs"
 )
 
 func GetEventResponse(event string, code int, msg string, data interface{}) []byte {
@@ -15,9 +16,12 @@ func GetEventResponse(event string, code int, msg string, data interface{}) []by
 
 	byteArray, _ := json.Marshal(rsp)
 
-	encode := base64Encode(byteArray)
+	if configs.Get(configs.SECTION_SYSTEM, configs.SYSTEM_ENABLE_WEBSOCKET_ASE, configs.YES) == configs.YES {
+		encode := base64Encode(byteArray)
+		return encode
+	}
 
-	return encode
+	return byteArray
 }
 
 func GetServerErrorResponse(code int, msg string) []byte {
@@ -27,9 +31,7 @@ func GetServerErrorResponse(code int, msg string) []byte {
 func ParseEvent(message []byte) (Event, error) {
 	var event Event
 
-	decode, _ := base64Decode(message)
-
-	err := json.Unmarshal(decode, &event)
+	err := json.Unmarshal(message, &event)
 
 	return event, err
 }

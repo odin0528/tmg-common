@@ -38,6 +38,7 @@ const (
 	MSG_PLAYER_EVENT_IS_NOT_SUPPOERED    = "event is not supported"
 	MSG_PLAYER_BET_IS_MUTUALLY_EXCLUSIVE = "player bet is mutually exclusive"
 	MSG_PLAYER_IS_IN_ANOTHER_ROOM_LEVEL  = "player is in another room level, game: %s, room level: %s"
+	MSG_SYSTEM_IS_MAINTENANCE            = "system maintenance"
 )
 
 // game

@@ -119,6 +119,16 @@ func Delete(keys []string) error {
 	return redisConn.Del(context.Background(), keys...).Err()
 }
 
+func GetKey(key string) bool {
+	_, ok := redisConn.Get(context.Background(), key).Result()
+
+	if ok == redis.Nil {
+		return false
+	}
+
+	return true
+}
+
 func GetString(key string) (retValue string, ok bool) {
 	cmd := redisConn.Get(context.Background(), key)
 	if cmd == nil {

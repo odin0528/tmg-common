@@ -29,6 +29,10 @@ func (repository *RedisCacheRepository) Get(key string) (string, bool) {
 	return redis.GetString(key)
 }
 
+func (repository *RedisCacheRepository) GetKey(key string) bool {
+	return redis.GetKey(key)
+}
+
 func (repository *RedisCacheRepository) Delete(keys []string) error {
 	return redis.Delete(keys)
 }
