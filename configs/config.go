@@ -107,11 +107,14 @@ func LoadConfig(filePaths []string) error {
 		}
 	} else {
 		var iniFile *ini.File
+		var loadOptions = ini.LoadOptions{
+			SpaceBeforeInlineComment: true,
+		}
 
 		if len(paths) > 1 {
-			iniFile, err = ini.Load(paths[0], paths[1:]...)
+			iniFile, err = ini.LoadSources(loadOptions, paths[0], paths[1:]...)
 		} else {
-			iniFile, err = ini.Load(paths[0])
+			iniFile, err = ini.LoadSources(loadOptions, paths[0])
 		}
 
 		if err != nil {
