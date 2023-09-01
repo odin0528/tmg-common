@@ -67,6 +67,8 @@ const (
 
 	YES = "yes"
 	NO  = "no"
+
+	ENABLE_GUEST = "enable_guest"
 )
 
 var configMutex sync.RWMutex
