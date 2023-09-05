@@ -4,11 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"game_server/common/configs"
+	"game_server/common/logs"
 	"strconv"
 	"testing"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
 )
 
 func init() {
