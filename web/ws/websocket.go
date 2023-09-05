@@ -1,6 +1,10 @@
 package ws
 
-import "encoding/json"
+import (
+	"encoding/base64"
+	"encoding/json"
+	"xxx/common/configs"
+)
 
 func GetEventResponse(event string, code int, msg string, data interface{}) []byte {
 	rsp := EventResponse{
@@ -12,6 +16,11 @@ func GetEventResponse(event string, code int, msg string, data interface{}) []by
 
 	byteArray, _ := json.Marshal(rsp)
 
+	if configs.Get(configs.SECTION_SYSTEM, configs.SYSTEM_ENABLE_WEBSOCKET_ENCODE, configs.YES) == configs.YES {
+		encode := EncodeBybase64(byteArray)
+		return encode
+	}
+
 	return byteArray
 }
 
@@ -22,7 +31,21 @@ func GetServerErrorResponse(code int, msg string) []byte {
 func ParseEvent(message []byte) (Event, error) {
 	var event Event
 
+	if configs.Get(configs.SECTION_SYSTEM, configs.SYSTEM_ENABLE_WEBSOCKET_DECODE, configs.YES) == configs.YES {
+		decode, _ := DecodeByBase64(message)
+		err := json.Unmarshal(decode, &event)
+		return event, err
+	}
+
 	err := json.Unmarshal(message, &event)
 
 	return event, err
+}
+
+func EncodeBybase64(src []byte) []byte {
+	return []byte(base64.StdEncoding.EncodeToString(src))
+}
+
+func DecodeByBase64(src []byte) ([]byte, error) {
+	return base64.StdEncoding.DecodeString(string(src))
 }
