@@ -49,6 +49,50 @@ func InitRedis(ctx context.Context) error {
 	return nil
 }
 
+func ClearAll() {
+	clearCmsLoginCache()
+}
+
+func clearCmsLoginCache() {
+	infos, _ := GetAllHashMap(LOGIN_DETAIL_HASH_KEY)
+
+	keys := []string{}
+	for key, _ := range infos {
+		keys = append(keys, key)
+	}
+
+	if len(keys) != 0 {
+		DelHashMap(LOGIN_DETAIL_HASH_KEY, keys)
+	}
+
+	accountMap, err := GetAllHashMap(LOGIN_ACCOUNT_HASH_KEY)
+	if err != nil {
+		return
+	}
+
+	accountMap["superadmin"] = JWT_CMS_ACCOUNT_TOKEN + "superadmin"
+
+	for account, _ := range accountMap {
+		accountCacheKey := JWT_CMS_ACCOUNT_TOKEN + account
+		tokenMap, err := GetAllHashMap(accountCacheKey)
+		if err != nil {
+			continue
+		}
+
+		tokens := []string{}
+		for token, _ := range tokenMap {
+			tokens = append(tokens, token)
+		}
+
+		if len(tokens) > 0 {
+			if err := DelHashMap(accountCacheKey, tokens); err != nil {
+				return
+			}
+		}
+	}
+
+}
+
 func Put(key string, value interface{}, timeout time.Duration) (err error) {
 	var putValue interface{}
 
@@ -446,4 +490,16 @@ func Scan(pattern string) ([]string, error) {
 	}
 
 	return result, nil
+}
+
+func HGet(key, field string) (string, error) {
+	return redisConn.HGet(context.Background(), key, field).Result()
+}
+
+func HSet(key, field, value string) error {
+	return redisConn.HSet(context.Background(), key, field, value).Err()
+}
+
+func HGetAll(key string) (map[string]string, error) {
+	return redisConn.HGetAll(context.Background(), key).Result()
 }

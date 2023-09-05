@@ -16,4 +16,12 @@ type IRedisCacheRepository interface {
 	GetStructData(key string, data interface{}) bool
 	Lock(key string) bool
 	Unlock(key string) bool
+	Scan(pattern string) ([]string, error)
+	HGet(key, field string) (string, error)
+	HSet(key, field, value string) error
+	HGetAll(key string) (map[string]string, error)
+
+	PutInHashMap(key string, values map[string]interface{}) error
+	GetHashMap(key string, field string) (result string, err error)
+	DelHashMap(key string, field []string) (err error)
 }
