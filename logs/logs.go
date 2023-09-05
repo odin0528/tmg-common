@@ -3,11 +3,11 @@ package logs
 import (
 	"encoding/json"
 	"fmt"
-	"game_server/common/configs"
 	"log"
 	"os"
 	"reflect"
 	"strings"
+	"xxx/common/configs"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
