@@ -1,15 +1,9 @@
 package math_tool
 
 import (
-	"math/rand"
-	"time"
+	"crypto/rand"
+	"math/big"
 )
-
-func SetUpRandSeed() {
-	randomOnce.Do(func() {
-		rand.Seed(time.Now().UnixNano())
-	})
-}
 
 func GetRandomFloat64(max float64) float64 {
 	return float64(GetRandomInt64(int64(max)))
@@ -23,13 +17,16 @@ func GetRandomInt64(max int64) int64 {
 	if max <= 0 {
 		return 0
 	}
-	return rand.Int63n(max)
+	bigInt := new(big.Int).SetInt64(int64(max))
+	i, _ := rand.Int(rand.Reader, bigInt)
+	return i.Int64()
 }
 
 func Shuffle[T any](target []T) {
-	rand.Shuffle(len(target), func(i, j int) {
+	for i := range target {
+		j := GetRandInt64(i + 1)
 		target[i], target[j] = target[j], target[i]
-	})
+	}
 }
 
 func GetShuffleCopyArray[T any](target []T) []T {

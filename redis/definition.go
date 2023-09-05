@@ -42,7 +42,7 @@ const (
 
 	LOGIN_DETAIL_HASH_KEY string = "cms_login_hash_key"
 
-	LOGIN_ACCOUNT_HASH_KEY string = "cms_login_account_has_key"
+	LOGIN_ACCOUNT_HASH_KEY string = "cms_login_account_hash_key"
 
 	DEFAULT_SCAN_AMOUNT = 100
 )
