@@ -7,11 +7,11 @@ import (
 func ParseTimeInterval(from, to string) (fromTime, toTime time.Time, success bool) {
 	var err error
 
-	if fromTime, err = time.Parse(TIME_FORMAT, from); err != nil {
+	if fromTime, err = time.ParseInLocation(TIME_FORMAT, from, TaiwanTimezone); err != nil {
 		return fromTime, toTime, false
 	}
 
-	if toTime, err = time.Parse(TIME_FORMAT, to); err != nil {
+	if toTime, err = time.ParseInLocation(TIME_FORMAT, to, TaiwanTimezone); err != nil {
 		return fromTime, toTime, false
 	}
 
