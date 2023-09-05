@@ -16,12 +16,14 @@ const (
 	SECTION_MONGO_DATABASE_RECORD = "mongo_database_record"
 	SECTION_CACHE                 = "cache"
 
-	SYSTEM_HTTP_PORT           string = "http_port"
-	SYSTEM_APP_MODE            string = "app_mode"
-	SYSTEM_ID                  string = "id"
-	SYSTEM_MATCH_WORKER_AMOUNT string = "match_worker_amount"
-	SYSTEM_USE_CACHE           string = "use_cache"
-	SYSTEM_ENABLE_BET_CHECK    string = "enble_bet_check"
+	SYSTEM_HTTP_PORT               string = "http_port"
+	SYSTEM_APP_MODE                string = "app_mode"
+	SYSTEM_ID                      string = "id"
+	SYSTEM_MATCH_WORKER_AMOUNT     string = "match_worker_amount"
+	SYSTEM_USE_CACHE               string = "use_cache"
+	SYSTEM_ENABLE_BET_CHECK        string = "enble_bet_check"
+	SYSTEM_ENABLE_WEBSOCKET_ENCODE string = "enble_websocket_encode"
+	SYSTEM_ENABLE_WEBSOCKET_DECODE string = "enble_websocket_decode"
 
 	WEB_API_API_CENTER_DOMAIN             string = "api_center_domain"
 	WEB_API_ALLOW_CORS_DOMAIN             string = "allowed_cors_domain"
@@ -67,6 +69,8 @@ const (
 
 	YES = "yes"
 	NO  = "no"
+
+	ENABLE_GUEST = "enable_guest"
 )
 
 var configMutex sync.RWMutex

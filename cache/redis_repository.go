@@ -1,8 +1,8 @@
 package cache
 
 import (
-	"mgmt/common/redis"
 	"time"
+	"xxx/common/redis"
 )
 
 func NewRedisCacheRepository() IRedisCacheRepository {
@@ -63,4 +63,16 @@ func (repository *RedisCacheRepository) HSet(key, field, value string) error {
 
 func (repository *RedisCacheRepository) HGetAll(key string) (map[string]string, error) {
 	return redis.HGetAll(key)
+}
+
+func (repository *RedisCacheRepository) PutInHashMap(key string, values map[string]interface{}) error {
+	return redis.PutInHashMap(key, values)
+}
+
+func (repository *RedisCacheRepository) GetHashMap(key string, field string) (result string, err error) {
+	return redis.GetHashMap(key, field)
+}
+
+func (repository *RedisCacheRepository) DelHashMap(key string, field []string) (err error) {
+	return redis.DelHashMap(key, field)
 }

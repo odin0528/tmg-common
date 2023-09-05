@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"game_server/common/configs"
-	"game_server/common/logs"
 	"sync"
 	"time"
+	"xxx/common/configs"
+	"xxx/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -47,6 +47,50 @@ func InitRedis(ctx context.Context) error {
 	redisConn = redisClient
 
 	return nil
+}
+
+func ClearAll() {
+	clearCmsLoginCache()
+}
+
+func clearCmsLoginCache() {
+	infos, _ := GetAllHashMap(LOGIN_DETAIL_HASH_KEY)
+
+	keys := []string{}
+	for key, _ := range infos {
+		keys = append(keys, key)
+	}
+
+	if len(keys) != 0 {
+		DelHashMap(LOGIN_DETAIL_HASH_KEY, keys)
+	}
+
+	accountMap, err := GetAllHashMap(LOGIN_ACCOUNT_HASH_KEY)
+	if err != nil {
+		return
+	}
+
+	accountMap["superadmin"] = JWT_CMS_ACCOUNT_TOKEN + "superadmin"
+
+	for account, _ := range accountMap {
+		accountCacheKey := JWT_CMS_ACCOUNT_TOKEN + account
+		tokenMap, err := GetAllHashMap(accountCacheKey)
+		if err != nil {
+			continue
+		}
+
+		tokens := []string{}
+		for token, _ := range tokenMap {
+			tokens = append(tokens, token)
+		}
+
+		if len(tokens) > 0 {
+			if err := DelHashMap(accountCacheKey, tokens); err != nil {
+				return
+			}
+		}
+	}
+
 }
 
 func Put(key string, value interface{}, timeout time.Duration) (err error) {
@@ -117,6 +161,16 @@ func Decrease(key string) (int64, error) {
 func Delete(keys []string) error {
 
 	return redisConn.Del(context.Background(), keys...).Err()
+}
+
+func GetKey(key string) bool {
+	_, ok := redisConn.Get(context.Background(), key).Result()
+
+	if ok == redis.Nil {
+		return false
+	}
+
+	return true
 }
 
 func GetString(key string) (retValue string, ok bool) {
@@ -413,29 +467,6 @@ func RPop(key string) (retValue string, ok bool) {
 	value := cmd.Val()
 
 	return value, true
-}
-
-func Scan(pattern string) ([]string, error) {
-	var cursor uint64
-	scanAmount := DEFAULT_SCAN_AMOUNT
-	result := []string{}
-
-	for {
-		var err error
-		var keys []string
-		keys, cursor, err = redisConn.Scan(redisConn.Context(), cursor, pattern, int64(scanAmount)).Result()
-		if err != nil {
-			return []string{}, err
-		}
-
-		result = append(result, keys...)
-
-		if cursor == 0 {
-			break
-		}
-	}
-
-	return result, nil
 }
 
 func Scan(pattern string) ([]string, error) {
