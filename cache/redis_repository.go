@@ -1,8 +1,8 @@
 package cache
 
 import (
-	"game_server/common/redis"
 	"time"
+	"xxx/common/redis"
 )
 
 func NewRedisCacheRepository() IRedisCacheRepository {
