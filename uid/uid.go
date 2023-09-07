@@ -1,6 +1,7 @@
 package uid
 
 import (
+	"game_server/common/configs"
 	"log"
 	"mgmt/common/configs"
 	"os"
