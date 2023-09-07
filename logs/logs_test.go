@@ -1,8 +1,8 @@
 package logs
 
 import (
+	"game_server/common/configs"
 	"testing"
-	"xxx/common/configs"
 )
 
 func TestWriteLog(t *testing.T) {

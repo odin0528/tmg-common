@@ -3,7 +3,7 @@ package ws
 import (
 	"encoding/base64"
 	"encoding/json"
-	"xxx/common/configs"
+	"game_server/common/configs"
 )
 
 func GetEventResponse(event string, code int, msg string, data interface{}) []byte {
