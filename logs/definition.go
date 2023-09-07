@@ -52,6 +52,7 @@ const (
 	LOG_KEY_MQ                  = "mq"
 	LOG_KEY_AGENT               = "agent"
 	LOG_KEY_CMS_USER            = "cms_user"
+	LOG_KEY_API                 = "api"
 )
 
 const (
@@ -76,6 +77,7 @@ const (
 	FIELD_KEY_CURRENCY      = "currency"
 	FIELD_KEY_ROOM_LEVEL    = "room_level"
 	FIELD_KEY_PLAYER        = "player"
+	FIELD_IP                = "ip"
 )
 
 var level zap.AtomicLevel
