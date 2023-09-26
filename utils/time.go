@@ -75,14 +75,8 @@ func FormatTimeToMicrosecondString(when time.Time) string {
 	return when.Format(TIME_FORMAT_WITH_MICRO_SEC)
 }
 func GetUTC8Time() time.Time {
-	location, err := time.LoadLocation("Asia/Taipei")
-	if err != nil {
-		return time.Now()
-	}
-
+	cstZone := time.FixedZone("CST", 8*3600)
 	now := time.Now()
-	utc := now.UTC()
-	utc8 := utc.In(location)
-
+	utc8 := now.In(cstZone)
 	return utc8
 }
