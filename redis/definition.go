@@ -44,6 +44,10 @@ const (
 
 	LOGIN_ACCOUNT_HASH_KEY string = "cms_login_account_hash_key"
 
+	PLAYER_TOTAL_PROFIT_CACHE = "player_total_profit_cache"
+	PLAYER_GAME_DAILY_CACHE   = "player_game_daily_cache"
+	AGENT_GAME_DAILY_CACHE   = "agent_game_daily_cache"
+
 	DEFAULT_SCAN_AMOUNT = 100
 )
 
