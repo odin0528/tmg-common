@@ -74,3 +74,14 @@ func getMaxBoundOfSeconds(interval int, unit TimeUnit) float64 {
 func FormatTimeToMicrosecondString(when time.Time) string {
 	return when.Format(TIME_FORMAT_WITH_MICRO_SEC)
 }
+func GetUTC8Time() time.Time {
+	location, err := time.LoadLocation("Asia/Taipei")
+	if err != nil {
+		return time.Now()
+	}
+
+	now := time.Now()
+	utc8 := now.In(location)
+
+	return utc8
+}
