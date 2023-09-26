@@ -469,6 +469,14 @@ func RPop(key string) (retValue string, ok bool) {
 	return value, true
 }
 
+func LRange(name string) ([]string, error) {
+	return redisConn.LRange(redisConn.Context(), name, 0, -1).Result()
+}
+
+func LTrim(name string, start int64, stop int64) {
+	redisConn.LTrim(redisConn.Context(), name, start, stop)
+}
+
 func Scan(pattern string) ([]string, error) {
 	var cursor uint64
 	scanAmount := DEFAULT_SCAN_AMOUNT
