@@ -34,6 +34,10 @@ func Every(interval interface{}) *Cron {
 	return cron
 }
 
+func Inst() *Cron {
+	return cron
+}
+
 func (c *Cron) Millisecond() *Cron {
 	c.scheduler.Millisecond()
 	return c
