@@ -81,7 +81,8 @@ func GetUTC8Time() time.Time {
 	}
 
 	now := time.Now()
-	utc8 := now.In(location)
+	utc := now.UTC()
+	utc8 := utc.In(location)
 
 	return utc8
 }
