@@ -74,3 +74,16 @@ func getMaxBoundOfSeconds(interval int, unit TimeUnit) float64 {
 func FormatTimeToMicrosecondString(when time.Time) string {
 	return when.Format(TIME_FORMAT_WITH_MICRO_SEC)
 }
+
+func ConvertToDBTimeString(when time.Time) string {
+	return when.In(TaiwanTimezone).Format(TIME_FORMAT_WITH_MICRO_SEC)
+}
+
+func ParseDBTimeString(timeStr string) (time.Time, error) {
+	return time.ParseInLocation(TIME_FORMAT_WITH_MICRO_SEC, timeStr, TaiwanTimezone)
+}
+
+func FormatDateTimeString(timeStr string, format string) string {
+	utcTime, _ := time.Parse(TIME_FORMAT_WITH_MICRO_SEC, timeStr)
+	return utcTime.Format(format)
+}
