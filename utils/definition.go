@@ -22,6 +22,7 @@ const (
 
 const (
 	// Microsecond
+	DATE_FORMAT                                = "2006-01-02"
 	TIME_FORMAT                                = "2006-01-02 15:04:05"
 	TIME_FORMAT_WITH_MICRO_SEC          string = "2006-01-02 15:04:05.999999"
 	TIME_FORMAT_WITH_MICRO_SEC_TIMEZONE string = "2006-01-02 15:04:05.999999 -0700"
