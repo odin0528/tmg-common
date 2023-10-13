@@ -33,3 +33,11 @@ func GetAllCacheKey(keys ...string) string {
 
 	return result + ":*"
 }
+
+func GetSingleWalletFieldKey(roundId, playerAccount string) string {
+	return fmt.Sprintf("%s_%s", roundId, playerAccount)
+}
+
+func GetSingleWalletLockKey(hashMapKey, filedKey string) string {
+	return fmt.Sprintf("%s_%s", hashMapKey, filedKey)
+}
