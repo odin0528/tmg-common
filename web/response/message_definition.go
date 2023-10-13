@@ -86,3 +86,7 @@ const (
 const (
 	MSG_PERMISSION_IS_NOT_ALLOW = "permission is not allow"
 )
+
+const (
+	MSG_SYSTEM_MAINTENANCE_MODE = "game in maintenance"
+)
