@@ -80,7 +80,22 @@ func ConvertToDBTimeString(when time.Time) string {
 }
 
 func ParseDBTimeString(timeStr string) (time.Time, error) {
-	return time.ParseInLocation(TIME_FORMAT_WITH_MICRO_SEC, timeStr, TaiwanTimezone)
+	formats := []string{
+		time.RFC3339,
+		TIME_FORMAT_WITH_MICRO_SEC_TIMEZONE,
+		TIME_FORMAT_WITH_MICRO_SEC,
+		TIME_FORMAT,
+	}
+
+	var t time.Time
+	var err error
+	for _, format := range formats {
+		t, err = time.ParseInLocation(format, timeStr, TaiwanTimezone)
+		if err == nil {
+			break
+		}
+	}
+	return t, err
 }
 
 func FormatDateTimeString(timeStr string, format string) string {
