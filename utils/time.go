@@ -98,6 +98,11 @@ func ParseDBTimeString(timeStr string) (time.Time, error) {
 	return t, err
 }
 
+func FormatDBTimeString(timeStr string, format string) string {
+	t, _ := ParseDBTimeString(timeStr)
+	return t.Format(format)
+}
+
 func FormatDateTimeString(timeStr string, format string) string {
 	utcTime, _ := time.Parse(TIME_FORMAT_WITH_MICRO_SEC, timeStr)
 	return utcTime.Format(format)
