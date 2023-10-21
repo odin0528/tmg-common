@@ -17,13 +17,12 @@ const (
 	API_CENTER_PREFIX     string = "api_center"
 	COMMON_PREFIX         string = "common"
 
-	BET_RECORD_KEY                    string = "bet_record"
-	BET_KEY                           string = "bet"
-	BET_PLAYER_LIST_HASH_KEY          string = "bet_player_list_hash"
-	UNSETTLE_BET_KEY                  string = "unsettle_bet"
-	UNSETTLE_BET_ID_HASH_KEY          string = "unsettle_bet_id_hash"
-	UNSTORE_SETTLEMENT_KEY            string = "unstore_settlement"
-	SINGLE_WALLET_BET_RECORD_HASH_KEY string = "sw_bet_record_hash"
+	BET_RECORD_KEY           string = "bet_record"
+	BET_KEY                  string = "bet"
+	BET_PLAYER_LIST_HASH_KEY string = "bet_player_list_hash"
+	UNSETTLE_BET_KEY         string = "unsettle_bet"
+	UNSETTLE_BET_ID_HASH_KEY string = "unsettle_bet_id_hash"
+	UNSTORE_SETTLEMENT_KEY   string = "unstore_settlement"
 
 	MQ_BET_KEY string = "mq_bet"
 
@@ -49,14 +48,12 @@ const (
 	PLAYER_GAME_DAILY_CACHE   = "player_game_daily_cache"
 	AGENT_GAME_DAILY_CACHE    = "agent_game_daily_cache"
 
-	SINGLE_WALLET_SID_HASH_MAP_KEY              = "single_wallet_sid_hash_key"
-	SINGLE_WALLET_WITHDRAW_HASH_MAP_KEY         = "single_wallet_withdraw_hash_key"
-	SINGLE_WALLET_WITHDRAW_TIMEOUT_HASH_MAP_KEY = "single_wallet_withdraw_timeout_hash_key"
-	SINGLE_WALLET_DEPOSIT_FAILED_HASH_MAP_KEY   = "single_wallet_deposit_failed_hash_key"
+	SINGLE_WALLET_SID_HASH_MAP_KEY        string = "single_wallet_sid_hash_key"
+	SINGLE_WALLET_WITHDRAW_HASH_MAP_KEY   string = "single_wallet_withdraw_hash_key"
+	SINGLE_WALLET_BET_RECORD_HASH_MAP_KEY string = "sw_bet_record_hash_key"
 
-	SINGLE_WALLET_WITHDRAW_HASH_MAP_LOCK_KEY         = "sw_witdraw_hash_lock"
-	SINGLE_WALLET_WITHDRAW_TIMEOUT_HASH_MAP_LOCK_KEY = "sw_withdraw_timeout_hash_lock"
-	SINGLE_WALLET_DEPOSIT_FAILED_HASH_MAP_LOCK_KEY   = "sw_deposit_failed_hash_lock"
+	SINGLE_WALLET_WITHDRAW_HASH_MAP_LOCK_KEY   string = "sw_witdraw_hash_lock"
+	SINGLE_WALLET_BET_RECORD_HASH_MAP_LOCK_KEY string = "sw_bet_record_hash_lock"
 
 	DEFAULT_SCAN_AMOUNT = 100
 )
