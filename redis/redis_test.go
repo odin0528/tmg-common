@@ -235,7 +235,7 @@ func TestHashMap(t *testing.T) {
 	InitRedis(context.Background())
 	key := "testHashKey"
 
-	fileds, err := GetHashMapFileds(key)
+	fileds, err := GetHashMapFields(key)
 	if err != nil {
 		t.Fatal("GetHashMapKeys err:", err.Error())
 	}
@@ -330,7 +330,7 @@ func TestHashMap(t *testing.T) {
 		}
 	}
 
-	fileds, err = GetHashMapFileds(key)
+	fileds, err = GetHashMapFields(key)
 	if err != nil {
 		t.Fatal("GetHashMapKeys err:", err.Error())
 	}
