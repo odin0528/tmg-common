@@ -421,7 +421,7 @@ func DelHashMap(key string, field []string) (err error) {
 	return redisConn.HDel(context.Background(), key, field...).Err()
 }
 
-func GetHashMapFileds(key string) (keys []string, err error) {
+func GetHashMapFields(key string) (keys []string, err error) {
 	return redisConn.HKeys(context.Background(), key).Result()
 }
 
