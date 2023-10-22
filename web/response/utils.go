@@ -43,6 +43,14 @@ func GetResponse(errCode int, msg string) Response {
 	}
 }
 
+func GetResponseWithData(errCode int, msg string, data interface{}) Response {
+	return Response{
+		Code: errCode,
+		Msg:  msg,
+		Data: data,
+	}
+}
+
 func GetMsg(code int) string {
 	if msg, ok := API_CODE_MSG_MAP[code]; ok {
 		return msg
