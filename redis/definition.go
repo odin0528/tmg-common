@@ -55,6 +55,8 @@ const (
 	SINGLE_WALLET_WITHDRAW_HASH_MAP_LOCK_KEY   string = "sw_witdraw_hash_lock"
 	SINGLE_WALLET_BET_RECORD_HASH_MAP_LOCK_KEY string = "sw_bet_record_hash_lock"
 
+	IS_UPDATE_WHITE_LIST = "is_update_white_list"
+
 	DEFAULT_SCAN_AMOUNT = 100
 )
 
