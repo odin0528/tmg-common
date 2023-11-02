@@ -17,7 +17,7 @@ const (
 
 	CONTENT_TYPE_JSON = "application/json;charset=UTF-8"
 
-	DATA_BALANCE_KEY = "balance"
+	DATA_MONEY_KEY = "money"
 )
 
 type Response struct {
