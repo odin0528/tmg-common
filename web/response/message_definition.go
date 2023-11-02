@@ -84,7 +84,43 @@ const (
 
 // CMS
 const (
-	MSG_PERMISSION_IS_NOT_ALLOW = "permission is not allow"
+	MSG_CMS_PERMISSION_IS_NOT_ALLOW             = "權限不足"
+	MSG_CMS_SUPPORT_CURRENCY_NEED_MORE_THAN_ONE = "支援幣別需要大於1個"
+	MSG_CMS_TOKEN_IS_EMPTY                      = "Token驗證錯誤"
+	MSG_CMS_PLAYER_BALANCE_IS_NOT_ENOUGH        = "玩家餘額不足"
+	MSG_CMS_SINGLE_WALLET_CAN_NOT_TRANSFER      = "單一錢包不支援轉帳"
+	MSG_CMS_PARAMETERS_IS_REQUIRED              = "參數錯誤"
+	MSG_CMS_TIME_FORMAT_ERROR                   = "時間格式錯誤"
+	MSG_CMS_TIME_CAN_NOT_MORE_THAN_N_DAY        = "查詢時間超過N天"
+	MSG_CMS_CURRENCY_ABNORMAL_QUANTITY          = "幣別數量異常"
+	MSG_CMS_CURRENCY_NOT_SUPPORT                = "幣別不支援"
+	MSG_CMS_SYST_CAN_NOT_DEPOSIT                = "無法對總控進行買分"
+	MSG_CMS_SYST_CAN_NOT_LOGIN_IN_AGENT_SITE    = "請至總控後台登入"
+
+	MSG_CMS_CMS_USER_IS_DISABLED          = "用戶已禁用"
+	MSG_CMS_CMS_USER_OTP_FAIL             = "OTP驗證失敗"
+	MSG_CMS_CMS_USER_CAN_NOT_OPERATE_SELF = "不可對自身操作"
+	MSG_CMS_CMS_USER_IS_EXIST             = "帳戶已存在"
+
+	MSG_CMS_AGENT_MONEY_IS_NOT_ENOUGH                  = "餘額不足"
+	MSG_CMS_AGENT_IS_EXIST                             = "代理已存在"
+	MSG_CMS_AGENT_CAN_NOT_EDIT_SELF_COMMERCIAL_MODE    = "不可修改自身合作模式請諮詢上級代理或客服"
+	MSG_CMS_AGENT_CURRENT_OCCUPY_NEED_MORE_THAN_PARENT = "當前新代理點位不可低於上級點位"
+	MSG_CMS_AGENT_CAN_NOT_EDIT_SELF_CURRENCY           = "不可修改自身幣別請諮詢上級代理或客服"
+	MSG_CMS_AGENT_COMMERCIAL_MODE_SUPPORT_TYPE         = "合作模式僅支援:買分網和信用網"
+	MSG_CMS_AGENT_WALLET_MODE_SUPPORT_TYPE             = "錢包模式僅支援:額轉錢包和單一錢包"
+	MSG_CMS_AGENT_CAN_NOT_LOGIN_IN_STST_SITE           = "發生錯誤請諮詢客服"
+	MSG_CMS_AGENT_NOT_SUPPORT_CURRENCY                 = "代理不支援該幣別"
+	MSG_CMS_AGENT_TRANSFER_RECORD_IS_NOT_DEPOSIT       = "此筆非上分紀錄"
+	MSG_CMS_AGENT_IP_IS_EXIST                          = "IP已存在"
+	MSG_CMS_AGENT_FILE_EXPORT_FAIL                     = "匯出失敗"
+	MSG_CMS_AGENT_FILE_UPLOAD_FAIL                     = "上傳失敗"
+
+	MSG_CMS_SERVER_ERROR_BY_DATABASE        = "伺服器錯誤"
+	MSG_CMS_SERVER_ERROR_BY_REDIS           = "伺服器錯誤"
+	MSG_CMS_SERVER_ERROR_BY_JSON            = "伺服器錯誤"
+	MSG_CMS_SERVER_ERROR_BY_FILE_TRAVERSE   = "伺服器錯誤"
+	MSG_CMS_SERVER_ERROR_BY_FILE_PERMISSION = "伺服器錯誤"
 )
 
 const (
