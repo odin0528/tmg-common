@@ -16,6 +16,8 @@ const (
 	HEADER_KEY_AUTH         = "Authorization"
 
 	CONTENT_TYPE_JSON = "application/json;charset=UTF-8"
+
+	DATA_BALANCE_KEY = "balance"
 )
 
 type Response struct {
