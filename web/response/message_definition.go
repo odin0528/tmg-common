@@ -115,6 +115,7 @@ const (
 	MSG_CMS_AGENT_IP_IS_EXIST                          = "IP已存在"
 	MSG_CMS_AGENT_FILE_EXPORT_FAIL                     = "匯出失敗"
 	MSG_CMS_AGENT_FILE_UPLOAD_FAIL                     = "上傳失敗"
+	MSG_CMS_AGENT_CAN_NOT_OPERATE_SELF                 = "不可修改自身代理帳號狀態請諮詢上級代理或客服"
 
 	MSG_CMS_SERVER_ERROR_BY_DATABASE        = "伺服器錯誤"
 	MSG_CMS_SERVER_ERROR_BY_REDIS           = "伺服器錯誤"
