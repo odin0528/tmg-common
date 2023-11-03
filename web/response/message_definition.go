@@ -97,10 +97,14 @@ const (
 	MSG_CMS_SYST_CAN_NOT_DEPOSIT                = "無法對總控進行買分"
 	MSG_CMS_SYST_CAN_NOT_LOGIN_IN_AGENT_SITE    = "請至總控後台登入"
 
+	MSG_CMS_ROLE_IS_EXIST = "角色已存在"
+
 	MSG_CMS_CMS_USER_IS_DISABLED          = "用戶已禁用"
 	MSG_CMS_CMS_USER_OTP_FAIL             = "OTP驗證失敗"
 	MSG_CMS_CMS_USER_CAN_NOT_OPERATE_SELF = "不可對自身操作"
 	MSG_CMS_CMS_USER_IS_EXIST             = "帳戶已存在"
+	MSG_CMS_CMS_USER_ACCOUNT_PWD_ERROR    = "用戶名或密碼錯誤"
+	MSG_CMS_CMS_USER_OLD_PWD_ERROR        = "密碼輸入有誤請重新輸入"
 
 	MSG_CMS_AGENT_MONEY_IS_NOT_ENOUGH                  = "餘額不足"
 	MSG_CMS_AGENT_IS_EXIST                             = "代理已存在"
