@@ -84,7 +84,7 @@ const (
 
 // CMS
 const (
-	MSG_CMS_PERMISSION_IS_NOT_ALLOW             = "權限不足"
+	MSG_PERMISSION_IS_NOT_ALLOW                 = "權限不足"
 	MSG_CMS_SUPPORT_CURRENCY_NEED_MORE_THAN_ONE = "支援幣別需要大於1個"
 	MSG_CMS_TOKEN_IS_EMPTY                      = "Token驗證錯誤"
 	MSG_CMS_PLAYER_BALANCE_IS_NOT_ENOUGH        = "玩家餘額不足"
@@ -106,7 +106,7 @@ const (
 	MSG_CMS_CMS_USER_ACCOUNT_PWD_ERROR    = "用戶名或密碼錯誤"
 	MSG_CMS_CMS_USER_OLD_PWD_ERROR        = "密碼輸入有誤請重新輸入"
 
-	MSG_CMS_AGENT_MONEY_IS_NOT_ENOUGH                  = "餘額不足"
+	MSG_AGENT_MONEY_IS_NOT_ENOUGH                      = "餘額不足"
 	MSG_CMS_AGENT_IS_EXIST                             = "代理已存在"
 	MSG_CMS_AGENT_CAN_NOT_EDIT_SELF_COMMERCIAL_MODE    = "不可修改自身合作模式請諮詢上級代理或客服"
 	MSG_CMS_AGENT_CURRENT_OCCUPY_NEED_MORE_THAN_PARENT = "當前新代理點位不可低於上級點位"
