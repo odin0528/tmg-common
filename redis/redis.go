@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"game_server/common/configs"
-	"game_server/common/logs"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 	"sync"
 	"time"
 

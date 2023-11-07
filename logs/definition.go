@@ -54,6 +54,7 @@ const (
 	LOG_KEY_CMS_USER            = "cms_user"
 	LOG_KEY_API                 = "api"
 	LOG_KEY_SINGLE_WALLET       = "single_wallet"
+	LOG_KEY_ROLE                = "role"
 )
 
 const (

@@ -2,8 +2,7 @@ package client
 
 import (
 	"errors"
-	"game_server/common/web/response"
-
+	"mgmt/common/web/response"
 	"sync/atomic"
 	"time"
 
