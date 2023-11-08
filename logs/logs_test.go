@@ -1,7 +1,7 @@
 package logs
 
 import (
-	"mgmt/common/configs"
+	"game_server/common/configs"
 	"testing"
 )
 

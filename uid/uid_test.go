@@ -1,7 +1,7 @@
 package uid
 
 import (
-	"mgmt/common/configs"
+	"game_server/common/configs"
 	"strconv"
 	"sync"
 	"testing"
