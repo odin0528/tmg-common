@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"mgmt/common/configs"
+	"xxx/common/configs"
 	"os"
 	"reflect"
 	"strings"

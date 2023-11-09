@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"mgmt/common/redis"
+	"xxx/common/redis"
 	"time"
 )
 
