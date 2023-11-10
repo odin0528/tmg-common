@@ -7,11 +7,11 @@ import (
 func ParseTimeInterval(from, to string) (fromTime, toTime time.Time, success bool) {
 	var err error
 
-	if fromTime, err = time.ParseInLocation(TIME_FORMAT, from, TaiwanTimezone); err != nil {
+	if fromTime, err = ParseDBTimeString(from); err != nil {
 		return fromTime, toTime, false
 	}
 
-	if toTime, err = time.ParseInLocation(TIME_FORMAT, to, TaiwanTimezone); err != nil {
+	if toTime, err = ParseDBTimeString(to); err != nil {
 		return fromTime, toTime, false
 	}
 
@@ -23,11 +23,11 @@ func ParseTimeInterval(from, to string) (fromTime, toTime time.Time, success boo
 func ParseTimeIntervalExcludeToTime(from, to string) (fromTime, toTime time.Time, success bool) {
 	var err error
 
-	if fromTime, err = time.Parse(TIME_FORMAT, from); err != nil {
+	if fromTime, err = ParseDBTimeString(from); err != nil {
 		return fromTime, toTime, false
 	}
 
-	if toTime, err = time.Parse(TIME_FORMAT, to); err != nil {
+	if toTime, err = ParseDBTimeString(to); err != nil {
 		return fromTime, toTime, false
 	}
 
@@ -46,11 +46,7 @@ func IsTimeDiffLessThan(from, to time.Time, interval int, unit TimeUnit) bool {
 
 	maxBoundOfSeconds := getMaxBoundOfSeconds(interval, unit)
 
-	if timeDiff >= maxBoundOfSeconds {
-		return false
-	}
-
-	return true
+	return timeDiff < maxBoundOfSeconds
 }
 
 func getMaxBoundOfSeconds(interval int, unit TimeUnit) float64 {
@@ -85,6 +81,7 @@ func ParseDBTimeString(timeStr string) (time.Time, error) {
 		TIME_FORMAT_WITH_MICRO_SEC_TIMEZONE,
 		TIME_FORMAT_WITH_MICRO_SEC,
 		TIME_FORMAT,
+		DATE_FORMAT,
 	}
 
 	var t time.Time
