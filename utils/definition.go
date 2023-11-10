@@ -14,7 +14,7 @@ const (
 	UNIT_MINUTE TimeUnit = "minute"
 	UNIT_SECOND TimeUnit = "second"
 
-	DAY_PER_MONTH     = 30
+	DAY_PER_MONTH     = 31
 	HOUR_PER_DAY      = 24
 	MINUTE_PER_HOUR   = 60
 	SECOND_PER_MINUTE = 60
