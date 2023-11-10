@@ -2,7 +2,7 @@ package client
 
 import (
 	"errors"
-	"xxx/common/web/response"
+	"mgmt/common/web/response"
 	"sync/atomic"
 	"time"
 
