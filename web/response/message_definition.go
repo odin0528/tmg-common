@@ -72,7 +72,7 @@ const (
 	MSG_AUTH_TOKEN_ERROR          = "auth token error"
 	MSG_AUTH_GET_TOKEN_ERROR      = "get token error"
 	MSG_AUTH_DELETE_TOKEN_ERROR   = "delete token error"
-	MSG_AUTH_TRUST_IP_FAILED      = "ip error"
+	MSG_AUTH_TRUST_IP_FAILED      = "not allowed ip(%s)."
 	MSG_AUTH_CONTACT_ADMIN        = "please contact administrator"
 )
 
