@@ -29,10 +29,10 @@ func GetSuccessResponseWithData(data interface{}) Response {
 	}
 }
 
-func GetErrorCodeResponse(errCode int) Response {
+func GetErrorCodeResponse(errCode int, args ...interface{}) Response {
 	return Response{
 		Code: errCode,
-		Msg:  GetMsg(errCode),
+		Msg:  fmt.Sprintf(GetMsg(errCode), args...),
 	}
 }
 
