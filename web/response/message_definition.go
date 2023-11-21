@@ -3,7 +3,17 @@ package response
 const (
 	MSG_SUCCESS = "success"
 
-	MSG_NOT_SUPPORT_FUNCTION = "not support function"
+	MSG_NOT_SUPPORT_FUNCTION              = "not support function"
+	MSG_AUTH_PLATFORM_IS_EMPTY            = "platform-name is null"
+	MSG_AUTH_API_KEY_IS_EMPTY             = "api-key is null"
+	MSG_AUTH_PLATFORM_NOT_EXIST           = "platform-name is not exist"
+	MSG_CURRENCY_NOT_SUPPORT              = "currency is not support"
+	MSG_INVALID_ACCOUNT_OR_PASSWORD       = "invalid account or password"
+	MSG_LOBBY_URL_ERROR                   = "occur lobby url error"
+	MSG_INVALID_TIME_FORMAT               = "Time format error"
+	MSG_TIME_INTERVAL_IS_TOO_LONG         = "Time range is too long.(Limit: %s)"
+	MSG_INVALID_TRANSFER_TYPE             = "transfer type is not support"
+	MSG_TRANSFER_FAILED_PLAYER_IS_PLAYING = "transfer out failed, player is playing"
 )
 
 // api
