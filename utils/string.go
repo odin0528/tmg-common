@@ -9,3 +9,13 @@ func GetRandomString(length int) string {
 	}
 	return string(b)
 }
+
+func IsExist(source []string, target string) bool {
+	for i := 0; i < len(source); i++ {
+		if source[i] == target {
+			return true
+		}
+	}
+
+	return false
+}
