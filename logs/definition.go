@@ -81,6 +81,11 @@ const (
 	FIELD_KEY_PLAYER        = "player"
 	FIELD_IP                = "ip"
 	FIELD_KEY_BET_INFO      = "bet_info"
+	FIELD_KEY_URL           = "url"
+	FIELD_KEY_HEADER        = "header"
+	FIELD_KEY_BODY          = "body"
+	FIELD_KEY_SESSION_ID    = "session_id"
+	FIELD_KEY_BALANCE       = "balance"
 )
 
 var level zap.AtomicLevel
