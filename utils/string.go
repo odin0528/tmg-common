@@ -19,3 +19,12 @@ func IsExist(source []string, target string) bool {
 
 	return false
 }
+
+func Remove(source []string, target string) []string {
+	for i, v := range source {
+		if v == target {
+			return append(source[:i], source[i+1:]...)
+		}
+	}
+	return source
+}
