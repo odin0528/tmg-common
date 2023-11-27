@@ -94,6 +94,11 @@ var recordLogger *zap.Logger
 var cmsLogger *zap.Logger
 var panicRecvoerLogger *zap.Logger
 
+var systemLoggerCloseFunc func()
+var recordLoggerCloseFunc func()
+var cmsLoggerCloseFunc func()
+var panicRecvoerLoggerCloseFunc func()
+
 var currentDate string
 
 type Field struct {
