@@ -54,6 +54,7 @@ const (
 	LOG_ENABLE_DEBUG_LOG = "enable_debug_log"
 	LOG_KEYS             = "log_keys"
 	LOG_PANIC_TO_FILE    = "panic_to_file"
+	LOG_ENABLE_DAILY     = "enable_daily"
 
 	MODE_PRODUCTION  string = "production"
 	MODE_DEVELOPMENT string = "development"
