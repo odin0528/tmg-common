@@ -30,39 +30,59 @@ func InitLogs() {
 		}
 	}
 
+	if systemLogger != nil {
+		systemLogger.Sync()
+		systemLoggerCloseFunc()
+	}
+
+	if recordLogger != nil {
+		recordLogger.Sync()
+		recordLoggerCloseFunc()
+	}
+
+	if cmsLogger != nil {
+		cmsLogger.Sync()
+		cmsLoggerCloseFunc()
+	}
+
+	if panicRecvoerLogger != nil {
+		panicRecvoerLogger.Sync()
+		panicRecvoerLoggerCloseFunc()
+	}
+
 	files := configs.Get(configs.SECTION_LOG, configs.LOG_FILE, configs.LOG_DEFAULT_FILE)
 	fileList := strings.Split(files, ",")
 
 	for _, file := range fileList {
 		if file == LOG_FILE_SYSTEM {
 			if isDaily == configs.YES {
-				systemLogger = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_SYSTEM))
+				systemLogger, systemLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_SYSTEM))
 			} else {
-				systemLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_SYSTEM))
+				systemLogger, systemLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_SYSTEM))
 			}
 		}
 
 		if file == LOG_FILE_RECORD {
 			if isDaily == configs.YES {
-				recordLogger = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RECORD))
+				recordLogger, recordLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RECORD))
 			} else {
-				recordLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RECORD))
+				recordLogger, recordLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RECORD))
 			}
 		}
 
 		if file == LOG_FILE_CMS {
 			if isDaily == configs.YES {
-				cmsLogger = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_CMS))
+				cmsLogger, cmsLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_CMS))
 			} else {
-				cmsLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_CMS))
+				cmsLogger, cmsLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_CMS))
 			}
 		}
 
 		if file == LOG_FILE_PANIC_RECOVER {
 			if isDaily == configs.YES {
-				panicRecvoerLogger = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_PANIC_RECOVER))
+				panicRecvoerLogger, panicRecvoerLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_PANIC_RECOVER))
 			} else {
-				panicRecvoerLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_PANIC_RECOVER))
+				panicRecvoerLogger, panicRecvoerLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_PANIC_RECOVER))
 			}
 		}
 	}
@@ -105,8 +125,8 @@ func initPanicLog() {
 	}
 }
 
-func newLogger(filepath string) *zap.Logger {
-	fWriter, _, err := zap.Open(filepath)
+func newLogger(filepath string) (*zap.Logger, func()) {
+	fWriter, closeFileFunc, err := zap.Open(filepath)
 	if err != nil {
 		fmt.Println("newLogger err:", err.Error())
 		os.Exit(1)
@@ -168,7 +188,7 @@ func newLogger(filepath string) *zap.Logger {
 	core := zapcore.NewTee(cores...)
 	caller := zap.AddCaller()
 
-	return zap.New(core, caller, zap.AddCallerSkip(1))
+	return zap.New(core, caller, zap.AddCallerSkip(1)), closeFileFunc
 }
 
 func getLogger(logType string) *zap.Logger {
