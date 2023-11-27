@@ -5,17 +5,25 @@ import (
 	"fmt"
 	"log"
 	"mgmt/common/configs"
+	"mgmt/common/utils"
 	"os"
 	"reflect"
 	"strings"
 	"syscall"
+	"time"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
+func init() {
+	currentDate = time.Now().In(utils.TaiwanTimezone).Format(utils.DATE_FORMAT)
+}
+
 func InitLogs() {
 	filePath := configs.Get(configs.SECTION_LOG, configs.LOG_FILE_PATH, configs.LOG_DEFAULT_PATH)
+	isDaily := configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_DAILY, configs.NO)
+
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		if createErr := os.MkdirAll(filePath, 0755); createErr != nil {
 			log.Panicln("Failed to create log file path.")
@@ -27,19 +35,35 @@ func InitLogs() {
 
 	for _, file := range fileList {
 		if file == LOG_FILE_SYSTEM {
-			systemLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_SYSTEM))
+			if isDaily == configs.YES {
+				systemLogger = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_SYSTEM))
+			} else {
+				systemLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_SYSTEM))
+			}
 		}
 
 		if file == LOG_FILE_RECORD {
-			recordLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RECORD))
+			if isDaily == configs.YES {
+				recordLogger = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RECORD))
+			} else {
+				recordLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RECORD))
+			}
 		}
 
 		if file == LOG_FILE_CMS {
-			cmsLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_CMS))
+			if isDaily == configs.YES {
+				cmsLogger = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_CMS))
+			} else {
+				cmsLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_CMS))
+			}
 		}
 
 		if file == LOG_FILE_PANIC_RECOVER {
-			panicRecvoerLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_PANIC_RECOVER))
+			if isDaily == configs.YES {
+				panicRecvoerLogger = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_PANIC_RECOVER))
+			} else {
+				panicRecvoerLogger = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_PANIC_RECOVER))
+			}
 		}
 	}
 
@@ -148,6 +172,10 @@ func newLogger(filepath string) *zap.Logger {
 }
 
 func getLogger(logType string) *zap.Logger {
+	if configs.YES == configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_DAILY, configs.NO) {
+		checkAndUpdateCurrentDate()
+	}
+
 	var outputLogger *zap.Logger
 	switch logType {
 	case LOG_TYPE_CMS:
@@ -243,4 +271,12 @@ func transferMappingToFields(logKey string, fields []Field) []zap.Field {
 	}
 
 	return zapFields
+}
+
+func checkAndUpdateCurrentDate() {
+	now := time.Now().In(utils.TaiwanTimezone).Format(utils.DATE_FORMAT)
+	if currentDate != now {
+		currentDate = now
+		InitLogs()
+	}
 }
