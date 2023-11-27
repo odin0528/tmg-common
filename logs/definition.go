@@ -94,6 +94,8 @@ var recordLogger *zap.Logger
 var cmsLogger *zap.Logger
 var panicRecvoerLogger *zap.Logger
 
+var currentDate string
+
 type Field struct {
 	Name string
 	Data interface{}
