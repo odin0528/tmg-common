@@ -511,3 +511,7 @@ func HSet(key, field, value string) error {
 func HGetAll(key string) (map[string]string, error) {
 	return redisConn.HGetAll(context.Background(), key).Result()
 }
+
+func Keys(key string) ([]string, error) {
+	return redisConn.Keys(context.Background(), key).Result()
+}
