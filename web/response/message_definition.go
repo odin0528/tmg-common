@@ -57,6 +57,7 @@ const (
 	MSG_GAME_IS_NOT_INIT      = "game is not init"
 	MSG_NOT_IN_STATE          = "not in %s state, current state: %s"
 	MSG_GAME_IN_NOT_BET_STATE = "not in bet state"
+	MSG_DUPLICATE_TOKEN       = "player is duplicate"
 )
 
 // internal
