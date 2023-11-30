@@ -515,3 +515,19 @@ func HGetAll(key string) (map[string]string, error) {
 func Keys(key string) ([]string, error) {
 	return redisConn.Keys(context.Background(), key).Result()
 }
+
+func Publish(channel string, message interface{}) error {
+	return redisConn.Publish(context.Background(), channel, message).Err()
+}
+
+func Subscribe(channel string) *redis.PubSub {
+	return redisConn.Subscribe(context.Background(), channel)
+}
+
+type RedisPubSub struct {
+	*redis.PubSub
+}
+
+func (ps *RedisPubSub) ReceiveMsg() (*redis.Message, error) {
+	return ps.ReceiveMessage(context.Background())
+}
