@@ -15,6 +15,7 @@ const (
 	SECTION_DATABASE_RECORD       = "database_record"
 	SECTION_MONGO_DATABASE_RECORD = "mongo_database_record"
 	SECTION_CACHE                 = "cache"
+	SECTION_BOT                   = "bot"
 
 	SYSTEM_HTTP_PORT               string = "http_port"
 	SYSTEM_APP_MODE                string = "app_mode"
@@ -68,6 +69,10 @@ const (
 	DB_MAX_OPEN_CONNECTIONS     string = "max_open_connections"
 	DB_MAX_IDLE_CONNECTIONS     string = "max_idle_connections"
 	DB_MAX_CONNECTIONS_LIFETIME string = "max_connections_lifetime"
+
+	BOT_ENABLE_TELEGRAM_ALARM_RTP       string = "enable_telegram_alarm_rtp"
+	BOT_TELEGRAM_ALARM_RTP_CHAT_ROOM_ID string = "telegram_alarm_rtp_chat_room_id"
+	BOT_TELEGRAM_ALARM_RTP_BOT_TOKEN    string = "telegram_alarm_rtp_bot_token"
 
 	LOG_DEFAULT_PATH = "storage/logs"
 	LOG_DEFAULT_FILE = "system.log"
