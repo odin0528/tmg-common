@@ -10,6 +10,7 @@ const (
 	MSG_CURRENCY_NOT_SUPPORT              = "currency is not support"
 	MSG_INVALID_ACCOUNT_OR_PASSWORD       = "invalid account or password"
 	MSG_LOBBY_URL_ERROR                   = "occur lobby url error"
+	MSG_GAME_URL_ERROR                    = "occur game url error"
 	MSG_INVALID_TIME_FORMAT               = "Time format error"
 	MSG_TIME_INTERVAL_IS_TOO_LONG         = "Time range is too long.(Limit: %s)"
 	MSG_INVALID_TRANSFER_TYPE             = "transfer type is not support"
