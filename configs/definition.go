@@ -73,6 +73,9 @@ const (
 	BOT_ENABLE_TELEGRAM_ALARM_RTP       string = "enable_telegram_alarm_rtp"
 	BOT_TELEGRAM_ALARM_RTP_CHAT_ROOM_ID string = "telegram_alarm_rtp_chat_room_id"
 	BOT_TELEGRAM_ALARM_RTP_BOT_TOKEN    string = "telegram_alarm_rtp_bot_token"
+	BOT_ENABLE_TELEGRAM_ALARM           string = "enable_telegram_alarm"
+	BOT_TELEGRAM_ALARM_CHAT_ROOM_ID     string = "telegram_alarm_chat_room_id"
+	BOT_TELEGRAM_ALARM_BOT_TOKEN        string = "telegram_alarm_bot_token"
 
 	LOG_DEFAULT_PATH = "storage/logs"
 	LOG_DEFAULT_FILE = "system.log"
