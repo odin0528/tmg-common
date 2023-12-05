@@ -5,7 +5,7 @@ import (
 )
 
 func (bot *TelegramBot) SendMessage(message string) error {
-	msg := tgbotapi.NewMessage(bot.ChatRoomId, message)
+	msg := tgbotapi.NewMessage(bot.chatRoomId, message)
 	_, err := bot.Send(msg)
 
 	if err != nil {
