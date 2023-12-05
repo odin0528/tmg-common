@@ -508,6 +508,10 @@ func HSet(key, field, value string) error {
 	return redisConn.HSet(context.Background(), key, field, value).Err()
 }
 
+func HSetMultiple(key string, data map[string]interface{}) error {
+	return redisConn.HSet(context.Background(), key, data).Err()
+}
+
 func HGetAll(key string) (map[string]string, error) {
 	return redisConn.HGetAll(context.Background(), key).Result()
 }
