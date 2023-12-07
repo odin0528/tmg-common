@@ -49,6 +49,19 @@ func IsTimeDiffLessThan(from, to time.Time, interval int, unit TimeUnit) bool {
 	return timeDiff < maxBoundOfSeconds
 }
 
+func IsTimeDiffEqualOrLessThan(from, to time.Time, interval int, unit TimeUnit) bool {
+	timeDiff := to.Sub(from).Seconds()
+	if 0 > timeDiff {
+		return false
+	} else if timeDiff == 0 {
+		return true
+	}
+
+	maxBoundOfSeconds := getMaxBoundOfSeconds(interval, unit)
+
+	return timeDiff < maxBoundOfSeconds
+}
+
 func getMaxBoundOfSeconds(interval int, unit TimeUnit) float64 {
 	var maxBoundOfSeconds float64
 	switch unit {
