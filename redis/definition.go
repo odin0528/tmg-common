@@ -48,12 +48,16 @@ const (
 	PLAYER_GAME_DAILY_CACHE   = "player_game_daily_cache"
 	AGENT_GAME_DAILY_CACHE    = "agent_game_daily_cache"
 
-	SINGLE_WALLET_SID_HASH_MAP_KEY        string = "single_wallet_sid_hash_key"
-	SINGLE_WALLET_WITHDRAW_HASH_MAP_KEY   string = "single_wallet_withdraw_hash_key"
-	SINGLE_WALLET_BET_RECORD_HASH_MAP_KEY string = "sw_bet_record_hash_key"
+	SINGLE_WALLET_SID_HASH_MAP_KEY              string = "single_wallet_sid_hash_key"
+	SINGLE_WALLET_WITHDRAW_HASH_MAP_KEY         string = "single_wallet_withdraw_hash_key"
+	SINGLE_WALLET_BET_RECORD_HASH_MAP_KEY       string = "sw_bet_record_hash_key"
+	SINGLE_WALLET_BET_RECORD_RETRY_HASH_MAP_KEY string = "sw_bet_record_retry_hash_key"
+	SINGLE_WALLET_SYNC_BET_RECORD_HASH_MAP_KEY  string = "sw_sync_bet_record_hash_key"
 
-	SINGLE_WALLET_WITHDRAW_HASH_MAP_LOCK_KEY   string = "sw_witdraw_hash_lock"
-	SINGLE_WALLET_BET_RECORD_HASH_MAP_LOCK_KEY string = "sw_bet_record_hash_lock"
+	SINGLE_WALLET_WITHDRAW_HASH_MAP_LOCK_KEY         string = "sw_witdraw_hash_lock"
+	SINGLE_WALLET_BET_RECORD_HASH_MAP_LOCK_KEY       string = "sw_bet_record_hash_lock"
+	SINGLE_WALLET_BET_RECORD_RETRY_HASH_MAP_LOCK_KEY string = "sw_bet_record_retry_hash_lock"
+	SINGLE_WALLET_SYNC_BET_RECORD_HASH_MAP_LOCK_KEY  string = "sw_sync_bet_record_hash_lock"
 
 	IS_UPDATE_WHITE_LIST = "is_update_white_list"
 
