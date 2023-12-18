@@ -108,6 +108,7 @@ const (
 	MSG_CMS_CURRENCY_NOT_SUPPORT                = "幣別不支援"
 	MSG_CMS_SYST_CAN_NOT_DEPOSIT                = "無法對總控進行買分"
 	MSG_CMS_SYST_CAN_NOT_LOGIN_IN_AGENT_SITE    = "請至總控後台登入"
+	MSG_CMS_AUTH_TRUST_IP_FAILED                = "not allowed ip(%s)."
 
 	MSG_CMS_ROLE_IS_EXIST = "角色已存在"
 
