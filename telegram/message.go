@@ -6,6 +6,8 @@ import (
 
 func (bot *TelegramBot) SendMessage(message string) error {
 	msg := tgbotapi.NewMessage(bot.chatRoomId, message)
+	msg.ParseMode = tgbotapi.ModeHTML
+
 	_, err := bot.Send(msg)
 
 	if err != nil {
