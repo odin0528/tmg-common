@@ -158,6 +158,10 @@ func Decrease(key string) (int64, error) {
 	return redisConn.Decr(context.Background(), key).Result()
 }
 
+func IncreaseBy(key string, value int64) (int64, error) {
+	return redisConn.IncrBy(context.Background(), key, value).Result()
+}
+
 func Delete(keys []string) error {
 
 	return redisConn.Del(context.Background(), keys...).Err()
