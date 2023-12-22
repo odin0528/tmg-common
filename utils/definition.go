@@ -32,6 +32,7 @@ const (
 var letterRunes = []rune("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 var alphanumericRegex = regexp.MustCompile(`^[a-zA-Z0-9]+$`)
 var TaiwanTimezone = time.FixedZone("", 8*60*60)
+var Location = "Asia/Taipei"
 
 type ErrorBaseContext struct {
 	NeedLog bool
