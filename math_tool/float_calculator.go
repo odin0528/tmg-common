@@ -132,3 +132,24 @@ func Abs(value float64) float64 {
 
 	return value
 }
+
+// TODO 四捨五入第幾位
+func Round(value float64, n int32) float64 {
+	decimal := decimal.NewFromFloat(value)
+	v, _ := decimal.Round(n).Float64()
+	return v
+}
+
+// TODO 無條件進位第幾位
+func RoundUp(value float64, n int32) float64 {
+	decimal := decimal.NewFromFloat(value)
+	v, _ := decimal.RoundUp(n).Float64()
+	return v
+}
+
+// TODO 無條件捨去第幾位
+func RoundDown(value float64, n int32) float64 {
+	decimal := decimal.NewFromFloat(value)
+	v, _ := decimal.RoundDown(n).Float64()
+	return v
+}
