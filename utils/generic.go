@@ -3,7 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"errors"
-	"XXX/common/web/response"
+	"xxx/common/web/response"
 
 	"github.com/gonum/stat/sampleuv"
 )

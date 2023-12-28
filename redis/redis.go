@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"XXX/common/configs"
-	"XXX/common/logs"
+	"xxx/common/configs"
+	"xxx/common/logs"
 	"sync"
 	"time"
 

@@ -1,7 +1,7 @@
 package ws
 
 import (
-	"XXX/common/configs"
+	"xxx/common/configs"
 	"encoding/base64"
 	"encoding/json"
 )

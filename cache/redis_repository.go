@@ -1,8 +1,8 @@
 package cache
 
 import (
-	"XXX/common/redis"
 	"time"
+	"xxx/common/redis"
 )
 
 func NewRedisCacheRepository() IRedisCacheRepository {
