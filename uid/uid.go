@@ -2,7 +2,7 @@ package uid
 
 import (
 	"log"
-	"mgmt/common/configs"
+	"XXX/common/configs"
 	"os"
 	"strconv"
 

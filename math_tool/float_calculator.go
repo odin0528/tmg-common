@@ -132,23 +132,24 @@ func Abs(value float64) float64 {
 
 	return value
 }
+func GetDisplayFloatDecimalUp(value float64) float64 {
 
-// TODO 四捨五入第幾位
-func Round(value float64, n int32) float64 {
-	decimal := decimal.NewFromFloat(value)
-	v, _ := decimal.Round(n).Float64()
-	return v
+	return makeDisplayRoundUp(value, ROUND_DISPLAY_PRECISION)
+}
+func GetDisplayFloatDecimalDown(value float64) float64 {
+
+	return makeDisplayRoundDown(value, ROUND_DISPLAY_PRECISION)
 }
 
 // TODO 無條件進位第幾位
-func RoundUp(value float64, n int32) float64 {
+func makeDisplayRoundUp(value float64, n int32) float64 {
 	decimal := decimal.NewFromFloat(value)
 	v, _ := decimal.RoundUp(n).Float64()
 	return v
 }
 
 // TODO 無條件捨去第幾位
-func RoundDown(value float64, n int32) float64 {
+func makeDisplayRoundDown(value float64, n int32) float64 {
 	decimal := decimal.NewFromFloat(value)
 	v, _ := decimal.RoundDown(n).Float64()
 	return v
