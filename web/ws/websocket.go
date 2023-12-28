@@ -1,9 +1,9 @@
 package ws
 
 import (
-	"XXX/common/configs"
 	"encoding/base64"
 	"encoding/json"
+	"game_server/common/configs"
 )
 
 func GetEventResponse(event string, code int, msg string, data interface{}) []byte {

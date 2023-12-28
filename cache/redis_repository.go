@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"XXX/common/redis"
+	"game_server/common/redis"
 	"time"
 )
 

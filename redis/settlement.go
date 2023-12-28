@@ -3,7 +3,7 @@ package redis
 import (
 	"encoding/json"
 	"fmt"
-	"XXX/common/logs"
+	"game_server/common/logs"
 
 	"github.com/go-redis/redis/v8"
 )
