@@ -132,3 +132,23 @@ func Abs(value float64) float64 {
 
 	return value
 }
+func GetDisplayFloatDecimalUp(value float64) float64 {
+
+	return makeDisplayRoundUp(value, ROUND_DISPLAY_PRECISION)
+}
+func GetDisplayFloatDecimalDown(value float64) float64 {
+
+	return makeDisplayRoundDown(value, ROUND_DISPLAY_PRECISION)
+}
+
+func makeDisplayRoundUp(value float64, n int32) float64 {
+	decimal := decimal.NewFromFloat(value)
+	v, _ := decimal.RoundUp(n).Float64()
+	return v
+}
+
+func makeDisplayRoundDown(value float64, n int32) float64 {
+	decimal := decimal.NewFromFloat(value)
+	v, _ := decimal.RoundDown(n).Float64()
+	return v
+}
