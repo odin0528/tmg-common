@@ -18,7 +18,8 @@ const (
 	FLOAT_CMP_LESS_THAN             FloatCompare = "less_than"
 	FLOAT_CMP_LESS_THAN_OR_EQUAL    FloatCompare = "less_than_or_equal"
 
-	ROUND_PRECISION = 6
+	ROUND_PRECISION         = 6
+	ROUND_DISPLAY_PRECISION = 2
 
 	CMP_LESS_THAN   CmpValue = -1
 	CMP_EQUAL       CmpValue = 0

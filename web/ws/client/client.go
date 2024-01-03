@@ -1,8 +1,8 @@
 package client
 
 import (
+	"xxx/common/web/response"
 	"errors"
-	"mgmt/common/web/response"
 	"sync/atomic"
 	"time"
 
