@@ -1,7 +1,7 @@
 package uid
 
 import (
-	"xxx/common/configs"
+	"mgmt/common/configs"
 	"strconv"
 	"sync"
 	"testing"
