@@ -59,6 +59,10 @@ const (
 	SINGLE_WALLET_BET_RECORD_RETRY_HASH_MAP_LOCK_KEY string = "sw_bet_record_retry_hash_lock"
 	SINGLE_WALLET_SYNC_BET_RECORD_HASH_MAP_LOCK_KEY  string = "sw_sync_bet_record_hash_lock"
 
+	SINGLE_WALLET_TRANSFER_RECORD_QUERY string = "sw_record_query"
+
+	SINGLE_WALLET_TRANSFER_RECORD_QUERY_CACHE_DURATION = time.Second * 30
+
 	IS_UPDATE_WHITE_LIST = "is_update_white_list"
 
 	DEFAULT_SCAN_AMOUNT = 100
