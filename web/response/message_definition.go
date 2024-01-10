@@ -25,6 +25,7 @@ const (
 	MSG_PARSE_API_RESPONSE_ERROR      = "parse api response error"
 	MSG_PARSE_API_RESPONSE_DATA_ERROR = "parse api response data error"
 	MSG_API_INTERNAL_SERVER_ERROR     = "Internal server error"
+	MSG_API_REQUEST_TOO_FREQUENTLY    = "request too frequently"
 )
 
 // ws
