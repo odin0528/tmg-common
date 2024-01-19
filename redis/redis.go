@@ -177,6 +177,19 @@ func GetKey(key string) bool {
 	return true
 }
 
+func GetBytes(key string) (retValue []byte, ok bool) {
+	cmd := redisConn.Get(context.Background(), key)
+	if cmd == nil {
+		return nil, false
+	}
+	value, err := cmd.Bytes()
+	if err != nil {
+		return nil, false
+	}
+
+	return value, true
+}
+
 func GetString(key string) (retValue string, ok bool) {
 	cmd := redisConn.Get(context.Background(), key)
 	if cmd == nil {
