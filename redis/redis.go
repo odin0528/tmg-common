@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"xxx/common/configs"
-	"xxx/common/logs"
 	"sync"
 	"time"
+	"xxx/common/configs"
+	"xxx/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -175,6 +175,19 @@ func GetKey(key string) bool {
 	}
 
 	return true
+}
+
+func GetBytes(key string) (retValue []byte, ok bool) {
+	cmd := redisConn.Get(context.Background(), key)
+	if cmd == nil {
+		return nil, false
+	}
+	value, err := cmd.Bytes()
+	if err != nil {
+		return nil, false
+	}
+
+	return value, true
 }
 
 func GetString(key string) (retValue string, ok bool) {
