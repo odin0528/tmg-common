@@ -177,6 +177,19 @@ func GetKey(key string) bool {
 	return true
 }
 
+func GetBytes(key string) (retValue []byte, ok bool) {
+	cmd := redisConn.Get(context.Background(), key)
+	if cmd == nil {
+		return nil, false
+	}
+	value, err := cmd.Bytes()
+	if err != nil {
+		return nil, false
+	}
+
+	return value, true
+}
+
 func GetString(key string) (retValue string, ok bool) {
 	cmd := redisConn.Get(context.Background(), key)
 	if cmd == nil {
@@ -522,6 +535,26 @@ func HGetAll(key string) (map[string]string, error) {
 
 func Keys(key string) ([]string, error) {
 	return redisConn.Keys(context.Background(), key).Result()
+}
+
+func Expire(key string, timeout time.Duration) (bool, error) {
+	return redisConn.Expire(context.Background(), key, timeout).Result()
+}
+
+func ExpireNX(key string, timeout time.Duration) (bool, error) {
+	return redisConn.ExpireNX(context.Background(), key, timeout).Result()
+}
+
+func ExpireXX(key string, timeout time.Duration) (bool, error) {
+	return redisConn.ExpireXX(context.Background(), key, timeout).Result()
+}
+
+func ExpireGT(key string, timeout time.Duration) (bool, error) {
+	return redisConn.ExpireGT(context.Background(), key, timeout).Result()
+}
+
+func ExpireLT(key string, timeout time.Duration) (bool, error) {
+	return redisConn.ExpireLT(context.Background(), key, timeout).Result()
 }
 
 func Publish(channel string, message interface{}) error {

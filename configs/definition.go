@@ -7,15 +7,16 @@ import (
 )
 
 const (
-	SECTION_SYSTEM                = "system"
-	SECTION_WEB_API               = "web_api"
-	SECTION_MOCK                  = "mock"
-	SECTION_LOG                   = "log"
-	SECTION_DATABASE_REAL_TIME    = "database_real_time"
-	SECTION_DATABASE_RECORD       = "database_record"
-	SECTION_MONGO_DATABASE_RECORD = "mongo_database_record"
-	SECTION_CACHE                 = "cache"
-	SECTION_BOT                   = "bot"
+	SECTION_SYSTEM                    = "system"
+	SECTION_WEB_API                   = "web_api"
+	SECTION_MOCK                      = "mock"
+	SECTION_LOG                       = "log"
+	SECTION_DATABASE_REAL_TIME        = "database_real_time"
+	SECTION_DATABASE_RECORD           = "database_record"
+	SECTION_DATABASE_REAL_TIME_SYSTEM = "database_real_time_system"
+	SECTION_MONGO_DATABASE_RECORD     = "mongo_database_record"
+	SECTION_CACHE                     = "cache"
+	SECTION_BOT                       = "bot"
 
 	SYSTEM_HTTP_PORT               string = "http_port"
 	SYSTEM_APP_MODE                string = "app_mode"
