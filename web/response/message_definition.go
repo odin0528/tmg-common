@@ -15,6 +15,8 @@ const (
 	MSG_TIME_INTERVAL_IS_TOO_LONG         = "Time range is too long.(Limit: %s)"
 	MSG_INVALID_TRANSFER_TYPE             = "transfer type is not support"
 	MSG_TRANSFER_FAILED_PLAYER_IS_PLAYING = "transfer out failed, player is playing"
+	MSG_AUTH_PROVIDER_IS_EMPTY            = "provider-code is null"
+	MSG_AUTH_PROVIDER_NOT_EXIST           = "provider-code is not exist"
 )
 
 // api

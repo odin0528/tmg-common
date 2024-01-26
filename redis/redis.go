@@ -537,6 +537,26 @@ func Keys(key string) ([]string, error) {
 	return redisConn.Keys(context.Background(), key).Result()
 }
 
+func Expire(key string, timeout time.Duration) (bool, error) {
+	return redisConn.Expire(context.Background(), key, timeout).Result()
+}
+
+func ExpireNX(key string, timeout time.Duration) (bool, error) {
+	return redisConn.ExpireNX(context.Background(), key, timeout).Result()
+}
+
+func ExpireXX(key string, timeout time.Duration) (bool, error) {
+	return redisConn.ExpireXX(context.Background(), key, timeout).Result()
+}
+
+func ExpireGT(key string, timeout time.Duration) (bool, error) {
+	return redisConn.ExpireGT(context.Background(), key, timeout).Result()
+}
+
+func ExpireLT(key string, timeout time.Duration) (bool, error) {
+	return redisConn.ExpireLT(context.Background(), key, timeout).Result()
+}
+
 func Publish(channel string, message interface{}) error {
 	return redisConn.Publish(context.Background(), channel, message).Err()
 }
