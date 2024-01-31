@@ -90,6 +90,8 @@ const (
 	FIELD_KEY_SESSION_ID    = "session_id"
 	FIELD_KEY_BALANCE       = "balance"
 	FIELD_KEY_BET_ID        = "bet_id"
+	FIELD_KEY_ERROR         = "error"
+	FIELD_KEY_ERROR_CODE    = "error_code"
 )
 
 var level zap.AtomicLevel
