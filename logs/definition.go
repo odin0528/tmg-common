@@ -9,6 +9,7 @@ const (
 	LOG_FILE_RECORD        = "record.log"
 	LOG_FILE_CMS           = "cms.log"
 	LOG_FILE_PANIC_RECOVER = "panic_recover.log"
+	LOG_FILE_BET           = "bet.log"
 
 	TIME_KEY       = "created_at"
 	LEVEL_KEY      = "level"
@@ -22,6 +23,7 @@ const (
 	LOG_TYPE_RECORD        = "record"
 	LOG_TYPE_CMS           = "cms"
 	LOG_TYPE_PANIC_RECOVER = "panic_recover"
+	LOG_TYPE_BET           = "bet"
 
 	SAVE_BET_RECORD = "Save bet record info"
 	UNKNOWN_CALLER  = "Unknown caller"
@@ -36,6 +38,7 @@ const (
 	LOG_KEY_GAME_HUB    = "game_hub"
 	LOG_KEY_MATCH_POOL  = "match_pool"
 	LOG_KEY_BET_RECORD  = "bet_record"
+	LOG_KEY_BET         = "bet"
 
 	LOG_KEY_CACHE               = "cache"
 	LOG_KEY_BASE_ROOM           = "base_room"
@@ -86,6 +89,9 @@ const (
 	FIELD_KEY_BODY          = "body"
 	FIELD_KEY_SESSION_ID    = "session_id"
 	FIELD_KEY_BALANCE       = "balance"
+	FIELD_KEY_BET_ID        = "bet_id"
+	FIELD_KEY_ERROR         = "error"
+	FIELD_KEY_ERROR_CODE    = "error_code"
 )
 
 var level zap.AtomicLevel
@@ -93,11 +99,13 @@ var systemLogger *zap.Logger
 var recordLogger *zap.Logger
 var cmsLogger *zap.Logger
 var panicRecvoerLogger *zap.Logger
+var betLogger *zap.Logger
 
 var systemLoggerCloseFunc func()
 var recordLoggerCloseFunc func()
 var cmsLoggerCloseFunc func()
 var panicRecvoerLoggerCloseFunc func()
+var betLoggerCloseFunc func()
 
 var currentDate string
 

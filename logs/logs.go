@@ -50,6 +50,11 @@ func InitLogs() {
 		panicRecvoerLoggerCloseFunc()
 	}
 
+	if betLogger != nil {
+		betLogger.Sync()
+		betLoggerCloseFunc()
+	}
+
 	files := configs.Get(configs.SECTION_LOG, configs.LOG_FILE, configs.LOG_DEFAULT_FILE)
 	fileList := strings.Split(files, ",")
 
@@ -83,6 +88,14 @@ func InitLogs() {
 				panicRecvoerLogger, panicRecvoerLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_PANIC_RECOVER))
 			} else {
 				panicRecvoerLogger, panicRecvoerLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_PANIC_RECOVER))
+			}
+		}
+
+		if file == LOG_FILE_BET {
+			if isDaily == configs.YES {
+				betLogger, betLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_BET))
+			} else {
+				betLogger, betLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_BET))
 			}
 		}
 	}
@@ -204,6 +217,8 @@ func getLogger(logType string) *zap.Logger {
 		outputLogger = recordLogger
 	case LOG_TYPE_PANIC_RECOVER:
 		outputLogger = panicRecvoerLogger
+	case LOG_TYPE_BET:
+		outputLogger = betLogger
 	default:
 		outputLogger = systemLogger
 	}
