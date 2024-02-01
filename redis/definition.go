@@ -19,6 +19,7 @@ const (
 
 	BET_RECORD_KEY           string = "bet_record"
 	BET_KEY                  string = "bet"
+	BET_COUNT_HASH_MAP_KEY   string = "bet_count_hash_map_key"
 	BET_PLAYER_LIST_HASH_KEY string = "bet_player_list_hash"
 	UNSETTLE_BET_KEY         string = "unsettle_bet"
 	UNSETTLE_BET_ID_HASH_KEY string = "unsettle_bet_id_hash"
