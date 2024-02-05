@@ -53,6 +53,7 @@ const (
 	MSG_PLAYER_BET_IS_MUTUALLY_EXCLUSIVE = "player bet is mutually exclusive"
 	MSG_PLAYER_IS_IN_ANOTHER_ROOM_LEVEL  = "player is in another room level, game: %s, room level: %s"
 	MSG_SYSTEM_IS_MAINTENANCE            = "system maintenance"
+	MSG_PLAYER_DISABLE_CARD              = "player can't disable all bingo card"
 )
 
 // game
@@ -63,7 +64,7 @@ const (
 	MSG_GAME_IN_NOT_BET_STATE = "not in bet state"
 	MSG_IS_NOT_FREE_GAME      = "game is not free game"
 	MSG_DUPLICATE_TOKEN       = "player is duplicate"
-	MSG_BET_AREA_IS_LOCK	  = "bet area is lock"
+	MSG_BET_AREA_IS_LOCK      = "bet area is lock"
 )
 
 // internal
