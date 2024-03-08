@@ -73,6 +73,7 @@ const (
 	MSG_UNMARSHAL_ERROR    = "unmarshal error"
 	MSG_CONVERT_TYPE_ERROR = "convert type error"
 	MSG_DATA_NOT_FOUND     = "%s doesn't exist %s"
+	MSG_INTERNAL_ERROR     = "internal error"
 )
 
 // database
