@@ -257,6 +257,10 @@ func GetBool(key string) (retValue bool, ok bool) {
 func GetStructData(key string, data interface{}) bool {
 	value, ok := GetString(key)
 	if ok {
+		if value == "" {
+			return false
+		}
+
 		json := jsoniter.ConfigCompatibleWithStandardLibrary
 		err := json.Unmarshal(([]byte)(value), data)
 		ok = (nil == err)
