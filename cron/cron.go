@@ -25,7 +25,7 @@ func Init(timeZone *time.Location) context.CancelFunc {
 	return cancelFunc
 }
 
-func AddJob(timeCron *Cron, jobFun interface{}){
+func AddJob(timeCron *Cron, jobFun interface{}) {
 	timeCron.scheduler.Do(jobFun)
 }
 
@@ -60,6 +60,11 @@ func (c *Cron) Days() *Cron {
 
 func (c *Cron) Month() *Cron {
 	c.scheduler.Month()
+	return c
+}
+
+func (c *Cron) At(executionTime interface{}) *Cron {
+	c.scheduler.At(executionTime)
 	return c
 }
 
