@@ -10,6 +10,7 @@ const (
 	LOG_FILE_CMS           = "cms.log"
 	LOG_FILE_PANIC_RECOVER = "panic_recover.log"
 	LOG_FILE_BET           = "bet.log"
+	LOG_FILE_HTTP          = "http.log"
 
 	TIME_KEY       = "created_at"
 	LEVEL_KEY      = "level"
@@ -24,6 +25,7 @@ const (
 	LOG_TYPE_CMS           = "cms"
 	LOG_TYPE_PANIC_RECOVER = "panic_recover"
 	LOG_TYPE_BET           = "bet"
+	LOG_TYPE_HTTP          = "http"
 
 	SAVE_BET_RECORD = "Save bet record info"
 	UNKNOWN_CALLER  = "Unknown caller"
@@ -100,12 +102,14 @@ var recordLogger *zap.Logger
 var cmsLogger *zap.Logger
 var panicRecvoerLogger *zap.Logger
 var betLogger *zap.Logger
+var httpLogger *zap.Logger
 
 var systemLoggerCloseFunc func()
 var recordLoggerCloseFunc func()
 var cmsLoggerCloseFunc func()
 var panicRecvoerLoggerCloseFunc func()
 var betLoggerCloseFunc func()
+var httpLoggerCloseFunc func()
 
 var currentDate string
 
