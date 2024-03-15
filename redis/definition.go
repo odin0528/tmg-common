@@ -67,6 +67,8 @@ const (
 	IS_UPDATE_WHITE_LIST = "is_update_white_list"
 
 	DEFAULT_SCAN_AMOUNT = 100
+
+	DEBUG_MAX_SINGLE_WALLET_WITHDRAW_RETRY_CACHE_KEY = "max_single_wallet_withdraw_retry_limit"
 )
 
 var REDIS_IS_NIL_ERR error = redis.Nil
