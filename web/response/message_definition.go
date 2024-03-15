@@ -65,6 +65,9 @@ const (
 	MSG_IS_NOT_FREE_GAME      = "game is not free game"
 	MSG_DUPLICATE_TOKEN       = "player is duplicate"
 	MSG_BET_AREA_IS_LOCK      = "bet area is lock"
+
+	MSG_SINGLE_WALLET_IS_RETRYING_WITHDRAW    = "retrying withdraw"
+	MSG_SINGLE_WALLET_MAX_RETRY_LIMIT_REACHED = "the max retry limit reached"
 )
 
 // internal
