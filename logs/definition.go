@@ -94,6 +94,8 @@ const (
 	FIELD_KEY_BET_ID        = "bet_id"
 	FIELD_KEY_ERROR         = "error"
 	FIELD_KEY_ERROR_CODE    = "error_code"
+	FIELD_KEY_TIME_SECOND   = "time_second"
+	FIELD_KEY_GAME_RESULT   = "game_result"
 )
 
 var level zap.AtomicLevel
