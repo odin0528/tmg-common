@@ -43,6 +43,7 @@ func (bot *TelegramBot) Serve() {
 		cFunc, ok := bot.commandFuncMap[update.Message.Command()]
 		if !ok {
 			bot.SendMessage("command not supported")
+			bot.funcMutex.Unlock()
 			continue
 		}
 
