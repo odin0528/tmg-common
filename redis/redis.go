@@ -521,6 +521,10 @@ func Scan(pattern string) ([]string, error) {
 	return result, nil
 }
 
+func HExists(key, field string) (bool, error) {
+	return redisConn.HExists(context.Background(), key, field).Result()
+}
+
 func HGet(key, field string) (string, error) {
 	return redisConn.HGet(context.Background(), key, field).Result()
 }
