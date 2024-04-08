@@ -25,3 +25,12 @@ func SliceBoolToInt(booleans []bool) (integers []int) {
 	}
 	return integers
 }
+
+func isElementExist[T comparable](list []T, element T) bool {
+	for _, e := range list {
+		if e == element {
+			return true
+		}
+	}
+	return false
+}
