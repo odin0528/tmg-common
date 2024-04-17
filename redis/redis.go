@@ -49,6 +49,14 @@ func InitRedis(ctx context.Context) error {
 	return nil
 }
 
+func GetRedisClient() *redis.Client {
+	if redisConn != nil {
+		return redisConn
+	}
+
+	return nil
+}
+
 func ClearAll() {
 	clearCmsLoginCache()
 }
