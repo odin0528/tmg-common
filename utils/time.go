@@ -117,3 +117,7 @@ func FormatDateTimeString(timeStr string, format string) string {
 	utcTime, _ := time.Parse(TIME_FORMAT_WITH_MICRO_SEC, timeStr)
 	return utcTime.Format(format)
 }
+
+func ConvertToDateString(when time.Time) string {
+	return when.In(TaiwanTimezone).Format(DATE_FORMAT)
+}

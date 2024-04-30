@@ -41,3 +41,11 @@ func GetSingleWalletFieldKey(roundId, playerAccount string) string {
 func GetSingleWalletLockKey(hashMapKey, filedKey string) string {
 	return fmt.Sprintf("%s_%s", hashMapKey, filedKey)
 }
+
+func GetDailyBetRankKey(gameName, currency string) string {
+	now := time.Now()
+	date := utils.ConvertToDateString(now)
+
+	cacheKey := GetCacheKey(DAILY_BET_RANK_KEY, date, gameName, currency)
+	return cacheKey
+}
