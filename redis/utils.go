@@ -51,3 +51,7 @@ func GetDailyBetRankKey(gameName, currency string) string {
 	cacheKey := GetCacheKey(DAILY_BET_RANK_KEY, date, gameName, currency)
 	return cacheKey
 }
+
+func GetScriptKey(gameName string, featureIndex, featureSecondIndex int) string {
+	return fmt.Sprintf("%s_%d_%d", gameName, featureIndex, featureSecondIndex)
+}

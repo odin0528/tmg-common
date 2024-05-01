@@ -438,6 +438,7 @@ func PutInHashMap(key string, values map[string]interface{}) (err error) {
 	return redisConn.HSet(context.Background(), key, setValueMap).Err()
 }
 
+// If field not exist, return "redis: nil" error msg
 func GetHashMap(key string, field string) (result string, err error) {
 	return redisConn.HGet(context.Background(), key, field).Result()
 }
