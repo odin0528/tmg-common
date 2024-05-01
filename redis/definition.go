@@ -73,6 +73,9 @@ const (
 	DEFAULT_SCAN_AMOUNT = 100
 
 	DEBUG_MAX_SINGLE_WALLET_WITHDRAW_RETRY_CACHE_KEY = "max_single_wallet_withdraw_retry_limit"
+
+	RISK_CONTROL_SCRIPT_WEIGHT_HASH_KEY      = "risk_control_script_weight_hash_key"
+	RISK_CONTROL_SCRIPT_WEIGHT_HASH_LOCK_KEY = "risk_control_script_weight_hash_lock"
 )
 
 var REDIS_IS_NIL_ERR error = redis.Nil
