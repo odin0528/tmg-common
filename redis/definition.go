@@ -68,7 +68,7 @@ const (
 
 	DAILY_BET_RANK_KEY = "daily_bet_rank_key"
 
-	DAILY_BET_RANK_KEY_DURATION = time.Minute * 3
+	DAILY_BET_RANK_KEY_DURATION = time.Minute * 1
 
 	DEFAULT_SCAN_AMOUNT = 100
 
