@@ -76,6 +76,7 @@ const (
 
 	RISK_CONTROL_SCRIPT_WEIGHT_HASH_KEY      = "risk_control_script_weight_hash_key"
 	RISK_CONTROL_SCRIPT_WEIGHT_HASH_LOCK_KEY = "risk_control_script_weight_hash_lock"
+	RISK_CONTROL_ODDS_TYPE_BACKUP_HASH_KEY   = "risk_control_odds_type_backup_hash_key"
 )
 
 var REDIS_IS_NIL_ERR error = redis.Nil
