@@ -57,6 +57,10 @@ func GetRedisClient() *redis.Client {
 	return nil
 }
 
+func ClearApiCenterKey() {
+	Delete([]string{RISK_CONTROL_ODDS_TYPE_BACKUP_HASH_KEY})
+}
+
 func ClearAll() {
 	clearCmsLoginCache()
 }
