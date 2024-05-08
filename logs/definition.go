@@ -60,6 +60,7 @@ const (
 	LOG_KEY_API                 = "api"
 	LOG_KEY_SINGLE_WALLET       = "single_wallet"
 	LOG_KEY_ROLE                = "role"
+	LOG_KEY_RISK_CONTROL        = "risk_control"
 )
 
 const (
