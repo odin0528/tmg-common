@@ -77,10 +77,22 @@ const (
 	RISK_CONTROL_SCRIPT_WEIGHT_HASH_KEY      = "risk_control_script_weight_hash_key"
 	RISK_CONTROL_SCRIPT_WEIGHT_HASH_LOCK_KEY = "risk_control_script_weight_hash_lock"
 	RISK_CONTROL_ODDS_TYPE_BACKUP_HASH_KEY   = "risk_control_odds_type_backup_hash_key"
+	RISK_CONTROL_HASH_KEY                    = "risk_control_hash_key"
+
+	GAME_CURRENT_RTP_KEY           = "game_current_rtp"
+	GAME_CURRENT_RTP_DATE_LIST_KEY = "game_current_rtp_date_list"
 )
 
 var REDIS_IS_NIL_ERR error = redis.Nil
 
 type CmsLoginTimeoutCacheInfo struct {
 	ExpiredTime time.Time `json:"expired_time"`
+}
+
+type GameRtpInfo struct {
+	CurrentRtp   decimal.Decimal
+	LastAlertRtp decimal.Decimal
+	TotalIncome  decimal.Decimal
+	TotalBet     decimal.Decimal
+	TotalCount   int
 }
