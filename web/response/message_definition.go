@@ -17,6 +17,7 @@ const (
 	MSG_TRANSFER_FAILED_PLAYER_IS_PLAYING = "transfer out failed, player is playing"
 	MSG_AUTH_PROVIDER_IS_EMPTY            = "provider-code is null"
 	MSG_AUTH_PROVIDER_NOT_EXIST           = "provider-code is not exist"
+	MSG_ACCOUNT_IS_NOT_ACTIVE             = "account is not active"
 )
 
 // api
