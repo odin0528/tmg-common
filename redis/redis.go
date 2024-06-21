@@ -49,6 +49,18 @@ func InitRedis(ctx context.Context) error {
 	return nil
 }
 
+func GetRedisClient() *redis.Client {
+	if redisConn != nil {
+		return redisConn
+	}
+
+	return nil
+}
+
+func ClearApiCenterKey() {
+	Delete([]string{RISK_CONTROL_ODDS_TYPE_BACKUP_HASH_KEY})
+}
+
 func ClearAll() {
 	clearCmsLoginCache()
 }
@@ -430,6 +442,7 @@ func PutInHashMap(key string, values map[string]interface{}) (err error) {
 	return redisConn.HSet(context.Background(), key, setValueMap).Err()
 }
 
+// If field not exist, return "redis: nil" error msg
 func GetHashMap(key string, field string) (result string, err error) {
 	return redisConn.HGet(context.Background(), key, field).Result()
 }
@@ -519,6 +532,10 @@ func Scan(pattern string) ([]string, error) {
 	}
 
 	return result, nil
+}
+
+func HExists(key, field string) (bool, error) {
+	return redisConn.HExists(context.Background(), key, field).Result()
 }
 
 func HGet(key, field string) (string, error) {
