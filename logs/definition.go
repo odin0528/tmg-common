@@ -100,6 +100,7 @@ const (
 	FIELD_KEY_OLD_RESULT    = "old_result"
 	FIELD_KEY_NEW_RESULT    = "new_result"
 	FIELD_KEY_RISK_INFO     = "risk_info"
+	FIELD_KEY_RETRY         = "retry"
 )
 
 var level zap.AtomicLevel
