@@ -3,11 +3,11 @@ package utils
 import (
 	"encoding/json"
 	"errors"
-	"game_server/common/math_tool"
-	"game_server/common/uid"
-	"game_server/common/web/response"
 	math_rand "math/rand"
 	"time"
+	"xxx/common/math_tool"
+	"xxx/common/uid"
+	"xxx/common/web/response"
 
 	"github.com/gonum/stat/sampleuv"
 	"github.com/prometheus/common/log"
