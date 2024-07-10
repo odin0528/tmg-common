@@ -3,9 +3,15 @@ package utils
 import (
 	"encoding/json"
 	"errors"
+	"game_server/common/math_tool"
+	"game_server/common/uid"
 	"game_server/common/web/response"
+	math_rand "math/rand"
+	"time"
 
 	"github.com/gonum/stat/sampleuv"
+	"github.com/prometheus/common/log"
+	"github.com/seehuhn/mt19937"
 )
 
 func ToGenericSlice[T any](input []T) []any {
@@ -38,6 +44,7 @@ func ToStringSpecifiedTypeMap[T any](input map[string]interface{}) (map[string]T
 
 func PickByWeights(weights []float64) (idx int) {
 	if len(weights) == 0 {
+		log.Error("weights is empty")
 		return 0
 	}
 
@@ -45,6 +52,21 @@ func PickByWeights(weights []float64) (idx int) {
 		weights,
 		nil,
 	)
+
+	idx, _ = weightHandler.Take()
+
+	return idx
+}
+
+func PickByWeightsV2(weights []float64) (idx int) {
+	if len(weights) == 0 {
+		log.Error("weights is empty")
+		return 0
+	}
+
+	src := math_rand.New(mt19937.New())
+	src.Seed(int64(uid.GenerateUniqueID()) + time.Now().UnixNano())
+	weightHandler := math_tool.NewWeighted(weights, src)
 
 	idx, _ = weightHandler.Take()
 
