@@ -13,6 +13,7 @@ const (
 	SECTION_LOG                       = "log"
 	SECTION_DATABASE_REAL_TIME        = "database_real_time"
 	SECTION_DATABASE_RECORD           = "database_record"
+	SECTION_DATABASE_SCRIPT           = "database_script"
 	SECTION_DATABASE_REAL_TIME_SYSTEM = "database_real_time_system"
 	SECTION_MONGO_DATABASE_RECORD     = "mongo_database_record"
 	SECTION_CACHE                     = "cache"
