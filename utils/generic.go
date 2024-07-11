@@ -3,14 +3,13 @@ package utils
 import (
 	"encoding/json"
 	"errors"
-	"game_server/common/math_tool"
-	"game_server/common/uid"
-	"game_server/common/web/response"
+	"log"
 	math_rand "math/rand"
 	"time"
+	"xxx/common/math_tool"
+	"xxx/common/uid"
+	"xxx/common/web/response"
 
-	"github.com/gonum/stat/sampleuv"
-	"github.com/prometheus/common/log"
 	"github.com/seehuhn/mt19937"
 )
 
@@ -44,23 +43,7 @@ func ToStringSpecifiedTypeMap[T any](input map[string]interface{}) (map[string]T
 
 func PickByWeights(weights []float64) (idx int) {
 	if len(weights) == 0 {
-		log.Error("weights is empty")
-		return 0
-	}
-
-	weightHandler := sampleuv.NewWeighted(
-		weights,
-		nil,
-	)
-
-	idx, _ = weightHandler.Take()
-
-	return idx
-}
-
-func PickByWeightsV2(weights []float64) (idx int) {
-	if len(weights) == 0 {
-		log.Error("weights is empty")
+		log.Println("weights is empty")
 		return 0
 	}
 
