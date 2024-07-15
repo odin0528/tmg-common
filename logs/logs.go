@@ -4,13 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"xxx/common/configs"
-	"xxx/common/utils"
 	"os"
 	"reflect"
 	"strings"
 	"syscall"
 	"time"
+	"xxx/common/configs"
+	"xxx/common/utils"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -58,6 +58,11 @@ func InitLogs() {
 	if httpLogger != nil {
 		httpLogger.Sync()
 		httpLoggerCloseFunc()
+	}
+
+	if riskControlLogger != nil {
+		riskControlLogger.Sync()
+		riskControlLoggerCloseFunc()
 	}
 
 	files := configs.Get(configs.SECTION_LOG, configs.LOG_FILE, configs.LOG_DEFAULT_FILE)
@@ -109,6 +114,14 @@ func InitLogs() {
 				httpLogger, httpLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_HTTP))
 			} else {
 				httpLogger, httpLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_HTTP))
+			}
+		}
+
+		if file == LOG_FILE_RISK_CONTROL {
+			if isDaily == configs.YES {
+				riskControlLogger, riskControlLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RISK_CONTROL))
+			} else {
+				riskControlLogger, riskControlLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RISK_CONTROL))
 			}
 		}
 	}
@@ -234,6 +247,8 @@ func getLogger(logType string) *zap.Logger {
 		outputLogger = betLogger
 	case LOG_TYPE_HTTP:
 		outputLogger = httpLogger
+	case LOG_TYPE_RISK_CONTROL:
+		outputLogger = riskControlLogger
 	default:
 		outputLogger = systemLogger
 	}
