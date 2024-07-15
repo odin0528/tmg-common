@@ -3,9 +3,14 @@ package utils
 import (
 	"encoding/json"
 	"errors"
+	"log"
+	math_rand "math/rand"
+	"mgmt/common/math_tool"
+	"mgmt/common/uid"
 	"mgmt/common/web/response"
+	"time"
 
-	"github.com/gonum/stat/sampleuv"
+	"github.com/seehuhn/mt19937"
 )
 
 func ToGenericSlice[T any](input []T) []any {
@@ -38,13 +43,13 @@ func ToStringSpecifiedTypeMap[T any](input map[string]interface{}) (map[string]T
 
 func PickByWeights(weights []float64) (idx int) {
 	if len(weights) == 0 {
+		log.Println("weights is empty")
 		return 0
 	}
 
-	weightHandler := sampleuv.NewWeighted(
-		weights,
-		nil,
-	)
+	src := math_rand.New(mt19937.New())
+	src.Seed(int64(uid.GenerateUniqueID()) + time.Now().UnixNano())
+	weightHandler := math_tool.NewWeighted(weights, src)
 
 	idx, _ = weightHandler.Take()
 
