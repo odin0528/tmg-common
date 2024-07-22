@@ -18,7 +18,7 @@ func GetEventResponse(event string, code int, msg string, data interface{}) []by
 
 	byteArray, _ := json.Marshal(rsp)
 
-	if encodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_ENABLE_WEBSOCKET_ENCODE, configs.ENABLE_WS_BASE64); encodeType == configs.ENABLE_WS_BASE64 {
+	if encodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_ENCODE_MODE, configs.ENABLE_WS_BASE64); encodeType == configs.ENABLE_WS_BASE64 {
 		encode := EncodeBybase64(byteArray)
 		return encode
 	} else if encodeType == configs.ENABLE_WS_MSG_PACK {
@@ -36,7 +36,7 @@ func GetServerErrorResponse(code int, msg string) []byte {
 func ParseEvent(message []byte) (Event, error) {
 	var event Event
 
-	if decodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_ENABLE_WEBSOCKET_DECODE, configs.ENABLE_WS_BASE64); decodeType == configs.ENABLE_WS_BASE64 {
+	if decodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_DECODE_MODE, configs.ENABLE_WS_BASE64); decodeType == configs.ENABLE_WS_BASE64 {
 		decode, _ := DecodeByBase64(message)
 		err := json.Unmarshal(decode, &event)
 		return event, err
