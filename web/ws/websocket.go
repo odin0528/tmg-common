@@ -22,7 +22,7 @@ func GetEventResponse(event string, code int, msg string, data interface{}) []by
 		encode := EncodeBybase64(byteArray)
 		return encode
 	} else if encodeType == configs.ENABLE_WS_MSG_PACK {
-		encode, _ := EncodeByMsgpack(&rsp)
+		encode, _ := EncodeByMsgpack(byteArray)
 		return encode
 	}
 
@@ -41,7 +41,8 @@ func ParseEvent(message []byte) (Event, error) {
 		err := json.Unmarshal(decode, &event)
 		return event, err
 	} else if decodeType == configs.ENABLE_WS_MSG_PACK {
-		err := DecodeByMsgpack(message, &event)
+		decode, _ := DecodeByMsgpack(message)
+		err := json.Unmarshal(decode, &event)
 		return event, err
 	}
 
@@ -58,10 +59,12 @@ func DecodeByBase64(src []byte) ([]byte, error) {
 	return base64.StdEncoding.DecodeString(string(src))
 }
 
-func EncodeByMsgpack(src interface{}) ([]byte, error) {
+func EncodeByMsgpack(src []byte) ([]byte, error) {
 	return msgpack.Marshal(src)
 }
 
-func DecodeByMsgpack(src []byte, dst interface{}) error {
-	return msgpack.Unmarshal(src, dst)
+func DecodeByMsgpack(src []byte) ([]byte, error) {
+	var data []byte
+	err := msgpack.Unmarshal(src, &data)
+	return data, err
 }
