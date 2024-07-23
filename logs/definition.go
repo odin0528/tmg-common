@@ -104,6 +104,10 @@ const (
 	FIELD_KEY_RISK_INFO            = "risk_info"
 	FIELD_KEY_RETRY                = "retry"
 	FIELD_KEY_CURRENT_NUMBER_INDEX = "current_number_index"
+	FIELD_KEY_FEATURE_INDEX        = "feature_index"
+	FIELD_KEY_FEATURE_SECOND_INDEX = "feature_second_index"
+	FIELD_KEY_ODDS_TYPE            = "odds_type"
+	FIELD_KEY_CONDITION            = "condition"
 )
 
 var level zap.AtomicLevel

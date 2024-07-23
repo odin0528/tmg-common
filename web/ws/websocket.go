@@ -4,6 +4,8 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"game_server/common/configs"
+
+	"github.com/vmihailenco/msgpack/v5"
 )
 
 func GetEventResponse(event string, code int, msg string, data interface{}) []byte {
@@ -16,8 +18,11 @@ func GetEventResponse(event string, code int, msg string, data interface{}) []by
 
 	byteArray, _ := json.Marshal(rsp)
 
-	if configs.Get(configs.SECTION_SYSTEM, configs.SYSTEM_ENABLE_WEBSOCKET_ENCODE, configs.YES) == configs.YES {
+	if encodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_ENCODE_MODE, configs.ENABLE_WS_BASE64); encodeType == configs.ENABLE_WS_BASE64 {
 		encode := EncodeBybase64(byteArray)
+		return encode
+	} else if encodeType == configs.ENABLE_WS_MSG_PACK {
+		encode, _ := EncodeByMsgpack(&rsp)
 		return encode
 	}
 
@@ -31,9 +36,12 @@ func GetServerErrorResponse(code int, msg string) []byte {
 func ParseEvent(message []byte) (Event, error) {
 	var event Event
 
-	if configs.Get(configs.SECTION_SYSTEM, configs.SYSTEM_ENABLE_WEBSOCKET_DECODE, configs.YES) == configs.YES {
+	if decodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_DECODE_MODE, configs.ENABLE_WS_BASE64); decodeType == configs.ENABLE_WS_BASE64 {
 		decode, _ := DecodeByBase64(message)
 		err := json.Unmarshal(decode, &event)
+		return event, err
+	} else if decodeType == configs.ENABLE_WS_MSG_PACK {
+		err := DecodeByMsgpack(message, &event)
 		return event, err
 	}
 
@@ -48,4 +56,12 @@ func EncodeBybase64(src []byte) []byte {
 
 func DecodeByBase64(src []byte) ([]byte, error) {
 	return base64.StdEncoding.DecodeString(string(src))
+}
+
+func EncodeByMsgpack(src interface{}) ([]byte, error) {
+	return msgpack.Marshal(src)
+}
+
+func DecodeByMsgpack(src []byte, dst interface{}) error {
+	return msgpack.Unmarshal(src, dst)
 }
