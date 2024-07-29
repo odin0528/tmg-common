@@ -17,6 +17,11 @@ const (
 	SECTION_MONGO_DATABASE_RECORD     = "mongo_database_record"
 	SECTION_CACHE                     = "cache"
 	SECTION_BOT                       = "bot"
+	SECTION_DATABASE_REAL_TIME_READ   = "database_real_time_read"
+	SECTION_DATABASE_RECORD_READ      = "database_record_read"
+	SECTION_DATABASE_SCRIPT_READ      = "database_script_read"
+	SECTION_DATABASE_REAL_TIME_WRITE  = "database_real_time_write"
+	SECTION_DATABASE_RECORD_WRITE     = "database_record_write"
 
 	SYSTEM_HTTP_PORT             string = "http_port"
 	SYSTEM_APP_MODE              string = "app_mode"
@@ -30,6 +35,7 @@ const (
 	SYSTEM_ENABLE_HUNDRED_BOT    string = "enable_hundred_bot"
 	SYSTEM_ENABLE_LOBBY_OVERALL  string = "enable_lobby_overall"
 	SYSTEM_EXCLUDE_CURRENCIES    string = "exclude_currencies"
+	SYSTEM_HUNDRED_ROOM_TYPE     string = "hundred_room_type"
 
 	WEB_API_API_CENTER_DOMAIN             string = "api_center_domain"
 	WEB_API_ALLOW_CORS_DOMAIN             string = "allowed_cors_domain"
