@@ -36,6 +36,7 @@ const (
 	SYSTEM_ENABLE_LOBBY_OVERALL  string = "enable_lobby_overall"
 	SYSTEM_EXCLUDE_CURRENCIES    string = "exclude_currencies"
 	SYSTEM_HUNDRED_ROOM_TYPE     string = "hundred_room_type"
+	SYSTEM_ENABLE_PRESET_ROOM    string = "enable_preset_room"
 
 	WEB_API_API_CENTER_DOMAIN             string = "api_center_domain"
 	WEB_API_ALLOW_CORS_DOMAIN             string = "allowed_cors_domain"
