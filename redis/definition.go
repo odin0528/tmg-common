@@ -98,3 +98,8 @@ type GameRtpInfo struct {
 	TotalBet     decimal.Decimal
 	TotalCount   int
 }
+
+type GameCountingBuyFeatureInfo struct {
+	FGCount int
+	BGCount int
+}
