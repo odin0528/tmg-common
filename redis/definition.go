@@ -82,6 +82,7 @@ const (
 
 	GAME_CURRENT_RTP_KEY           = "game_current_rtp"
 	GAME_CURRENT_RTP_DATE_LIST_KEY = "game_current_rtp_date_list"
+	GAME_COUNTING_BUY_FEATURE_KEY  = "game_counting_buy_feature"
 )
 
 var REDIS_IS_NIL_ERR error = redis.Nil

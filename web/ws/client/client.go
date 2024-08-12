@@ -5,6 +5,8 @@ import (
 	"mgmt/common/web/response"
 	"sync/atomic"
 	"time"
+	"xxx/common/configs"
+	"xxx/common/web/response"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
@@ -41,7 +43,11 @@ func (client *WsClient) InitSender() {
 			}
 			msg, ok := <-client.sendChannal
 			if ok {
-				client.socket.WriteMessage(websocket.TextMessage, msg)
+				if decodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_DECODE_MODE, configs.ENABLE_WS_BASE64); decodeType == configs.ENABLE_WS_MSG_PACK {
+					client.socket.WriteMessage(websocket.BinaryMessage, msg)
+				} else {
+					client.socket.WriteMessage(websocket.TextMessage, msg)
+				}
 			}
 		}
 	}()
