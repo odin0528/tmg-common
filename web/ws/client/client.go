@@ -2,6 +2,8 @@ package client
 
 import (
 	"errors"
+	"fmt"
+	"strconv"
 	"sync/atomic"
 	"time"
 	"xxx/common/configs"
@@ -42,7 +44,30 @@ func (client *WsClient) InitSender() {
 			}
 			msg, ok := <-client.sendChannal
 			if ok {
-				if decodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_DECODE_MODE, configs.ENABLE_WS_BASE64); decodeType == configs.ENABLE_WS_MSG_PACK {
+				if encodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_ENCODE_MODE, configs.ENABLE_WS_BASE64); encodeType == configs.ENABLE_WS_MSG_PACK {
+
+					randomNum := math_tool.GetRandInt(10) + 1
+
+					gameName := "CALL_UFO"
+					gameNameLen := len(gameName)
+
+					shiftLength := randomNum + gameNameLen
+
+					if shiftLength < len(msg) {
+						shiftedMsg := append(msg[len(msg)-shiftLength:], msg[:len(msg)-shiftLength]...)
+						msg = shiftedMsg
+					}
+
+					hexStr := fmt.Sprintf("%02x", randomNum)         // 補0 確保為2位組
+					hexByte, err := strconv.ParseUint(hexStr, 16, 8) // 轉換為無符號整數，位數 8
+					if err != nil {
+						fmt.Println("Error parsing hex string:", err)
+						return
+					}
+					byteValue := byte(hexByte) // 轉換為 byte
+					// 6. Insert the generated hexadecimal number into the first byte of the shifted data
+					msg[0] = byteValue
+
 					client.socket.WriteMessage(websocket.BinaryMessage, msg)
 				} else {
 					client.socket.WriteMessage(websocket.TextMessage, msg)
