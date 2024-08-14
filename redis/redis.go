@@ -593,3 +593,9 @@ type RedisPubSub struct {
 func (ps *RedisPubSub) ReceiveMsg() (*redis.Message, error) {
 	return ps.ReceiveMessage(context.Background())
 }
+
+func IsExistByAllType(key string) bool {
+	result, err := redisConn.Exists(context.Background(), key).Result()
+
+	return err == nil && result == 1
+}
