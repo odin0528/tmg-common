@@ -2,7 +2,9 @@ package ws
 
 import (
 	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
+	"strings"
 	"xxx/common/configs"
 
 	"github.com/vmihailenco/msgpack/v5"
@@ -24,6 +26,10 @@ func GetEventResponse(event string, code int, msg string, data interface{}) []by
 	} else if encodeType == configs.ENABLE_WS_MSG_PACK {
 		encode, _ := EncodeByMsgpack(byteArray)
 		return encode
+	} else if encodeType == configs.ENABLE_WS_MIX_BASE64_MSG_PACK {
+		encode, _ := EncodeByMsgpack(byteArray)
+		encode = EncodeBybase64(encode)
+		return encode
 	}
 
 	return byteArray
@@ -43,6 +49,24 @@ func ParseEvent(message []byte) (Event, error) {
 	} else if decodeType == configs.ENABLE_WS_MSG_PACK {
 		decode, _ := DecodeByMsgpack(message)
 		err := json.Unmarshal(decode, &event)
+		return event, err
+	} else if decodeType == configs.ENABLE_WS_MIX_BASE64_MSG_PACK {
+		cleanedHexStr := strings.ReplaceAll(string(message), "\n", "")
+		cleanedHexStr = strings.ReplaceAll(cleanedHexStr, " ", "")
+		bytes, err := hex.DecodeString(cleanedHexStr)
+		hexInt := int(bytes[0])
+		var shiftedBytes []byte
+		if hexInt < len(bytes) {
+			bytes = bytes[1:]
+			shiftedBytes = append(bytes[hexInt:], bytes[:hexInt]...)
+		}
+
+		base64Decode, _ := DecodeByBase64(shiftedBytes)
+
+		msgpackDecode, _ := DecodeByMsgpack(base64Decode)
+
+		err = json.Unmarshal(msgpackDecode, &event)
+
 		return event, err
 	}
 
