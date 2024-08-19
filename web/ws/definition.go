@@ -3,6 +3,7 @@ package ws
 const (
 	EVENT_WS_WEBSOCKET    = "websocket"
 	EVENT_WS_SERVER_ERROR = "server_error"
+	EVENT_WS_KEEP_ALIVE   = "keep_alive"
 )
 
 type Event struct {
