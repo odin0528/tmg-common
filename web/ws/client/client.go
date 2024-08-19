@@ -7,6 +7,7 @@ import (
 	"time"
 	"xxx/common/configs"
 	"xxx/common/web/response"
+	"xxx/common/web/ws"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
@@ -27,6 +28,11 @@ func (client *WsClient) InitReader(callback func(client *WsClient, message []byt
 	go func() {
 		for {
 			_, msg, err := client.socket.ReadMessage()
+
+			if client.keepAlive(msg) {
+				continue
+			}
+
 			callback(client, msg, err)
 			if err != nil {
 				return
@@ -112,4 +118,20 @@ func (client *WsClient) SetClose() {
 
 func (client *WsClient) GetID() string {
 	return client.id
+}
+
+func (client *WsClient) keepAlive(msg []byte) bool {
+
+	event, err := ws.ParseEvent(msg)
+
+	if err != nil {
+		return false
+	}
+
+	if event.Event != ws.EVENT_WS_KEEP_ALIVE {
+		return false
+	}
+
+	client.Send(ws.GetEventResponse(ws.EVENT_WS_KEEP_ALIVE, response.CODE_SUCCESS, response.MSG_SUCCESS, nil))
+	return true
 }
