@@ -2,8 +2,6 @@ package client
 
 import (
 	"errors"
-	"fmt"
-	"strconv"
 	"sync/atomic"
 	"time"
 	"xxx/common/configs"
@@ -46,27 +44,6 @@ func (client *WsClient) InitSender() {
 			if ok {
 				encodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_ENCODE_MODE, configs.ENABLE_WS_BASE64)
 				switch encodeType {
-				case configs.ENABLE_WS_MIX_BASE64_MSG_PACK:
-					randomNum := math_tool.GetRandInt(10) + 1
-
-					shiftLength := randomNum
-
-					if shiftLength < len(msg) {
-						shiftedMsg := append(msg[len(msg)-shiftLength:], msg[:len(msg)-shiftLength]...)
-						msg = shiftedMsg
-					}
-
-					hexStr := fmt.Sprintf("%02x", shiftLength)       // 補0 確保為2位組
-					hexByte, err := strconv.ParseUint(hexStr, 16, 8) // 轉換為無符號整數，位數 8
-					if err != nil {
-						fmt.Println("Error parsing hex string:", err)
-						return
-					}
-					hexByteValue := byte(hexByte) // 轉換為 byte
-
-					msg = append([]byte{hexByteValue}, msg...)
-
-					client.socket.WriteMessage(websocket.BinaryMessage, msg)
 				case configs.ENABLE_WS_MSG_PACK:
 					client.socket.WriteMessage(websocket.BinaryMessage, msg)
 				default:

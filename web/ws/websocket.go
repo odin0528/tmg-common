@@ -2,10 +2,11 @@ package ws
 
 import (
 	"encoding/base64"
-	"encoding/hex"
 	"encoding/json"
-	"strings"
+	"fmt"
+	"strconv"
 	"xxx/common/configs"
+	"xxx/common/math_tool"
 
 	"github.com/vmihailenco/msgpack/v5"
 )
@@ -26,9 +27,24 @@ func GetEventResponse(event string, code int, msg string, data interface{}) []by
 	} else if encodeType == configs.ENABLE_WS_MSG_PACK {
 		encode, _ := EncodeByMsgpack(byteArray)
 		return encode
-	} else if encodeType == configs.ENABLE_WS_MIX_BASE64_MSG_PACK {
-		encode, _ := EncodeByMsgpack(byteArray)
+	} else if encodeType == configs.ENABLE_WS_MIX_BASE64_SHIFT {
+		// base64 > shift > add randNum(2位組的16進制)在字段最前方 > base64
+		encode := EncodeBybase64(byteArray)
+
+		randomNum := math_tool.GetRandInt(len(encode)) + 1
+
+		shiftLength := randomNum
+
+		if shiftLength < len(encode) {
+			shiftedResult := append(encode[len(encode)-shiftLength:], encode[:len(encode)-shiftLength]...)
+			encode = shiftedResult
+		}
+
+		hexStr := fmt.Sprintf("%02x", shiftLength) // 補0 確保為2位組
+
+		encode = append([]byte(hexStr), encode...)
 		encode = EncodeBybase64(encode)
+
 		return encode
 	}
 
@@ -50,22 +66,27 @@ func ParseEvent(message []byte) (Event, error) {
 		decode, _ := DecodeByMsgpack(message)
 		err := json.Unmarshal(decode, &event)
 		return event, err
-	} else if decodeType == configs.ENABLE_WS_MIX_BASE64_MSG_PACK {
-		cleanedHexStr := strings.ReplaceAll(string(message), "\n", "")
-		cleanedHexStr = strings.ReplaceAll(cleanedHexStr, " ", "")
-		bytes, err := hex.DecodeString(cleanedHexStr)
-		hexInt := int(bytes[0])
-		var shiftedBytes []byte
-		if hexInt < len(bytes) {
-			bytes = bytes[1:]
-			shiftedBytes = append(bytes[hexInt:], bytes[:hexInt]...)
+	} else if decodeType == configs.ENABLE_WS_MIX_BASE64_SHIFT {
+		decode, _ := DecodeByBase64(message)
+
+		randomNum := string(decode)[:2]
+
+		shiftLength64, err := strconv.ParseInt(randomNum, 16, 64)
+		if err != nil {
+			return event, err
+		}
+		shiftLength := int(shiftLength64)
+
+		decode = []byte(string(decode)[2:])
+
+		if shiftLength < len(decode) {
+			shiftedResult := append(decode[shiftLength:], decode[:shiftLength]...)
+			decode = shiftedResult
 		}
 
-		base64Decode, _ := DecodeByBase64(shiftedBytes)
+		decode, _ = DecodeByBase64(decode)
 
-		msgpackDecode, _ := DecodeByMsgpack(base64Decode)
-
-		err = json.Unmarshal(msgpackDecode, &event)
+		err = json.Unmarshal(decode, &event)
 
 		return event, err
 	}
