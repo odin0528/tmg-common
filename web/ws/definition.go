@@ -3,6 +3,8 @@ package ws
 const (
 	EVENT_WS_WEBSOCKET    = "websocket"
 	EVENT_WS_SERVER_ERROR = "server_error"
+
+	HEX_MAX_BIT = 255
 )
 
 type Event struct {

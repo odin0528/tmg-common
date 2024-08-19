@@ -31,7 +31,12 @@ func GetEventResponse(event string, code int, msg string, data interface{}) []by
 		// base64 > shift > add randNum(2位組的16進制)在字段最前方 > base64
 		encode := EncodeBybase64(byteArray)
 
-		randomNum := math_tool.GetRandInt(len(encode)) + 1
+		randomNum := 0
+		if len(encode) > HEX_MAX_BIT {
+			randomNum = math_tool.GetRandInt(HEX_MAX_BIT) + 1
+		} else {
+			randomNum = math_tool.GetRandInt(len(encode)) + 1
+		}
 
 		shiftLength := randomNum
 
