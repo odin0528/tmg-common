@@ -83,6 +83,8 @@ const (
 	GAME_CURRENT_RTP_KEY           = "game_current_rtp"
 	GAME_CURRENT_RTP_DATE_LIST_KEY = "game_current_rtp_date_list"
 	GAME_COUNTING_BUY_FEATURE_KEY  = "game_counting_buy_feature"
+
+	ANNOUNCEMENT_KEY = "announcement"
 )
 
 var REDIS_IS_NIL_ERR error = redis.Nil
@@ -102,4 +104,15 @@ type GameRtpInfo struct {
 type GameCountingBuyFeatureInfo struct {
 	FGCount int
 	BGCount int
+}
+
+type Announcement struct {
+	Id           int       `json:"id"`
+	Title        string    `json:"title"`
+	Context      string    `json:"context"`
+	Mode         int       `json:"mode"`
+	TargetRule   string    `json:"target_rule"`
+	AnnounceDate time.Time `json:"announce_date"`
+	Duration     int       `json:"duration"`
+	NotifyCount  int       `json:"notify_count"`
 }
