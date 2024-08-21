@@ -468,7 +468,7 @@ func LPush(key string, value interface{}) (err error) {
 	var putValue interface{}
 
 	switch value.(type) {
-	case string, bool, float32, float64, int, int8, int16, int32, int64:
+	case string, bool, float32, float64, int, int8, int16, int32, int64, []uint8:
 		putValue = value
 	default:
 		json := jsoniter.ConfigCompatibleWithStandardLibrary
