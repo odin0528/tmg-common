@@ -5,6 +5,8 @@ const (
 	EVENT_WS_SERVER_ERROR = "server_error"
 	EVENT_WS_KEEP_ALIVE   = "keep_alive"
 	EVENT_WS_ANNOUNCEMENT = "announcement"
+
+	HEX_MAX_BIT = 255
 )
 
 type Event struct {

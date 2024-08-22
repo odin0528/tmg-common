@@ -3,7 +3,10 @@ package ws
 import (
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"game_server/common/configs"
+	"game_server/common/math_tool"
+	"strconv"
 
 	"github.com/vmihailenco/msgpack/v5"
 )
@@ -24,6 +27,30 @@ func GetEventResponse(event string, code int, msg string, data interface{}) []by
 	} else if encodeType == configs.ENABLE_WS_MSG_PACK {
 		encode, _ := EncodeByMsgpack(byteArray)
 		return encode
+	} else if encodeType == configs.ENABLE_WS_MIX_BASE64_SHIFT {
+		// base64 > shift > add randNum(2位組的16進制)在字段最前方 > base64
+		encode := EncodeBybase64(byteArray)
+
+		randomNum := 0
+		if len(encode) > HEX_MAX_BIT {
+			randomNum = math_tool.GetRandInt(HEX_MAX_BIT) + 1
+		} else {
+			randomNum = math_tool.GetRandInt(len(encode)) + 1
+		}
+
+		shiftLength := randomNum
+
+		if shiftLength < len(encode) {
+			shiftedResult := append(encode[len(encode)-shiftLength:], encode[:len(encode)-shiftLength]...)
+			encode = shiftedResult
+		}
+
+		hexStr := fmt.Sprintf("%02x", shiftLength) // 補0 確保為2位組
+
+		encode = append([]byte(hexStr), encode...)
+		encode = EncodeBybase64(encode)
+
+		return encode
 	}
 
 	return byteArray
@@ -43,6 +70,29 @@ func ParseEvent(message []byte) (Event, error) {
 	} else if decodeType == configs.ENABLE_WS_MSG_PACK {
 		decode, _ := DecodeByMsgpack(message)
 		err := json.Unmarshal(decode, &event)
+		return event, err
+	} else if decodeType == configs.ENABLE_WS_MIX_BASE64_SHIFT {
+		decode, _ := DecodeByBase64(message)
+
+		randomNum := string(decode)[:2]
+
+		shiftLength64, err := strconv.ParseInt(randomNum, 16, 64)
+		if err != nil {
+			return event, err
+		}
+		shiftLength := int(shiftLength64)
+
+		decode = []byte(string(decode)[2:])
+
+		if shiftLength < len(decode) {
+			shiftedResult := append(decode[shiftLength:], decode[:shiftLength]...)
+			decode = shiftedResult
+		}
+
+		decode, _ = DecodeByBase64(decode)
+
+		err = json.Unmarshal(decode, &event)
+
 		return event, err
 	}
 

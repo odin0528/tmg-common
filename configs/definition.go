@@ -101,9 +101,10 @@ const (
 
 	ENABLE_GUEST = "enable_guest"
 
-	ENABLE_WS_UNSPECIFIED int = 0
-	ENABLE_WS_BASE64      int = 1
-	ENABLE_WS_MSG_PACK    int = 2
+	ENABLE_WS_UNSPECIFIED      int = 0
+	ENABLE_WS_BASE64           int = 1
+	ENABLE_WS_MSG_PACK         int = 2
+	ENABLE_WS_MIX_BASE64_SHIFT int = 3
 )
 
 var configMutex sync.RWMutex
