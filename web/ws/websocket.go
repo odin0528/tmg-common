@@ -3,6 +3,7 @@ package ws
 import (
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"strconv"
 	"xxx/common/configs"
@@ -72,6 +73,10 @@ func ParseEvent(message []byte) (Event, error) {
 		err := json.Unmarshal(decode, &event)
 		return event, err
 	} else if decodeType == configs.ENABLE_WS_MIX_BASE64_SHIFT {
+		if len(message) == 0 {
+			return event, errors.New("message is empty")
+		}
+
 		decode, _ := DecodeByBase64(message)
 
 		randomNum := string(decode)[:2]
