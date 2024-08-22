@@ -48,9 +48,11 @@ func (client *WsClient) InitSender() {
 			}
 			msg, ok := <-client.sendChannal
 			if ok {
-				if decodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_DECODE_MODE, configs.ENABLE_WS_BASE64); decodeType == configs.ENABLE_WS_MSG_PACK {
+				encodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_ENCODE_MODE, configs.ENABLE_WS_BASE64)
+				switch encodeType {
+				case configs.ENABLE_WS_MSG_PACK:
 					client.socket.WriteMessage(websocket.BinaryMessage, msg)
-				} else {
+				default:
 					client.socket.WriteMessage(websocket.TextMessage, msg)
 				}
 			}
