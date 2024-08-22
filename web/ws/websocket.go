@@ -29,28 +29,7 @@ func GetEventResponse(event string, code int, msg string, data interface{}) []by
 		encode, _ := EncodeByMsgpack(byteArray)
 		return encode
 	} else if encodeType == configs.ENABLE_WS_MIX_BASE64_SHIFT {
-		// base64 > shift > add randNum(2位組的16進制)在字段最前方 > base64
-		encode := EncodeBybase64(byteArray)
-
-		randomNum := 0
-		if len(encode) > HEX_MAX_BIT {
-			randomNum = math_tool.GetRandInt(HEX_MAX_BIT) + 1
-		} else {
-			randomNum = math_tool.GetRandInt(len(encode)) + 1
-		}
-
-		shiftLength := randomNum
-
-		if shiftLength < len(encode) {
-			shiftedResult := append(encode[len(encode)-shiftLength:], encode[:len(encode)-shiftLength]...)
-			encode = shiftedResult
-		}
-
-		hexStr := fmt.Sprintf("%02x", shiftLength) // 補0 確保為2位組
-
-		encode = append([]byte(hexStr), encode...)
-		encode = EncodeBybase64(encode)
-
+		encode := EncodeByBase64Shift(byteArray)
 		return encode
 	}
 
@@ -73,31 +52,8 @@ func ParseEvent(message []byte) (Event, error) {
 		err := json.Unmarshal(decode, &event)
 		return event, err
 	} else if decodeType == configs.ENABLE_WS_MIX_BASE64_SHIFT {
-		if len(message) == 0 {
-			return event, errors.New("message is empty")
-		}
-
-		decode, _ := DecodeByBase64(message)
-
-		randomNum := string(decode)[:2]
-
-		shiftLength64, err := strconv.ParseInt(randomNum, 16, 64)
-		if err != nil {
-			return event, err
-		}
-		shiftLength := int(shiftLength64)
-
-		decode = []byte(string(decode)[2:])
-
-		if shiftLength < len(decode) {
-			shiftedResult := append(decode[shiftLength:], decode[:shiftLength]...)
-			decode = shiftedResult
-		}
-
-		decode, _ = DecodeByBase64(decode)
-
-		err = json.Unmarshal(decode, &event)
-
+		decode, _ := DecodeByBase64Shift(message)
+		err := json.Unmarshal(decode, &event)
 		return event, err
 	}
 
@@ -122,4 +78,56 @@ func DecodeByMsgpack(src []byte) ([]byte, error) {
 	var data []byte
 	err := msgpack.Unmarshal(src, &data)
 	return data, err
+}
+
+func EncodeByBase64Shift(src []byte) []byte {
+	// base64 > shift > add randNum(2位組的16進制)在字段最前方 > base64
+	encode := EncodeBybase64(src)
+
+	randomNum := 0
+	if len(encode) > HEX_MAX_BIT {
+		randomNum = math_tool.GetRandInt(HEX_MAX_BIT) + 1
+	} else {
+		randomNum = math_tool.GetRandInt(len(encode)) + 1
+	}
+
+	shiftLength := randomNum
+
+	if shiftLength < len(encode) {
+		shiftedResult := append(encode[len(encode)-shiftLength:], encode[:len(encode)-shiftLength]...)
+		encode = shiftedResult
+	}
+
+	hexStr := fmt.Sprintf("%02x", shiftLength) // 補0 確保為2位組
+
+	encode = append([]byte(hexStr), encode...)
+
+	return EncodeBybase64(encode)
+}
+
+func DecodeByBase64Shift(src []byte) ([]byte, error) {
+	var data []byte
+
+	if len(src) == 0 {
+		return data, errors.New("message is empty")
+	}
+
+	decode, _ := DecodeByBase64(src)
+
+	randomNum := string(decode)[:2]
+
+	shiftLength64, err := strconv.ParseInt(randomNum, 16, 64)
+	if err != nil {
+		return data, err
+	}
+	shiftLength := int(shiftLength64)
+
+	decode = []byte(string(decode)[2:])
+
+	if shiftLength < len(decode) {
+		shiftedResult := append(decode[shiftLength:], decode[:shiftLength]...)
+		decode = shiftedResult
+	}
+
+	return DecodeByBase64(decode)
 }
