@@ -112,7 +112,11 @@ func DecodeByBase64Shift(src []byte) ([]byte, error) {
 		return data, errors.New("message is empty")
 	}
 
-	decode, _ := DecodeByBase64(src)
+	decode, err := DecodeByBase64(src)
+
+	if err != nil {
+		return data, err
+	}
 
 	randomNum := string(decode)[:2]
 
