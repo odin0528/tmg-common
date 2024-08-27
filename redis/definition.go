@@ -85,6 +85,8 @@ const (
 	GAME_COUNTING_BUY_FEATURE_KEY  = "game_counting_buy_feature"
 
 	ANNOUNCEMENT_KEY = "announcement"
+
+	UPDATE_HUNDRED_GAME_KEY = "is_update_hundred_game"
 )
 
 var REDIS_IS_NIL_ERR error = redis.Nil
