@@ -87,6 +87,8 @@ const (
 	ANNOUNCEMENT_KEY = "announcement"
 
 	UPDATE_HUNDRED_GAME_KEY = "is_update_hundred_game"
+
+	DEVICE_COUNTING_FROM_LOGIN = "device_counting_from_login"
 )
 
 var REDIS_IS_NIL_ERR error = redis.Nil
@@ -117,4 +119,8 @@ type Announcement struct {
 	AnnounceDate time.Time `json:"announce_date"`
 	Duration     int       `json:"duration"`
 	NotifyCount  int       `json:"notify_count"`
+}
+
+type DeviceCountingFromLogin struct {
+	TotalCount int
 }
