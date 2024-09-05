@@ -124,3 +124,8 @@ type Announcement struct {
 type DeviceCountingFromLogin struct {
 	TotalCount int
 }
+
+type UpdateHundredGameInfo struct {
+	AgentAccountList []string `json:"agent_account_list"`
+	CurrencyList     []string `json:"currency_list"`
+}
