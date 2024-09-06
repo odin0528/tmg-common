@@ -44,6 +44,7 @@ const (
 	MSG_PLAYER_MONEY_NOT_ENOUGH          = "player's money is not enough"
 	MSG_PLAYER_MOENY_IS_OUT_OF_MAX_BET   = "player's bet money is out of max bet"
 	MSG_PLAYER_CURRENT_ROUND_HAS_BET     = "player current round has bet"
+	MSG_PLAYER_CURRENT_ROUND_NOT_BET     = "player current round not bet"
 	MSG_PLAYER_LAST_ROUND_NOT_BET        = "player last round not bet"
 	MSG_PLAYER_IS_IN_ANOTHER_GAME        = "player is in another game: %s, room id: %s, room level: %s"
 	MSG_PLAYER_ACTION_IN_WRONG_STATE     = "player can't use this action in the state"
