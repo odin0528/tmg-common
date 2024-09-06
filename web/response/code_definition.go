@@ -63,6 +63,7 @@ const (
 	CODE_IS_NOT_FREE_GAME            = 13009
 	CODE_DUPLICATE_TOKEN             = 13010
 	CODE_GAME_BET_AREA_LOCK_ERROR    = 13011
+	CODE_IS_NOT_FEATURE_GAME         = 13012
 )
 
 // db

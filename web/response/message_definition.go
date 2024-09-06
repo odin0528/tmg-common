@@ -64,6 +64,7 @@ const (
 	MSG_NOT_IN_STATE          = "not in %s state, current state: %s"
 	MSG_GAME_IN_NOT_BET_STATE = "not in bet state"
 	MSG_IS_NOT_FREE_GAME      = "game is not free game"
+	MSG_IS_NOT_FEATURE_GAME   = "game is not feature game"
 	MSG_DUPLICATE_TOKEN       = "player is duplicate"
 	MSG_BET_AREA_IS_LOCK      = "bet area is lock"
 
