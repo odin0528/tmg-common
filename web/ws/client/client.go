@@ -6,6 +6,7 @@ import (
 	"time"
 	"xxx/common/configs"
 	"xxx/common/web/response"
+	"xxx/common/web/ws"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
@@ -26,6 +27,11 @@ func (client *WsClient) InitReader(callback func(client *WsClient, message []byt
 	go func() {
 		for {
 			_, msg, err := client.socket.ReadMessage()
+
+			if client.keepAlive(msg) {
+				continue
+			}
+
 			callback(client, msg, err)
 			if err != nil {
 				return
@@ -42,9 +48,11 @@ func (client *WsClient) InitSender() {
 			}
 			msg, ok := <-client.sendChannal
 			if ok {
-				if decodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_DECODE_MODE, configs.ENABLE_WS_BASE64); decodeType == configs.ENABLE_WS_MSG_PACK {
+				encodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_ENCODE_MODE, configs.ENABLE_WS_BASE64)
+				switch encodeType {
+				case configs.ENABLE_WS_MSG_PACK:
 					client.socket.WriteMessage(websocket.BinaryMessage, msg)
-				} else {
+				default:
 					client.socket.WriteMessage(websocket.TextMessage, msg)
 				}
 			}
@@ -111,4 +119,20 @@ func (client *WsClient) SetClose() {
 
 func (client *WsClient) GetID() string {
 	return client.id
+}
+
+func (client *WsClient) keepAlive(msg []byte) bool {
+
+	event, err := ws.ParseEvent(msg)
+
+	if err != nil {
+		return false
+	}
+
+	if event.Event != ws.EVENT_WS_KEEP_ALIVE {
+		return false
+	}
+
+	client.Send(ws.GetEventResponse(ws.EVENT_WS_KEEP_ALIVE, response.CODE_SUCCESS, response.MSG_SUCCESS, nil))
+	return true
 }

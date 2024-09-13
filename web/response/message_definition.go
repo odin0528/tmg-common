@@ -44,6 +44,7 @@ const (
 	MSG_PLAYER_MONEY_NOT_ENOUGH          = "player's money is not enough"
 	MSG_PLAYER_MOENY_IS_OUT_OF_MAX_BET   = "player's bet money is out of max bet"
 	MSG_PLAYER_CURRENT_ROUND_HAS_BET     = "player current round has bet"
+	MSG_PLAYER_CURRENT_ROUND_NOT_BET     = "player current round not bet"
 	MSG_PLAYER_LAST_ROUND_NOT_BET        = "player last round not bet"
 	MSG_PLAYER_IS_IN_ANOTHER_GAME        = "player is in another game: %s, room id: %s, room level: %s"
 	MSG_PLAYER_ACTION_IN_WRONG_STATE     = "player can't use this action in the state"
@@ -63,6 +64,7 @@ const (
 	MSG_GAME_IS_NOT_INIT      = "game is not init"
 	MSG_NOT_IN_STATE          = "not in %s state, current state: %s"
 	MSG_GAME_IN_NOT_BET_STATE = "not in bet state"
+	MSG_IS_NOT_FEATURE_GAME   = "game is not feature game"
 	MSG_DUPLICATE_TOKEN       = "player is duplicate"
 	MSG_BET_AREA_IS_LOCK      = "bet area is lock"
 

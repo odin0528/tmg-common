@@ -39,13 +39,14 @@ const (
 	SYSTEM_ENABLE_PRESET_ROOM            string = "enable_preset_room"
 	SYSTEM_ENABLE_HUNDRED_ROOM_GROUP_IDS string = "enable_hundred_room_group_ids"
 
-	WEB_API_API_CENTER_DOMAIN             string = "api_center_domain"
-	WEB_API_ALLOW_CORS_DOMAIN             string = "allowed_cors_domain"
-	WEB_API_ALLOW_CORS_HEADERS            string = "allowed_cors_headers"
-	WEB_API_JWT_SECRET_KEY_DURATION_HOURS string = "jwt_secret_key_duration_hours"
-	WEB_API_AUTH_TOKEN_DURATION_HOURS     string = "auth_token_duration_hours"
-	WEB_API_ENABLE_TRUST_IP               string = "enable_trust_ip"
-	WEB_API_MIDDLE_PATH                   string = "middle_path"
+	WEB_API_API_CENTER_DOMAIN                string = "api_center_domain"
+	WEB_API_ALLOW_CORS_DOMAIN                string = "allowed_cors_domain"
+	WEB_API_ALLOW_CORS_HEADERS               string = "allowed_cors_headers"
+	WEB_API_JWT_SECRET_KEY_DURATION_HOURS    string = "jwt_secret_key_duration_hours"
+	WEB_API_AUTH_TOKEN_DURATION_HOURS        string = "auth_token_duration_hours"
+	WEB_API_ENABLE_TRUST_IP                  string = "enable_trust_ip"
+	WEB_API_MIDDLE_PATH                      string = "middle_path"
+	WEB_API_CALC_GAME_CURRENT_RTP_PERIOD_DAY string = "calc_game_current_rtp_period_day"
 
 	MOCK_PLAYER                   = "mock_player"
 	MOCK_ENABLE_MOCK_PLAYER       = "enable_mock_player"
@@ -82,12 +83,15 @@ const (
 	DB_MAX_IDLE_CONNECTIONS     string = "max_idle_connections"
 	DB_MAX_CONNECTIONS_LIFETIME string = "max_connections_lifetime"
 
-	BOT_ENABLE_TELEGRAM_ALARM_RTP       string = "enable_telegram_alarm_rtp"
-	BOT_TELEGRAM_ALARM_RTP_CHAT_ROOM_ID string = "telegram_alarm_rtp_chat_room_id"
-	BOT_TELEGRAM_ALARM_RTP_BOT_TOKEN    string = "telegram_alarm_rtp_bot_token"
-	BOT_ENABLE_TELEGRAM_ALARM           string = "enable_telegram_alarm"
-	BOT_TELEGRAM_ALARM_CHAT_ROOM_ID     string = "telegram_alarm_chat_room_id"
-	BOT_TELEGRAM_ALARM_BOT_TOKEN        string = "telegram_alarm_bot_token"
+	BOT_ENABLE_TELEGRAM_ALARM_RTP               string = "enable_telegram_alarm_rtp"
+	BOT_TELEGRAM_ALARM_RTP_CHAT_ROOM_ID         string = "telegram_alarm_rtp_chat_room_id"
+	BOT_TELEGRAM_ALARM_RTP_BOT_TOKEN            string = "telegram_alarm_rtp_bot_token"
+	BOT_ENABLE_TELEGRAM_ALARM                   string = "enable_telegram_alarm"
+	BOT_TELEGRAM_ALARM_CHAT_ROOM_ID             string = "telegram_alarm_chat_room_id"
+	BOT_TELEGRAM_ALARM_BOT_TOKEN                string = "telegram_alarm_bot_token"
+	BOT_ENABLE_TELEGRAM_ALARM_BUY_FEATURE       string = "enable_telegram_alarm_buy_feature"
+	BOT_TELEGRAM_ALARM_BUY_FEATURE_CHAT_ROOM_ID string = "telegram_alarm_buy_feature_chat_room_id"
+	BOT_TELEGRAM_ALARM_BUY_FEATURE_BOT_TOKEN    string = "telegram_alarm_buy_feature_bot_token"
 
 	LOG_DEFAULT_PATH = "storage/logs"
 	LOG_DEFAULT_FILE = "system.log"
@@ -97,9 +101,10 @@ const (
 
 	ENABLE_GUEST = "enable_guest"
 
-	ENABLE_WS_UNSPECIFIED int = 0
-	ENABLE_WS_BASE64      int = 1
-	ENABLE_WS_MSG_PACK    int = 2
+	ENABLE_WS_UNSPECIFIED      int = 0
+	ENABLE_WS_BASE64           int = 1
+	ENABLE_WS_MSG_PACK         int = 2
+	ENABLE_WS_MIX_BASE64_SHIFT int = 3
 )
 
 var configMutex sync.RWMutex
