@@ -111,14 +111,16 @@ type GameCountingBuyFeatureInfo struct {
 }
 
 type Announcement struct {
-	Id           int       `json:"id"`
-	Title        string    `json:"title"`
-	Context      string    `json:"context"`
-	Mode         int       `json:"mode"`
-	TargetRule   string    `json:"target_rule"`
-	AnnounceDate time.Time `json:"announce_date"`
-	Duration     int       `json:"duration"`
-	NotifyCount  int       `json:"notify_count"`
+	Id               int        `json:"id"`
+	Title            string     `json:"title"`
+	Context          string     `json:"context"`
+	Mode             int        `json:"mode"`
+	TargetRule       string     `json:"target_rule"`
+	AnnounceStartAt  *time.Time `json:"announce_start_at"`
+	AnnounceEndAt    *time.Time `json:"announce_end_at"`
+	RedirectGameName string     `json:"redirect_game_name"`
+	Duration         int        `json:"duration"`
+	NextAnnounceAt   time.Time  `json:"next_announce_at"`
 }
 
 type DeviceCountingFromLogin struct {
