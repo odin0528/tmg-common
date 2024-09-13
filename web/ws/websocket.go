@@ -68,3 +68,17 @@ func DecodeByMsgpack(src []byte) ([]byte, error) {
 	err := msgpack.Unmarshal(src, &data)
 	return data, err
 }
+
+func DecodeMsg(data []byte) ([]byte, error) {
+	var err error
+	output := data
+	if decodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_DECODE_MODE, configs.ENABLE_WS_BASE64); decodeType == configs.ENABLE_WS_BASE64 {
+		output, err = DecodeByBase64(data)
+	} else if decodeType == configs.ENABLE_WS_MSG_PACK {
+		output, err = DecodeByMsgpack(data)
+	} else if decodeType == configs.ENABLE_WS_MIX_BASE64_SHIFT {
+		output, err = DecodeByBase64Shift(data)
+	}
+
+	return output, err
+}
