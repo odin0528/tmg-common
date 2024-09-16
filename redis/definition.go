@@ -121,6 +121,7 @@ type Announcement struct {
 	RedirectGameName string     `json:"redirect_game_name"`
 	Duration         int        `json:"duration"`
 	NextAnnounceAt   time.Time  `json:"next_announce_at"`
+	NotifyCount      int        `json:"notify_count"`
 }
 
 type DeviceCountingFromLogin struct {
