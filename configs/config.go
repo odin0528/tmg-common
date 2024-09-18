@@ -77,6 +77,7 @@ func loadDefaultConfig(path string) error {
 		"websocket.ini",
 		"system.ini",
 		"log.ini",
+		"geoip.ini",
 	}
 
 	for index, config := range configList {
