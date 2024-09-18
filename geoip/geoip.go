@@ -9,7 +9,7 @@ import (
 )
 
 func InitGeoIPRepository() error {
-	fileName := configs.Get(configs.SECTION_GEOIP, configs.GEOIP_FILE_PATH, "/opt/geoip/GeoLite2-Country.mmdb")
+	fileName := configs.Get(configs.SECTION_GEOIP, configs.GEOIP_FILE_PATH, "../../geoip/GeoLite2-Country.mmdb")
 
 	r, err := geoip2.Open(fileName)
 	if err != nil {
