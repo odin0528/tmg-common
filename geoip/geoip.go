@@ -2,7 +2,7 @@ package geoip
 
 import (
 	"errors"
-	"mgmt/common/configs"
+	"xxx/common/configs"
 	"net"
 
 	"github.com/oschwald/geoip2-golang"
