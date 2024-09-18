@@ -23,6 +23,7 @@ const (
 	SECTION_DATABASE_SCRIPT_READ      = "database_script_read"
 	SECTION_DATABASE_REAL_TIME_WRITE  = "database_real_time_write"
 	SECTION_DATABASE_RECORD_WRITE     = "database_record_write"
+	SECTION_GEOIP                     = "geoip"
 
 	SYSTEM_HTTP_PORT                     string = "http_port"
 	SYSTEM_APP_MODE                      string = "app_mode"
@@ -93,6 +94,8 @@ const (
 	BOT_ENABLE_TELEGRAM_ALARM_BUY_FEATURE       string = "enable_telegram_alarm_buy_feature"
 	BOT_TELEGRAM_ALARM_BUY_FEATURE_CHAT_ROOM_ID string = "telegram_alarm_buy_feature_chat_room_id"
 	BOT_TELEGRAM_ALARM_BUY_FEATURE_BOT_TOKEN    string = "telegram_alarm_buy_feature_bot_token"
+
+	GEOIP_FILE_PATH string = "file_path"
 
 	LOG_DEFAULT_PATH = "storage/logs"
 	LOG_DEFAULT_FILE = "system.log"
