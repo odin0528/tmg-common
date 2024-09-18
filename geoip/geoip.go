@@ -23,12 +23,12 @@ func InitGeoIPRepository() error {
 
 func GetCountry(ip net.IP) (string, error) {
 	if reader == nil {
-		return "", errors.New("reader is not initialized")
+		return UNKNOWN_COUNTRY, errors.New("reader is not initialized")
 	}
 
 	record, err := reader.Country(ip)
 	if err != nil {
-		return "", err
+		return UNKNOWN_COUNTRY, err
 	}
 
 	return record.Country.IsoCode, nil
