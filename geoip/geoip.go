@@ -13,7 +13,7 @@ func InitGeoIPRepository() error {
 
 	r, err := geoip2.Open(fileName)
 	if err != nil {
-		return errors.New("error opening database")
+		return errors.New("error opening database: " + err.Error())
 	}
 
 	reader = r
