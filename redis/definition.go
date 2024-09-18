@@ -97,6 +97,11 @@ const (
 	ANNOUNCEMENT_MODE_REWARD      int = 3
 	ANNOUNCEMENT_MODE_INTERACTION int = 4
 	ANNOUNCEMENT_MODE_OFFICAL     int = 5
+
+	ANNOUNCEMENT_FILTER_TYPE_ALL      int = 1
+	ANNOUNCEMENT_FILTER_TYPE_AGENT    int = 2
+	ANNOUNCEMENT_FILTER_TYPE_PLATFORM int = 3
+	ANNOUNCEMENT_FILTER_TYPE_CURRENCY int = 4
 )
 
 var ANNOUNCEMENT_MODE_LIST = []int{
@@ -138,6 +143,11 @@ type Announcement struct {
 	Duration         int               `json:"duration"`
 	NextAnnounceAt   time.Time         `json:"next_announce_at"`
 	NotifyCount      int               `json:"notify_count"`
+}
+
+type TargetRule struct {
+	Type int      `json:"type"`
+	List []string `json:"list"`
 }
 
 type DeviceCountingFromLogin struct {
