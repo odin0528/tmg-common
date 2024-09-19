@@ -143,6 +143,8 @@ type Announcement struct {
 	Duration         int               `json:"duration"`
 	NextAnnounceAt   time.Time         `json:"next_announce_at"`
 	NotifyCount      int               `json:"notify_count"`
+
+	ContextReplaceInfo ContextReplaceInfo `json:"context_replace_info"`
 }
 
 type TargetRule struct {
@@ -157,4 +159,13 @@ type DeviceCountingFromLogin struct {
 type UpdateHundredGameInfo struct {
 	AgentAccountList []string `json:"agent_account_list"`
 	CurrencyList     []string `json:"currency_list"`
+}
+
+type ContextReplaceInfo struct {
+	TimeRangeText string  `json:"time_range_text"`
+	PlayerAccount string  `json:"player_account"`
+	GameName      string  `json:"game_name"`
+	JackpotName   string  `json:"jackpot_name"`
+	Award         float64 `json:"award"`
+	Multiplier    float64 `json:"multiplier"`
 }
