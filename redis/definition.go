@@ -158,3 +158,12 @@ type UpdateHundredGameInfo struct {
 	AgentAccountList []string `json:"agent_account_list"`
 	CurrencyList     []string `json:"currency_list"`
 }
+
+type AnnouncementContextReplaceInfo struct {
+	TimeRangeText string  `json:"time_range_text"`
+	PlayerAccount string  `json:"player_account"`
+	GameName      string  `json:"game_name"`
+	JackpotName   string  `json:"jackpot_name"`
+	Award         float64 `json:"award"`
+	Multiplier    float64 `json:"multiplier"`
+}
