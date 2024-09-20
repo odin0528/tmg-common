@@ -49,6 +49,7 @@ const (
 	PLAYER_TOTAL_PROFIT_CACHE = "player_total_profit_cache"
 	PLAYER_GAME_DAILY_CACHE   = "player_game_daily_cache"
 	AGENT_GAME_DAILY_CACHE    = "agent_game_daily_cache"
+	REGION_GAME_DAILY_CACHE   = "region_game_daily_cache"
 
 	SINGLE_WALLET_SID_HASH_MAP_KEY              string = "single_wallet_sid_hash_key"
 	SINGLE_WALLET_WITHDRAW_HASH_MAP_KEY         string = "single_wallet_withdraw_hash_key"
