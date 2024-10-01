@@ -121,3 +121,11 @@ func FormatDateTimeString(timeStr string, format string) string {
 func ConvertToDateString(when time.Time) string {
 	return when.In(TaiwanTimezone).Format(DATE_FORMAT)
 }
+
+func GetCurrentUtcTime() time.Time {
+	return time.Now().UTC()
+}
+
+func GetCurrentTimeUTC8() time.Time {
+	return GetCurrentUtcTime().Add(HOUR_8)
+}
