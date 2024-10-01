@@ -18,6 +18,8 @@ const (
 	HOUR_PER_DAY      = 24
 	MINUTE_PER_HOUR   = 60
 	SECOND_PER_MINUTE = 60
+
+	HOUR_8 = time.Hour * 8
 )
 
 const (
