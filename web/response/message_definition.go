@@ -158,3 +158,9 @@ const (
 const (
 	MSG_SYSTEM_MAINTENANCE_MODE = "game in maintenance"
 )
+
+// Mailbox
+const (
+	MSG_MAILBOX_AWARD_IS_REDEEMED  = "Award is redeemed"
+	MSG_MAILBOX_AWARD_IS_NOT_EXIST = "Award is not exist"
+)
