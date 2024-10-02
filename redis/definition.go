@@ -88,6 +88,8 @@ const (
 	UPDATE_HUNDRED_GAME_KEY = "is_update_hundred_game"
 
 	DEVICE_COUNTING_FROM_LOGIN = "device_counting_from_login"
+
+	HOT_GAME_HASH_MAP_KEY string = "hot_game_hash_map_key"
 )
 
 const (
