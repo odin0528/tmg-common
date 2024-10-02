@@ -56,6 +56,7 @@ const (
 	MSG_PLAYER_IS_IN_ANOTHER_ROOM_LEVEL  = "player is in another room level, game: %s, room level: %s"
 	MSG_SYSTEM_IS_MAINTENANCE            = "system maintenance"
 	MSG_PLAYER_DISABLE_CARD              = "player can't disable all bingo card"
+	MSG_PLAYER_UPDATE_BALANCE_ABNORMAL   = "player update balance abnormal"
 )
 
 // game
@@ -105,6 +106,7 @@ const (
 	MSG_CACHE_KEY_COLLISION = "cache key collision"
 	MSG_CACHE_PUT_ERROR     = "fail to put cache"
 	MSG_CACHE_GET_ERROR     = "fail to get cache"
+	MSG_CACHE_ABNORMAL      = "cache abnormal"
 )
 
 // CMS
@@ -161,6 +163,15 @@ const (
 
 // Mailbox
 const (
-	MSG_MAILBOX_AWARD_IS_REDEEMED  = "Award is redeemed"
-	MSG_MAILBOX_AWARD_IS_NOT_EXIST = "Award is not exist"
+	MSG_MAILBOX_AWARD_IS_REDEEMED       = "award is redeemed"
+	MSG_MAILBOX_AWARD_IS_NOT_EXIST      = "award is not exist"
+	MSG_MAILBOX_CLAIM_MAIL_ABNORMAL     = "claim mail abnormal"
+	MSG_MAILBOX_CLAIM_MAIL_IS_NOT_EXIST = "mail is not exist"
+	MSG_MAILBOX_RECEIVE_TYPE_ABNORMAL   = "mailbox receive type abnormal"
+)
+
+// Agent
+const (
+	MSG_AGENT_IS_NOT_EXIST         = "agent is not exist"
+	MSG_AGENT_WALLET_TYPE_ABNORMAL = "agent's wallet type abnormal"
 )

@@ -51,16 +51,20 @@ const (
 	AGENT_GAME_DAILY_CACHE    = "agent_game_daily_cache"
 	REGION_GAME_DAILY_CACHE   = "region_game_daily_cache"
 
-	SINGLE_WALLET_SID_HASH_MAP_KEY              string = "single_wallet_sid_hash_key"
-	SINGLE_WALLET_WITHDRAW_HASH_MAP_KEY         string = "single_wallet_withdraw_hash_key"
-	SINGLE_WALLET_BET_RECORD_HASH_MAP_KEY       string = "sw_bet_record_hash_key"
-	SINGLE_WALLET_BET_RECORD_RETRY_HASH_MAP_KEY string = "sw_bet_record_retry_hash_key"
-	SINGLE_WALLET_SYNC_BET_RECORD_HASH_MAP_KEY  string = "sw_sync_bet_record_hash_key"
+	SINGLE_WALLET_SID_HASH_MAP_KEY                string = "single_wallet_sid_hash_key"
+	SINGLE_WALLET_WITHDRAW_HASH_MAP_KEY           string = "single_wallet_withdraw_hash_key"
+	SINGLE_WALLET_BET_RECORD_HASH_MAP_KEY         string = "sw_bet_record_hash_key"
+	SINGLE_WALLET_BET_RECORD_RETRY_HASH_MAP_KEY   string = "sw_bet_record_retry_hash_key"
+	SINGLE_WALLET_SYNC_BET_RECORD_HASH_MAP_KEY    string = "sw_sync_bet_record_hash_key"
+	SINGLE_WALLET_AWARD_RECORD_HASH_MAP_KEY       string = "sw_award_record_hash_key"
+	SINGLE_WALLET_AWARD_RECORD_RETRY_HASH_MAP_KEY string = "sw_award_record_retry_hash_key"
 
-	SINGLE_WALLET_WITHDRAW_HASH_MAP_LOCK_KEY         string = "sw_witdraw_hash_lock"
-	SINGLE_WALLET_BET_RECORD_HASH_MAP_LOCK_KEY       string = "sw_bet_record_hash_lock"
-	SINGLE_WALLET_BET_RECORD_RETRY_HASH_MAP_LOCK_KEY string = "sw_bet_record_retry_hash_lock"
-	SINGLE_WALLET_SYNC_BET_RECORD_HASH_MAP_LOCK_KEY  string = "sw_sync_bet_record_hash_lock"
+	SINGLE_WALLET_WITHDRAW_HASH_MAP_LOCK_KEY           string = "sw_witdraw_hash_lock"
+	SINGLE_WALLET_BET_RECORD_HASH_MAP_LOCK_KEY         string = "sw_bet_record_hash_lock"
+	SINGLE_WALLET_BET_RECORD_RETRY_HASH_MAP_LOCK_KEY   string = "sw_bet_record_retry_hash_lock"
+	SINGLE_WALLET_SYNC_BET_RECORD_HASH_MAP_LOCK_KEY    string = "sw_sync_bet_record_hash_lock"
+	SINGLE_WALLET_AWARD_RECORD_HASH_MAP_LOCK_KEY       string = "sw_award_record_hash_lock"
+	SINGLE_WALLET_AWARD_RECORD_RETRY_HASH_MAP_LOCK_KEY string = "sw_award_record_retry_hash_lock"
 
 	SINGLE_WALLET_TRANSFER_RECORD_QUERY string = "sw_record_query"
 
@@ -88,6 +92,8 @@ const (
 	UPDATE_HUNDRED_GAME_KEY = "is_update_hundred_game"
 
 	DEVICE_COUNTING_FROM_LOGIN = "device_counting_from_login"
+
+	HOT_GAME_HASH_MAP_KEY string = "hot_game_hash_map_key"
 )
 
 const (
