@@ -50,6 +50,7 @@ const (
 	LOG_KEY_BATTLE_ROOM         = "battle_room"
 	LOG_KEY_BATTLE_PLAYER       = "battle_player"
 	LOG_KEY_BATTLE_ROOM_ADVANCE = "battle_room_advance"
+	LOG_KEY_SLOT_BATTLE_ROOM    = "slot_battle_room"
 	LOG_KEY_HUNDRED_ROOM        = "hundred_room"
 	LOG_KEY_HUNDRED_PLAYER      = "hundred_player"
 	LOG_KEY_SLOT_ROOM           = "slot_room"
