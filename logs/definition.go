@@ -65,6 +65,8 @@ const (
 	LOG_KEY_ROLE                = "role"
 	LOG_KEY_RISK_CONTROL        = "risk_control"
 	LOG_KEY_MAILBOX             = "mailbox"
+
+	LOG_KEY_CAMP_WAR_PLAYER_AWARD_RECORD = "camp_war_player_award_record"
 )
 
 const (
