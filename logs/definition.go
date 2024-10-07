@@ -50,6 +50,7 @@ const (
 	LOG_KEY_BATTLE_ROOM         = "battle_room"
 	LOG_KEY_BATTLE_PLAYER       = "battle_player"
 	LOG_KEY_BATTLE_ROOM_ADVANCE = "battle_room_advance"
+	LOG_KEY_SLOT_BATTLE_ROOM    = "slot_battle_room"
 	LOG_KEY_HUNDRED_ROOM        = "hundred_room"
 	LOG_KEY_HUNDRED_PLAYER      = "hundred_player"
 	LOG_KEY_SLOT_ROOM           = "slot_room"
@@ -64,6 +65,8 @@ const (
 	LOG_KEY_ROLE                = "role"
 	LOG_KEY_RISK_CONTROL        = "risk_control"
 	LOG_KEY_MAILBOX             = "mailbox"
+
+	LOG_KEY_CAMP_WAR_PLAYER_AWARD_RECORD = "camp_war_player_award_record"
 )
 
 const (
