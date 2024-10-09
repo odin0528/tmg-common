@@ -3,6 +3,8 @@ package api
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -65,4 +67,48 @@ func SendWebAPI(method HTTP_METHOD, url string, header map[string]string, body i
 
 func SendWebAPIWithSpecifySec(method HTTP_METHOD, url string, header map[string]string, body interface{}, timeout time.Duration) ([]byte, error) {
 	return sendRequest(method, url, header, body, timeout)
+}
+
+func sendRequestGeneral(method HTTP_METHOD, url string, header map[string]string, body []byte, timeout time.Duration) ([]byte, error) {
+	bodyReader := bytes.NewReader(body)
+
+	request, err := http.NewRequest(string(method), url, bodyReader)
+	if err != nil {
+		return []byte{}, err
+	}
+
+	for k, v := range header {
+		request.Header.Set(k, v)
+	}
+
+	tr := http.Transport{
+		DisableKeepAlives: true,
+	}
+
+	client := http.Client{
+		Timeout:   timeout,
+		Transport: &tr,
+	}
+	resp, err := client.Do(request)
+
+	if err != nil {
+		return []byte{}, err
+	}
+
+	if resp == nil {
+		return nil, errors.New("http response is nil")
+	}
+
+	defer resp.Body.Close()
+
+	respBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return []byte{}, err
+	}
+
+	return respBytes, nil
+}
+
+func SendWebAPIGeneral(method HTTP_METHOD, url string, header map[string]string, body []byte) ([]byte, error) {
+	return sendRequestGeneral(method, url, header, body, DEFAULT_API_TIME_OUT*time.Second)
 }
