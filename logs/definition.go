@@ -43,6 +43,7 @@ const (
 	LOG_KEY_MATCH_POOL  = "match_pool"
 	LOG_KEY_BET_RECORD  = "bet_record"
 	LOG_KEY_BET         = "bet"
+	LOG_KEY_CAMP_WAR    = "camp_war_record"
 
 	LOG_KEY_CACHE               = "cache"
 	LOG_KEY_BASE_ROOM           = "base_room"
@@ -76,6 +77,7 @@ const (
 	FIELD_KEY_FSM_STATE            = "fsm_state"
 	FIELD_KEY_SETTLEMENT           = "settlement"
 	FIELD_KEY_BET_RECORD           = "bet_record"
+	FIELD_KEY_CAMP_WAR_RECORD      = "camp_war_record"
 	FIELD_KEY_PLATFORM_NAME        = "platform_name"
 	FIELD_KEY_GAME_NAME            = "game_name"
 	FIELD_KEY_PLAYER_NAME          = "player_name"

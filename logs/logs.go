@@ -310,6 +310,21 @@ func Record(logKey string, betRecordList interface{}) {
 	}
 }
 
+func RecordCampWar(logKey string, recordList interface{}) {
+	info := map[string]interface{}{
+		FIELD_KEY_CAMP_WAR_RECORD: recordList,
+	}
+	zapFields := transferMappingToFields(logKey, []Field{})
+	zapFields = append(zapFields,
+		zap.Any(FIELD_KEY_PAYLOAD, info),
+		zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(1)),
+	)
+
+	if log := getLogger(LOG_TYPE_RECORD); log != nil {
+		log.Info(SAVE_BET_RECORD, zapFields...)
+	}
+}
+
 func transferMappingToFields(logKey string, fields []Field) []zap.Field {
 	zapFields := []zap.Field{
 		zap.String(FIELD_KEY_LOG_KEY, logKey),
