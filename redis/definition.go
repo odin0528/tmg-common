@@ -155,7 +155,8 @@ type Announcement struct {
 	NextAnnounceAt   time.Time         `json:"next_announce_at"`
 	NotifyCount      int               `json:"notify_count"`
 
-	ContextReplaceInfo ContextReplaceInfo `json:"context_replace_info"`
+	ContextReplaceInfo ContextReplaceInfo     `json:"context_replace_info"`
+	ReplaceInfo        map[string]interface{} `json:"replace_info"`
 }
 
 type TargetRule struct {
