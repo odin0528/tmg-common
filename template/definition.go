@@ -8,6 +8,8 @@ const ( //模板編號 //用字串 未來分類或做其他變化比較方便
 	CAMP_WAR_NEED_SUPPORT                     = "5"
 	CAMP_WAR_AHEAD_OF_OPPONENT                = "6"
 	CAMP_WAR_IS_ABOUT_TO_WIN                  = "7"
+	MAIL_TITLE_CAMP_WAR_TITAN_AWARD           = "8"
+	MAIL_CONTEXT_CAMP_WAR_TITAN_AWARD         = "9"
 )
 
 const ( //取代key-name
@@ -17,4 +19,5 @@ const ( //取代key-name
 	REPLACE_INFO_JACKPOT_NAME    = "jackpot_name"
 	REPLACE_INFO_AWARD           = "award"
 	REPLACE_INFO_MULTIPLIER      = "multiplier"
+	REPLACE_INFO_CAMP_NAME       = "camp_name"
 )
