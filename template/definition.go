@@ -19,5 +19,5 @@ const ( //取代key-name
 	REPLACE_INFO_JACKPOT_NAME    = "jackpot_name"
 	REPLACE_INFO_AWARD           = "award"
 	REPLACE_INFO_MULTIPLIER      = "multiplier"
-	REPLACE_INFO_CAMP_NAME       = "camp_name"
+	REPLACE_INFO_CAMP_TYPE       = "camp_type"
 )
