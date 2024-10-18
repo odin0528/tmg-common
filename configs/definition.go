@@ -25,6 +25,7 @@ const (
 	SECTION_DATABASE_RECORD_WRITE     = "database_record_write"
 	SECTION_GEOIP                     = "geoip"
 
+	SYSTEM_HTTP_HOST                     string = "host"
 	SYSTEM_HTTP_PORT                     string = "http_port"
 	SYSTEM_APP_MODE                      string = "app_mode"
 	SYSTEM_ID                            string = "id"
