@@ -143,19 +143,20 @@ type GameCountingBuyFeatureInfo struct {
 }
 
 type Announcement struct {
-	Id               int               `json:"id"`
-	Title            string            `json:"title"`
-	Context          map[string]string `json:"context"`
-	Mode             int               `json:"mode"`
-	TargetRule       string            `json:"target_rule"`
-	AnnounceStartAt  *time.Time        `json:"announce_start_at"`
-	AnnounceEndAt    *time.Time        `json:"announce_end_at"`
-	RedirectGameName string            `json:"redirect_game_name"`
-	Duration         int               `json:"duration"`
-	NextAnnounceAt   time.Time         `json:"next_announce_at"`
-	NotifyCount      int               `json:"notify_count"`
+	Id               int         `json:"id"`
+	Title            string      `json:"title"`
+	Context          interface{} `json:"context"`
+	Mode             int         `json:"mode"`
+	TargetRule       string      `json:"target_rule"`
+	AnnounceStartAt  *time.Time  `json:"announce_start_at"`
+	AnnounceEndAt    *time.Time  `json:"announce_end_at"`
+	RedirectGameName string      `json:"redirect_game_name"`
+	Duration         int         `json:"duration"`
+	NextAnnounceAt   time.Time   `json:"next_announce_at"`
+	NotifyCount      int         `json:"notify_count"`
+	IsDynamic        bool        `json:"is_dynamic"`
 
-	ContextReplaceInfo ContextReplaceInfo `json:"context_replace_info"`
+	ContextReplaceInfo interface{} `json:"context_replace_info"`
 }
 
 type TargetRule struct {
