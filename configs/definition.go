@@ -100,6 +100,8 @@ const (
 	LOG_DEFAULT_PATH = "storage/logs"
 	LOG_DEFAULT_FILE = "system.log"
 
+	FEATURE_DISABLE_KICK_PLAYER = "disable_kick_player"
+
 	YES = "yes"
 	NO  = "no"
 
