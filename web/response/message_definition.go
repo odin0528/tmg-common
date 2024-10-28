@@ -70,9 +70,6 @@ const (
 	MSG_IS_NOT_FEATURE_GAME   = "game is not feature game"
 	MSG_DUPLICATE_TOKEN       = "player is duplicate"
 	MSG_BET_AREA_IS_LOCK      = "bet area is lock"
-
-	MSG_SINGLE_WALLET_IS_RETRYING_WITHDRAW    = "retrying withdraw"
-	MSG_SINGLE_WALLET_MAX_RETRY_LIMIT_REACHED = "the max retry limit reached"
 )
 
 // internal
@@ -160,6 +157,22 @@ const (
 
 const (
 	MSG_SYSTEM_MAINTENANCE_MODE = "game in maintenance"
+)
+
+const (
+	MSG_SINGLE_WALLET_INTERNAL_ERROR                 = "internal error"
+	MSG_SINGLE_WALLET_SESSION_ID_ERROR               = "session id error"
+	MSG_SINGLE_WALLET_TRANSFER_ALREADY_DONE          = "transfer already done"
+	MSG_SINGLE_WALLET_TRANSFER_WITHDRAW_IS_NOT_EXIST = "can't find witdraw transfer id"
+	MSG_SINGLE_WALLET_API_TIMEOUT_ERROR              = "api timeout error"
+	MSG_SINGLE_WALLET_PLAYER_MONEY_IS_NOT_ENOUGH     = "player money is not enough"
+	MSG_SINGLE_WALLET_PLAYER_CURRENCY_IS_NOT_SUPPORT = "currency is not support"
+	MSG_SINGLE_WALLET_AGENT_MONEY_IS_NOT_ENOUGH      = "agent money is not enough"
+	MSG_SINGLE_WALLET_THE_PREVIOUS_ROUND_NOT_SETTLED = "the previous round not settled"
+	MSG_SINGLE_WALLET_IS_RETRYING_WITHDRAW           = "retrying withdraw"
+	MSG_SINGLE_WALLET_MAX_RETRY_LIMIT_REACHED        = "the max retry limit reached"
+	MSG_SINGLE_WALLET_API_RESPONSE_FORMAT_ERROR      = "api response format error"
+	MSG_SINGLE_WALLET_PLAYER_IS_NOT_EXIST            = "player is not exist"
 )
 
 // Mailbox
