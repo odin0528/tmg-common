@@ -185,6 +185,7 @@ const (
 
 // Agent
 const (
-	MSG_AGENT_IS_NOT_EXIST         = "agent is not exist"
-	MSG_AGENT_WALLET_TYPE_ABNORMAL = "agent's wallet type abnormal"
+	MSG_AGENT_IS_NOT_EXIST                  = "agent is not exist"
+	MSG_AGENT_WALLET_TYPE_ABNORMAL          = "agent's wallet type abnormal"
+	MSG_AGENT_ERROR_WHEN_PLAYER_TRANSFER_IN = "agent [%s] error occurred when player transfer-in"
 )
