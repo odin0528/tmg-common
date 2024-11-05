@@ -114,6 +114,7 @@ const (
 	FIELD_KEY_FEATURE_SECOND_INDEX = "feature_second_index"
 	FIELD_KEY_ODDS_TYPE            = "odds_type"
 	FIELD_KEY_CONDITION            = "condition"
+	FIELD_KEY_CAMP_POOL_MONEY      = "camp_pool_money"
 )
 
 var level zap.AtomicLevel
