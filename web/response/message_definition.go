@@ -58,6 +58,7 @@ const (
 	MSG_PLAYER_DISABLE_CARD                = "player can't disable all bingo card"
 	MSG_PLAYER_UPDATE_BALANCE_ABNORMAL     = "player update balance abnormal"
 	MSG_PLAYER_REACH_MAX_SELECT_CAMP_TIMES = "player's change limit has been reached"
+	MSG_CARD_TYPE_INCORRECT                = 12024
 )
 
 // game
