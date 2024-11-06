@@ -192,3 +192,22 @@ const (
 	MSG_AGENT_WALLET_TYPE_ABNORMAL          = "agent's wallet type abnormal"
 	MSG_AGENT_ERROR_WHEN_PLAYER_TRANSFER_IN = "agent [%s] error occurred when player transfer-in: %s"
 )
+
+// Platform
+const (
+	MSG_PLATFORM_REQUEST_HEADER_IS_NOT_PLATFORM_NAME    = "request header no platform name"
+	MSG_PLATFORM_CAN_NOT_FIND_PLATFORM_BY_PLATFORM_NAME = "can not find platform by platform name"
+	MSG_PLATFORM_CREATE_PLAYER_ERROR                    = "create player error"
+	MSG_PLATFORM_GET_CURRENCY_ERROR                     = "get currency error"
+	MSG_PLATFORM_GET_PLAYER_WALLET_ERROR                = "get player wallet error"
+	MSG_PLATFORM_CREATE_PLAYER_WALLET_ERROR             = "create player wallet error"
+	MSG_PLATFORM_GET_SUPPORT_CURRENCY_ERROR             = "get platform support currency error"
+	MSG_PLATFORM_CURRENCY_NOT_SUPPORT                   = "currency not support"
+	MSG_PLATFORM_PLAYER_INVALID_ACCOUNT_OR_PASSWOR      = "invalid account or password"
+	MSG_PLATFORM_GET_LOBBY_URL_ERROR                    = "get lobby url error"
+	MSG_PLATFORM_INVALID_DATETIME_FORMAT                = "datetime format or range error"
+	MSG_PLATFORM_GET_GAME_URL_ERROR                     = "get game url error"
+	MSG_PLATFORM_BET_RECORD_ID_IS_NULL                  = "bet record id is null"
+	MSG_PLATFORM_ROUND_ID_IS_NULL                       = "round id is null"
+	MSG_PLATFORM_GET_BET_RECORD_URL_ERROR               = "get bet record url error"
+)
