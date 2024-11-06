@@ -28,6 +28,7 @@ const (
 	LOG_TYPE_BET           = "bet"
 	LOG_TYPE_HTTP          = "http"
 	LOG_TYPE_RISK_CONTROL  = "risk_control"
+	LOG_TYPE_GSI_API       = "gsi_api"
 
 	SAVE_BET_RECORD = "Save bet record info"
 	UNKNOWN_CALLER  = "Unknown caller"
