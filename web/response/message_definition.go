@@ -209,4 +209,9 @@ const (
 	MSG_PLATFORM_BET_RECORD_ID_IS_NULL                  = "bet record id is null"
 	MSG_PLATFORM_ROUND_ID_IS_NULL                       = "round id is null"
 	MSG_PLATFORM_GET_BET_RECORD_URL_ERROR               = "get bet record url error"
+	MSG_PLATFORM_INVALID_TRANSFER_TYPE                  = "transfer type is not support"
+	MSG_PLATFORM_PLAYER_MONEY_CANT_LOCK_ERR             = "money can't lock"
+	MSG_PLATFORM_GET_PLAYER_ERROR                       = "get player error"
+	MSG_PLATFORM_PLAYER_HAVE_MULTIPLE_AGENTS            = "player have multiple agents"
+	MSG_PLATFORM_IS_SINAGLE_WALLET_CAN_NOT_TRANSFER     = "wallet is single wallet. can't transfer"
 )
