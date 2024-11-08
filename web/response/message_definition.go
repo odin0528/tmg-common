@@ -124,6 +124,11 @@ const (
 	MSG_CMS_SYST_CAN_NOT_LOGIN_IN_AGENT_SITE    = "請至總控後台登入"
 	MSG_CMS_AUTH_TRUST_IP_FAILED                = "not allowed ip(%s)."
 	MSG_CMS_TRANSFER_FAILED_PLAYER_IS_PLAYING   = "transfer out failed, player is playing"
+	MSG_CMS_SINGLE_WALLET_MISSING_DOMAIN        = "wallet is single wallet type, but missing the domain"
+	MSG_CMS_CURRENCY_LESS_THAN_ONE              = "currency less than one"
+	MSG_CMS_LOBBY_TYPE_IS_ERROR                 = "lobby type is error"
+	MSG_CMS_LOBBY_STYLE_IS_ERROR                = "style is not support"
+	MSG_CMS_IS_SINGLE_WALLET_CAN_NOT_TRASNFER   = "wallet is single wallet. can't transfer"
 
 	MSG_CMS_ROLE_IS_EXIST = "角色已存在"
 
@@ -149,11 +154,11 @@ const (
 	MSG_CMS_AGENT_FILE_UPLOAD_FAIL                     = "上傳失敗"
 	MSG_CMS_AGENT_CAN_NOT_OPERATE_SELF                 = "不可修改自身代理帳號狀態請諮詢上級代理或客服"
 
-	MSG_CMS_SERVER_ERROR_BY_DATABASE        = "伺服器錯誤"
-	MSG_CMS_SERVER_ERROR_BY_REDIS           = "伺服器錯誤"
-	MSG_CMS_SERVER_ERROR_BY_JSON            = "伺服器錯誤"
-	MSG_CMS_SERVER_ERROR_BY_FILE_TRAVERSE   = "伺服器錯誤"
-	MSG_CMS_SERVER_ERROR_BY_FILE_PERMISSION = "伺服器錯誤"
+	MSG_CMS_SERVER_ERROR_BY_DATABASE        = "server error (database)"
+	MSG_CMS_SERVER_ERROR_BY_REDIS           = "server error (redis)"
+	MSG_CMS_SERVER_ERROR_BY_JSON            = "server error (json)"
+	MSG_CMS_SERVER_ERROR_BY_FILE_TRAVERSE   = "server error (file traverse)"
+	MSG_CMS_SERVER_ERROR_BY_FILE_PERMISSION = "server error (file permission)"
 )
 
 const (
