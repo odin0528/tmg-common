@@ -180,6 +180,7 @@ const (
 	MSG_SINGLE_WALLET_MAX_RETRY_LIMIT_REACHED        = "the max retry limit reached"
 	MSG_SINGLE_WALLET_API_RESPONSE_FORMAT_ERROR      = "api response format error"
 	MSG_SINGLE_WALLET_PLAYER_IS_NOT_EXIST            = "player is not exist"
+	MSG_SINGLE_WALLET_GET_BALANCE_ERROR              = "get balance error"
 )
 
 // Mailbox
