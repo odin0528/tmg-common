@@ -94,6 +94,8 @@ const (
 	DEVICE_COUNTING_FROM_LOGIN = "device_counting_from_login"
 
 	HOT_GAME_HASH_MAP_KEY string = "hot_game_hash_map_key"
+
+	VERIFY_EXEC_SINGLE_WALLET_KEY = "verify_exec_single_wallet_key"
 )
 
 const (
