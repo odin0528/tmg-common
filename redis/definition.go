@@ -96,6 +96,8 @@ const (
 	HOT_GAME_HASH_MAP_KEY string = "hot_game_hash_map_key"
 
 	VERIFY_EXEC_SINGLE_WALLET_KEY = "verify_exec_single_wallet_key"
+
+	INTERVAL_SECOND_CHECK_BET_RECORD_LASTET_UPDATED_AT string = "interval_second_check_bet_record_lastet_updated_at"
 )
 
 const (
