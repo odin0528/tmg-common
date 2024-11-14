@@ -98,6 +98,8 @@ const (
 	BOT_TELEGRAM_ALARM_INTERNAL_CHAT_ROOM_ID    string = "telegram_alarm_internal_chat_room_id"
 	BOT_TELEGRAM_ALARM_INTERNAL_BOT_TOKEN       string = "telegram_alarm_internal_bot_token"
 
+	ENABLE_CHECK_BET_RECORD_LASTET_UPDATED_AT string = "enable_check_bet_record_lastet_updated_at"
+
 	GEOIP_FILE_PATH string = "file_path"
 
 	LOG_DEFAULT_PATH = "storage/logs"
