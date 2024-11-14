@@ -116,6 +116,7 @@ const (
 	FIELD_KEY_ODDS_TYPE            = "odds_type"
 	FIELD_KEY_CONDITION            = "condition"
 	FIELD_KEY_CAMP_POOL_MONEY      = "camp_pool_money"
+	FIELD_KEY_UID                  = "uid"
 )
 
 var level zap.AtomicLevel
