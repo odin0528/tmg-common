@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"log"
+	"fmt"
 	math_rand "math/rand"
 	"time"
 	"xxx/common/math_tool"
@@ -19,6 +20,18 @@ func ToGenericSlice[T any](input []T) []any {
 		result[i] = v
 	}
 	return result
+}
+
+func ToTypedSlice[T any](input []any) ([]T, error) {
+	result := make([]T, len(input))
+	for i, v := range input {
+		if val, ok := v.(T); ok {
+			result[i] = val
+		} else {
+			return nil, fmt.Errorf("invalid type conversion at index %d", i)
+		}
+	}
+	return result, nil
 }
 
 func ToStringSpecifiedTypeMap[T any](input map[string]interface{}) (map[string]T, error) {
