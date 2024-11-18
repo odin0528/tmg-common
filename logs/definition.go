@@ -12,6 +12,7 @@ const (
 	LOG_FILE_BET           = "bet.log"
 	LOG_FILE_HTTP          = "http.log"
 	LOG_FILE_RISK_CONTROL  = "risk_control.log"
+	LOG_FILE_GSI_API       = "gsi_api.log"
 
 	TIME_KEY       = "created_at"
 	LEVEL_KEY      = "level"
@@ -127,6 +128,7 @@ var panicRecvoerLogger *zap.Logger
 var betLogger *zap.Logger
 var httpLogger *zap.Logger
 var riskControlLogger *zap.Logger
+var gsiApiLogger *zap.Logger
 
 var systemLoggerCloseFunc func()
 var recordLoggerCloseFunc func()
@@ -135,6 +137,7 @@ var panicRecvoerLoggerCloseFunc func()
 var betLoggerCloseFunc func()
 var httpLoggerCloseFunc func()
 var riskControlLoggerCloseFunc func()
+var gsiApiLoggerCloseFunc func()
 
 var currentDate string
 

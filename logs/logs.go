@@ -65,6 +65,11 @@ func InitLogs() {
 		riskControlLoggerCloseFunc()
 	}
 
+	if gsiApiLogger != nil {
+		gsiApiLogger.Sync()
+		gsiApiLoggerCloseFunc()
+	}
+
 	files := configs.Get(configs.SECTION_LOG, configs.LOG_FILE, configs.LOG_DEFAULT_FILE)
 	fileList := strings.Split(files, ",")
 
@@ -122,6 +127,14 @@ func InitLogs() {
 				riskControlLogger, riskControlLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RISK_CONTROL))
 			} else {
 				riskControlLogger, riskControlLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RISK_CONTROL))
+			}
+		}
+
+		if file == LOG_FILE_GSI_API {
+			if isDaily == configs.YES {
+				gsiApiLogger, gsiApiLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_GSI_API))
+			} else {
+				gsiApiLogger, gsiApiLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_GSI_API))
 			}
 		}
 	}
@@ -249,6 +262,8 @@ func getLogger(logType string) *zap.Logger {
 		outputLogger = httpLogger
 	case LOG_TYPE_RISK_CONTROL:
 		outputLogger = riskControlLogger
+	case LOG_TYPE_GSI_API:
+		outputLogger = gsiApiLogger
 	default:
 		outputLogger = systemLogger
 	}
