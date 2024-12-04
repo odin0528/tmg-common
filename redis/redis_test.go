@@ -9,6 +9,8 @@ import (
 	"strconv"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func init() {
@@ -505,4 +507,58 @@ func TestIncrease(t *testing.T) {
 	}
 
 	t.Log("value:", value)
+}
+
+func TestRedisSet(t *testing.T) {
+	err := InitRedis(context.Background())
+	if err != nil {
+		t.Fatal("InitRedis err:", err.Error())
+	}
+
+	key := "testKey"
+
+	data := []string{}
+	for i := 0; i < 50000; i++ {
+		data = append(data, fmt.Sprintf("value_%d", i%10000)) // 刻意加入重複元素
+	}
+	if err := SAdd(key, data); err != nil {
+		t.Fatal("SAdd err:", err.Error())
+	}
+
+	count, err := SCard(key)
+	assert.Nil(t, err)
+	assert.Equal(t, count, int64(10000))
+
+	// 批處理
+	cnt := 0
+	err = SScanWithCallback(key, 1000, func(members []string) error {
+		// do nothing
+		cnt += len(members)
+		return nil
+	})
+	assert.Nil(t, err)
+	assert.Equal(t, cnt, 10000)
+
+	// 取出1000個元素
+	values, err := SPopN(key, 1000)
+	assert.Nil(t, err)
+	assert.Equal(t, len(values), 1000)
+
+	count, err = SCard(key)
+	assert.Nil(t, err)
+	assert.Equal(t, count, int64(9000))
+
+	// 取出1個元素
+	_, err = SPop(key)
+	assert.Nil(t, err)
+
+	count, err = SCard(key)
+	assert.Nil(t, err)
+	assert.Equal(t, count, int64(8999))
+
+	if err := Delete([]string{key}); err != nil {
+		t.Fatal("Delete cache key failed")
+	}
+
+	t.Log("Redis set ok")
 }
