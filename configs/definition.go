@@ -12,7 +12,9 @@ const (
 	SECTION_MOCK                      = "mock"
 	SECTION_LOG                       = "log"
 	SECTION_DATABASE_REAL_TIME        = "database_real_time"
+	SECTION_DATABASE_REAL_TIME_SLAVE  = "database_real_time_slave"
 	SECTION_DATABASE_RECORD           = "database_record"
+	SECTION_DATABASE_RECORD_SLAVE     = "database_record_slave"
 	SECTION_DATABASE_SCRIPT           = "database_script"
 	SECTION_DATABASE_REAL_TIME_SYSTEM = "database_real_time_system"
 	SECTION_MONGO_DATABASE_RECORD     = "mongo_database_record"
@@ -87,6 +89,8 @@ const (
 	DB_MAX_OPEN_CONNECTIONS     string = "max_open_connections"
 	DB_MAX_IDLE_CONNECTIONS     string = "max_idle_connections"
 	DB_MAX_CONNECTIONS_LIFETIME string = "max_connections_lifetime"
+	DB_SLAVE_ENABLE_REAL_TIME   string = "db_slave_enable_real_time"
+	DB_SLAVE_ENABLE_RECORD      string = "db_slave_enable_record"
 
 	BOT_ENABLE_TELEGRAM_ALARM_RTP               string = "enable_telegram_alarm_rtp"
 	BOT_TELEGRAM_ALARM_RTP_CHAT_ROOM_ID         string = "telegram_alarm_rtp_chat_room_id"
