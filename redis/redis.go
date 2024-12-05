@@ -298,8 +298,8 @@ func IsExist(key string) bool {
 	return err == nil
 }
 
-func RedisLock(key string) bool {
-	mutex := getMutex(key)
+func RedisLock(key string, options ...redsync.Option) bool {
+	mutex := getMutex(key, options...)
 	if mutex == nil {
 		return false
 	}
@@ -316,14 +316,14 @@ func RedisLock(key string) bool {
 	return true
 }
 
-func getMutex(cacheKey string) *redsync.Mutex {
+func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
 	var mutex *redsync.Mutex
 	val, ok := mutexMap.Load(cacheKey)
 	if !ok {
 		pool := goredis.NewPool(redisConn)
 		rs := redsync.New(pool)
 
-		mutex = rs.NewMutex(cacheKey)
+		mutex = rs.NewMutex(cacheKey, options...)
 		if mutex == nil {
 			return nil
 		}
