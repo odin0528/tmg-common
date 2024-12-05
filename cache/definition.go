@@ -1,6 +1,10 @@
 package cache
 
-import "time"
+import (
+	"time"
+
+	"github.com/go-redsync/redsync/v4"
+)
 
 type RedisCacheRepository struct {
 }
@@ -14,7 +18,7 @@ type IRedisCacheRepository interface {
 	Delete(keys []string) error
 	IsExist(key string) bool
 	GetStructData(key string, data interface{}) bool
-	Lock(key string) bool
+	Lock(key string, options ...redsync.Option) bool
 	Unlock(key string) bool
 	Scan(pattern string) ([]string, error)
 	HGet(key, field string) (string, error)
