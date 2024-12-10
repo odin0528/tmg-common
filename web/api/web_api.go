@@ -11,10 +11,15 @@ import (
 )
 
 func sendRequest(method HTTP_METHOD, url string, header map[string]string, body interface{}, timeout time.Duration) ([]byte, error) {
-	bodyBytes, err := json.Marshal(body)
+	var bodyBytes []byte
+	var err error
 
-	if err != nil {
-		return []byte{}, err
+	if body != nil {
+		bodyBytes, err = json.Marshal(body)
+
+		if err != nil {
+			return []byte{}, err
+		}
 	}
 
 	bodyReader := bytes.NewReader(bodyBytes)

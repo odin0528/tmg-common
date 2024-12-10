@@ -298,8 +298,8 @@ func IsExist(key string) bool {
 	return err == nil
 }
 
-func RedisLock(key string) bool {
-	mutex := getMutex(key)
+func RedisLock(key string, options ...redsync.Option) bool {
+	mutex := getMutex(key, options...)
 	if mutex == nil {
 		return false
 	}
@@ -316,14 +316,14 @@ func RedisLock(key string) bool {
 	return true
 }
 
-func getMutex(cacheKey string) *redsync.Mutex {
+func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
 	var mutex *redsync.Mutex
 	val, ok := mutexMap.Load(cacheKey)
 	if !ok {
 		pool := goredis.NewPool(redisConn)
 		rs := redsync.New(pool)
 
-		mutex = rs.NewMutex(cacheKey)
+		mutex = rs.NewMutex(cacheKey, options...)
 		if mutex == nil {
 			return nil
 		}
@@ -598,4 +598,66 @@ func IsExistByAllType(key string) bool {
 	result, err := redisConn.Exists(context.Background(), key).Result()
 
 	return err == nil && result == 1
+}
+
+func SAdd(key string, members ...interface{}) error {
+	return redisConn.SAdd(context.Background(), key, members...).Err()
+}
+
+func SMembers(key string) ([]string, error) {
+	return redisConn.SMembers(context.Background(), key).Result()
+}
+
+func SIsMember(key string, member interface{}) (bool, error) {
+	return redisConn.SIsMember(context.Background(), key, member).Result()
+}
+
+func SPop(key string) (string, error) {
+	return redisConn.SPop(context.Background(), key).Result()
+}
+
+func SPopN(key string, count int64) ([]string, error) {
+	return redisConn.SPopN(context.Background(), key, count).Result()
+}
+
+func SRem(key string, members ...interface{}) error {
+	return redisConn.SRem(context.Background(), key, members...).Err()
+}
+
+func SCard(key string) (int64, error) {
+	return redisConn.SCard(context.Background(), key).Result()
+}
+
+func SInter(keys ...string) ([]string, error) {
+	return redisConn.SInter(context.Background(), keys...).Result()
+}
+
+func SUnion(keys ...string) ([]string, error) {
+	return redisConn.SUnion(context.Background(), keys...).Result()
+}
+
+func SDiff(keys ...string) ([]string, error) {
+	return redisConn.SDiff(context.Background(), keys...).Result()
+}
+
+func SScanWithCallback(key string, batchSize int64, callback func([]string) error) error {
+	var cursor uint64
+
+	for {
+		members, nextCursor, err := redisConn.SScan(context.Background(), key, cursor, "", batchSize).Result()
+		if err != nil {
+			return err
+		}
+
+		if err := callback(members); err != nil {
+			return err
+		}
+
+		if nextCursor == 0 {
+			break
+		}
+		cursor = nextCursor
+	}
+
+	return nil
 }
