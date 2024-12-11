@@ -59,3 +59,7 @@ func GetScriptKey(gameName string, featureIndex, featureSecondIndex int) string 
 func GetScriptKeyWithMode(gameName string, featureIndex, featureSecondIndex, mode int) string {
 	return fmt.Sprintf("%s_%d_%d_%d", gameName, featureIndex, featureSecondIndex, mode)
 }
+
+func GetGameCollectKey(gameName, playerAccount, currency string) string {
+	return fmt.Sprintf("%s_%s_%s", gameName, playerAccount, currency)
+}

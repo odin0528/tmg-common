@@ -100,6 +100,10 @@ const (
 	INTERVAL_SECOND_CHECK_BET_RECORD_LASTET_UPDATED_AT string = "interval_second_check_bet_record_lastet_updated_at"
 
 	REIDS_LOCK_DEFAULT_EXPIRE_SECOND = 30 * time.Second
+
+	GAME_COLLECT_HASH_KEY = "game_collect_hash_key"
+
+	DEFAULT_COLLECT_EXPIRED_TIME = time.Minute * 15
 )
 
 const (
@@ -186,4 +190,9 @@ type ContextReplaceInfo struct {
 	JackpotName   string  `json:"jackpot_name"`
 	Award         float64 `json:"award"`
 	Multiplier    float64 `json:"multiplier"`
+}
+
+type GameCollectInfo struct {
+	Data        interface{} `json:"data"`
+	ExpiredTime time.Time   `json:"expired_time"`
 }
