@@ -3,6 +3,8 @@ package cache
 import (
 	"game_server/common/redis"
 	"time"
+
+	"github.com/go-redsync/redsync/v4"
 )
 
 func NewRedisCacheRepository() IRedisCacheRepository {
@@ -41,8 +43,8 @@ func (repository *RedisCacheRepository) GetStructData(key string, data interface
 	return redis.GetStructData(key, &data)
 }
 
-func (repository *RedisCacheRepository) Lock(key string) bool {
-	return redis.RedisLock(key)
+func (repository *RedisCacheRepository) Lock(key string, options ...redsync.Option) bool {
+	return redis.RedisLock(key, options...)
 }
 
 func (repository *RedisCacheRepository) Unlock(key string) bool {

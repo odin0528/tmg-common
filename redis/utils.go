@@ -55,3 +55,7 @@ func GetDailyBetRankKey(gameName, currency string) string {
 func GetScriptKey(gameName string, featureIndex, featureSecondIndex int) string {
 	return fmt.Sprintf("%s_%d_%d", gameName, featureIndex, featureSecondIndex)
 }
+
+func GetScriptKeyWithMode(gameName string, featureIndex, featureSecondIndex, mode int) string {
+	return fmt.Sprintf("%s_%d_%d_%d", gameName, featureIndex, featureSecondIndex, mode)
+}
