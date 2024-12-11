@@ -661,3 +661,22 @@ func SScanWithCallback(key string, batchSize int64, callback func([]string) erro
 
 	return nil
 }
+
+func SPopWithCallback(key string, batchSize int64, callback func([]string) error) error {
+	for {
+		members, err := redisConn.SPopN(context.Background(), key, batchSize).Result()
+		if err != nil {
+			return err
+		}
+
+		if len(members) == 0 {
+			break
+		}
+
+		if err := callback(members); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
