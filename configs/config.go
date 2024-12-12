@@ -7,6 +7,10 @@ import (
 	"gopkg.in/ini.v1"
 )
 
+func HasSection(section string) bool {
+	return envConfig.HasSection(section)
+}
+
 func Get(section, key, defaultValue string) string {
 	configMutex.RLock()
 	defer configMutex.RUnlock()
