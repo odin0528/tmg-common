@@ -46,6 +46,7 @@ const (
 	LOG_KEY_BET_RECORD  = "bet_record"
 	LOG_KEY_BET         = "bet"
 	LOG_KEY_CAMP_WAR    = "camp_war_record"
+	LOG_KEY_WATCHDOG    = "watchdog"
 
 	LOG_KEY_CACHE               = "cache"
 	LOG_KEY_BASE_ROOM           = "base_room"
@@ -68,6 +69,7 @@ const (
 	LOG_KEY_ROLE                = "role"
 	LOG_KEY_RISK_CONTROL        = "risk_control"
 	LOG_KEY_MAILBOX             = "mailbox"
+	LOG_KEY_COLLECT             = "collect"
 
 	LOG_KEY_CAMP_WAR_PLAYER_AWARD_RECORD = "camp_war_player_award_record"
 )

@@ -101,7 +101,9 @@ const (
 
 	REIDS_LOCK_DEFAULT_EXPIRE_SECOND = 30 * time.Second
 
-	GAME_COLLECT_HASH_KEY = "game_collect_hash_key"
+	GAME_COLLECT_HASH_KEY               = "game_collect_hash_key"
+	PLAYER_COLLECT_CHANGE_LIST_KEY      = "player_collect_change_list"
+	PLAYER_COLLECT_CHANGE_LIST_LOCK_KEY = "player_collect_change_list_lock_key"
 
 	DEFAULT_COLLECT_EXPIRED_TIME = time.Minute * 15
 )
