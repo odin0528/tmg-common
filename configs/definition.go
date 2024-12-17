@@ -43,6 +43,7 @@ const (
 	SYSTEM_ENABLE_PRESET_ROOM            string = "enable_preset_room"
 	SYSTEM_ENABLE_HUNDRED_ROOM_GROUP_IDS string = "enable_hundred_room_group_ids"
 	SYSTEM_ENABLE_DEMO_TOOL              string = "enable_demo_tool"
+	SYSTEM_ENABLE_WATCHDOG               string = "enable_watchdog"
 
 	WEB_API_API_CENTER_DOMAIN                string = "api_center_domain"
 	WEB_API_GAME_SERVER_DOMAIN               string = "game_server_domain"
