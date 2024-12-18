@@ -20,6 +20,7 @@ const (
 
 	ROUND_PRECISION         = 6
 	ROUND_DISPLAY_PRECISION = 2
+	AWARD_PRECISION         = 4
 
 	CMP_LESS_THAN   CmpValue = -1
 	CMP_EQUAL       CmpValue = 0
