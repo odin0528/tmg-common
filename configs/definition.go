@@ -25,6 +25,7 @@ const (
 	SECTION_DATABASE_REAL_TIME_WRITE  = "database_real_time_write"
 	SECTION_DATABASE_RECORD_WRITE     = "database_record_write"
 	SECTION_GEOIP                     = "geoip"
+	SECTION_RABBIT_MQ                 = "rabbit_mq"
 
 	SYSTEM_HTTP_HOST                     string = "host"
 	SYSTEM_HTTP_PORT                     string = "http_port"
@@ -105,6 +106,11 @@ const (
 	BOT_ENABLE_TELEGRAM_ALARM_INTERNAL          string = "enable_telegram_alarm_internal"
 	BOT_TELEGRAM_ALARM_INTERNAL_CHAT_ROOM_ID    string = "telegram_alarm_internal_chat_room_id"
 	BOT_TELEGRAM_ALARM_INTERNAL_BOT_TOKEN       string = "telegram_alarm_internal_bot_token"
+
+	MQ_USERNAME string = "username"
+	MQ_PASSWORD string = "password"
+	MQ_HOST     string = "host"
+	MQ_PORT     string = "port"
 
 	ENABLE_CHECK_BET_RECORD_LASTET_UPDATED_AT string = "enable_check_bet_record_lastet_updated_at"
 

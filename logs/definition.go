@@ -13,6 +13,7 @@ const (
 	LOG_FILE_HTTP          = "http.log"
 	LOG_FILE_RISK_CONTROL  = "risk_control.log"
 	LOG_FILE_GSI_API       = "gsi_api.log"
+	LOG_FILE_RABBIT_MQ     = "rabbit_mq.log"
 
 	TIME_KEY       = "created_at"
 	LEVEL_KEY      = "level"
@@ -30,6 +31,7 @@ const (
 	LOG_TYPE_HTTP          = "http"
 	LOG_TYPE_RISK_CONTROL  = "risk_control"
 	LOG_TYPE_GSI_API       = "gsi_api"
+	LOG_TYPE_RABBIT_MQ     = "rabbit_mq"
 
 	SAVE_BET_RECORD = "Save bet record info"
 	UNKNOWN_CALLER  = "Unknown caller"
@@ -70,6 +72,8 @@ const (
 	LOG_KEY_RISK_CONTROL        = "risk_control"
 	LOG_KEY_MAILBOX             = "mailbox"
 	LOG_KEY_COLLECT             = "collect"
+	LOG_KEY_MQ_PRODUCER         = "producer"
+	LOG_KEY_MQ_CONSUMER         = "consumer"
 
 	LOG_KEY_CAMP_WAR_PLAYER_AWARD_RECORD = "camp_war_player_award_record"
 )
@@ -131,6 +135,7 @@ var betLogger *zap.Logger
 var httpLogger *zap.Logger
 var riskControlLogger *zap.Logger
 var gsiApiLogger *zap.Logger
+var rabbitMqLogger *zap.Logger
 
 var systemLoggerCloseFunc func()
 var recordLoggerCloseFunc func()
@@ -140,6 +145,7 @@ var betLoggerCloseFunc func()
 var httpLoggerCloseFunc func()
 var riskControlLoggerCloseFunc func()
 var gsiApiLoggerCloseFunc func()
+var rabbitMqLoggerCloseFunc func()
 
 var currentDate string
 

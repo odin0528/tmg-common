@@ -137,6 +137,14 @@ func InitLogs() {
 				gsiApiLogger, gsiApiLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_GSI_API))
 			}
 		}
+
+		if file == LOG_FILE_RABBIT_MQ {
+			if isDaily == configs.YES {
+				rabbitMqLogger, rabbitMqLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RABBIT_MQ))
+			} else {
+				rabbitMqLogger, rabbitMqLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RABBIT_MQ))
+			}
+		}
 	}
 
 	if isEnableDebugLog() {
@@ -264,6 +272,8 @@ func getLogger(logType string) *zap.Logger {
 		outputLogger = riskControlLogger
 	case LOG_TYPE_GSI_API:
 		outputLogger = gsiApiLogger
+	case LOG_TYPE_RABBIT_MQ:
+		outputLogger = rabbitMqLogger
 	default:
 		outputLogger = systemLogger
 	}
