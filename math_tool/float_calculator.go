@@ -105,6 +105,16 @@ func GetMoneyFloatDecimal(value float64) float64 {
 	return value
 }
 
+func GetAwardMoneyFloatDecimal(value float64) float64 {
+	if CMP_BIGGER_THAN == Cmp(value, 0.0) {
+		value = GetFloatDecimal(value, AWARD_PRECISION)
+	} else {
+		value = GetFloatDecimal(value, AWARD_PRECISION+1)
+	}
+
+	return value
+}
+
 func GetFloatDecimal(value float64, place int) float64 {
 	var tail float64
 
