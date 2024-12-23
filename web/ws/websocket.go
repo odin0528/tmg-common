@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"mgmt/common/configs"
+	"mgmt/common/logs"
 	"mgmt/common/math_tool"
 	"strconv"
 
@@ -20,7 +21,10 @@ func GetEventResponse(event string, code int, msg string, data interface{}) []by
 		Data:  data,
 	}
 
-	byteArray, _ := json.Marshal(rsp)
+	byteArray, err := json.Marshal(rsp)
+	if err != nil {
+		logs.Error(logs.LOG_TYPE_SYSTEM, logs.LOG_KEY_API, fmt.Sprintf("Send event occur Marshal err:", err.Error()), nil)
+	}
 
 	if encodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_ENCODE_MODE, configs.ENABLE_WS_BASE64); encodeType == configs.ENABLE_WS_BASE64 {
 		encode := EncodeBybase64(byteArray)
