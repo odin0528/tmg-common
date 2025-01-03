@@ -105,6 +105,8 @@ const (
 	PLAYER_COLLECT_CHANGE_LIST_KEY      = "player_collect_change_list"
 	PLAYER_COLLECT_CHANGE_LIST_LOCK_KEY = "player_collect_change_list_lock_key"
 
+	PLAYER_UNBLOCK_HASH_KEY = "player_unblock_hash_key"
+
 	DEFAULT_COLLECT_EXPIRED_TIME = time.Minute * 15
 )
 
