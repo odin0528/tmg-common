@@ -70,6 +70,11 @@ func InitLogs() {
 		gsiApiLoggerCloseFunc()
 	}
 
+	if rabbitMqLogger != nil {
+		rabbitMqLogger.Sync()
+		rabbitMqLoggerCloseFunc()
+	}
+
 	files := configs.Get(configs.SECTION_LOG, configs.LOG_FILE, configs.LOG_DEFAULT_FILE)
 	fileList := strings.Split(files, ",")
 
