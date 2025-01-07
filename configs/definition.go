@@ -108,10 +108,12 @@ const (
 	BOT_TELEGRAM_ALARM_INTERNAL_CHAT_ROOM_ID    string = "telegram_alarm_internal_chat_room_id"
 	BOT_TELEGRAM_ALARM_INTERNAL_BOT_TOKEN       string = "telegram_alarm_internal_bot_token"
 
-	MQ_USERNAME string = "username"
-	MQ_PASSWORD string = "password"
-	MQ_HOST     string = "host"
-	MQ_PORT     string = "port"
+	MQ_USERNAME               string = "username"
+	MQ_PASSWORD               string = "password"
+	MQ_HOST                   string = "host"
+	MQ_PORT                   string = "port"
+	MQ_PRODUCER_DEFAULT_COUNT string = "producer_default_count"
+	MQ_CONSUMER_DEFAULT_COUNT string = "consumer_default_count"
 
 	ENABLE_CHECK_BET_RECORD_LASTET_UPDATED_AT string = "enable_check_bet_record_lastet_updated_at"
 
