@@ -108,6 +108,10 @@ const (
 	PLAYER_UNBLOCK_HASH_KEY = "player_unblock_hash_key"
 
 	DEFAULT_COLLECT_EXPIRED_TIME = time.Minute * 15
+
+	LOGIN_TYPE_COUNT_HASH_KEY = "player_login_type_count_hash_key"
+	LOGIN_TYPE_LOBBY          = "login_type_lobby"
+	LOGIN_TYPE_GAME           = "login_type_game"
 )
 
 const (
