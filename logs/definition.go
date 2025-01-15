@@ -126,6 +126,8 @@ const (
 	FIELD_KEY_CONDITION            = "condition"
 	FIELD_KEY_CAMP_POOL_MONEY      = "camp_pool_money"
 	FIELD_KEY_UID                  = "uid"
+	FIELD_KEY_SCRIPTRANGEINFO      = "script_range_info"
+	FIELD_KEY_IDX                  = "idx"
 )
 
 var level zap.AtomicLevel
