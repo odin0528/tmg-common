@@ -680,3 +680,30 @@ func SPopWithCallback(key string, batchSize int64, callback func([]string) error
 
 	return nil
 }
+
+func SetKeyExpiry(key string, timeout time.Duration) error {
+	exists, err := redisConn.Exists(context.Background(), key).Result()
+	if err != nil {
+		return err
+	}
+
+	if exists == 0 {
+		return fmt.Errorf("key %s does not exist", key)
+	}
+
+	_, err = redisConn.Expire(context.Background(), key, timeout).Result()
+	return err
+}
+
+func SetKeyExpiryIfNotExist(key string, timeout time.Duration) error {
+	success, err := redisConn.ExpireNX(context.Background(), key, timeout).Result()
+	if err != nil {
+		return err
+	}
+
+	if !success {
+		return fmt.Errorf("failed to set expiry: key %s does not exist or already has an expiry time", key)
+	}
+
+	return nil
+}
