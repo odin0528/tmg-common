@@ -112,6 +112,11 @@ const (
 	LOGIN_TYPE_COUNT_HASH_KEY = "player_login_type_count_hash_key"
 	LOGIN_TYPE_LOBBY          = "login_type_lobby"
 	LOGIN_TYPE_GAME           = "login_type_game"
+
+	AGENT_USE_API_HASH_KEY  = "agent_use_api_hash_key"
+	SERVER_ADD_NEW_GAME_KEY = "server_add_new_game_key"
+
+	RTP_NOTIFY_HASH_KEY = "rtp_notify_hash_key"
 )
 
 const (

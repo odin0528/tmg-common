@@ -74,6 +74,8 @@ const (
 	LOG_KEY_COLLECT             = "collect"
 	LOG_KEY_MQ_PRODUCER         = "producer"
 	LOG_KEY_MQ_CONSUMER         = "consumer"
+	LOG_KEY_NOTIFY              = "notify"
+	LOG_KEY_TG_BOT              = "tg_bot"
 
 	LOG_KEY_CAMP_WAR_PLAYER_AWARD_RECORD = "camp_war_player_award_record"
 )
@@ -124,6 +126,8 @@ const (
 	FIELD_KEY_CONDITION            = "condition"
 	FIELD_KEY_CAMP_POOL_MONEY      = "camp_pool_money"
 	FIELD_KEY_UID                  = "uid"
+	FIELD_KEY_SCRIPTRANGEINFO      = "script_range_info"
+	FIELD_KEY_IDX                  = "idx"
 )
 
 var level zap.AtomicLevel
