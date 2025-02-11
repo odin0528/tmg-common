@@ -117,6 +117,8 @@ const (
 	SERVER_ADD_NEW_GAME_KEY = "server_add_new_game_key"
 
 	RTP_NOTIFY_HASH_KEY = "rtp_notify_hash_key"
+
+	WALLET_TYPE_AND_SYNC_MODE_KEY = "wallet_type_and_sync_mode"
 )
 
 const (
