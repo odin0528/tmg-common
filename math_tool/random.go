@@ -25,7 +25,7 @@ func GetRandomInt64(max int64) int64 {
 
 func Shuffle[T any](target []T) {
 	for i := range target {
-		j := GetRandInt64(i + 1)
+		j := GetRandomInt64(int64(i) + 1)
 		target[i], target[j] = target[j], target[i]
 	}
 }
