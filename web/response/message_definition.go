@@ -139,7 +139,7 @@ const (
 	MSG_CMS_CMS_USER_ACCOUNT_PWD_ERROR    = "用戶名或密碼錯誤"
 	MSG_CMS_CMS_USER_OLD_PWD_ERROR        = "密碼輸入有誤請重新輸入"
 
-	MSG_AGENT_MONEY_IS_NOT_ENOUGH                      = "餘額不足"
+	MSG_AGENT_MONEY_IS_NOT_ENOUGH                      = "balance is not enough"
 	MSG_CMS_AGENT_IS_EXIST                             = "代理已存在"
 	MSG_CMS_AGENT_CAN_NOT_EDIT_SELF_COMMERCIAL_MODE    = "不可修改自身合作模式請諮詢上級代理或客服"
 	MSG_CMS_AGENT_CURRENT_OCCUPY_NEED_MORE_THAN_PARENT = "當前新代理點位不可低於上級點位"
@@ -147,7 +147,7 @@ const (
 	MSG_CMS_AGENT_COMMERCIAL_MODE_SUPPORT_TYPE         = "合作模式僅支援:買分網和信用網"
 	MSG_CMS_AGENT_WALLET_MODE_SUPPORT_TYPE             = "錢包模式僅支援:額轉錢包和單一錢包"
 	MSG_CMS_AGENT_CAN_NOT_LOGIN_IN_STST_SITE           = "發生錯誤請諮詢客服"
-	MSG_CMS_AGENT_NOT_SUPPORT_CURRENCY                 = "代理不支援該幣別"
+	MSG_CMS_AGENT_NOT_SUPPORT_CURRENCY                 = "agent don't support this currency"
 	MSG_CMS_AGENT_TRANSFER_RECORD_IS_NOT_DEPOSIT       = "此筆非上分紀錄"
 	MSG_CMS_AGENT_IP_IS_EXIST                          = "IP已存在"
 	MSG_CMS_AGENT_FILE_EXPORT_FAIL                     = "匯出失敗"
