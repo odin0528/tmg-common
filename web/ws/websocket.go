@@ -90,9 +90,9 @@ func EncodeByBase64Shift(src []byte) []byte {
 
 	randomNum := 0
 	if len(encode) > HEX_MAX_BIT {
-		randomNum = math_tool.GetRandInt(HEX_MAX_BIT) + 1
+		randomNum = math_tool.GetRandomInt(HEX_MAX_BIT) + 1
 	} else {
-		randomNum = math_tool.GetRandInt(len(encode)) + 1
+		randomNum = math_tool.GetRandomInt(len(encode)) + 1
 	}
 
 	shiftLength := randomNum

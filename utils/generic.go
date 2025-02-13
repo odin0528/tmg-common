@@ -1,17 +1,16 @@
 package utils
 
 import (
+	"crypto/rand"
 	"encoding/json"
 	"errors"
-	"log"
 	"fmt"
-	math_rand "math/rand"
-	"time"
 	"xxx/common/math_tool"
-	"xxx/common/uid"
 	"xxx/common/web/response"
 
-	"github.com/seehuhn/mt19937"
+	"log"
+	"math"
+	"math/big"
 )
 
 func ToGenericSlice[T any](input []T) []any {
@@ -54,17 +53,34 @@ func ToStringSpecifiedTypeMap[T any](input map[string]interface{}) (map[string]T
 	return result, nil
 }
 
-func PickByWeights(weights []float64) (idx int) {
+func PickByWeights(weights []float64) (pickIdx int) {
 	if len(weights) == 0 {
 		log.Println("weights is empty")
 		return 0
 	}
 
-	src := math_rand.New(mt19937.New())
-	src.Seed(int64(uid.GenerateUniqueID()) + time.Now().UnixNano())
-	weightHandler := math_tool.NewWeighted(weights, src)
+	sum := 0.0
+	maxLimitList := make([]float64, len(weights))
 
-	idx, _ = weightHandler.Take()
+	for idx, weight := range weights {
+		sum += weight
+		maxLimitList[idx] = sum
+	}
 
-	return idx
+	sum *= math.Pow10(6)
+
+	bigInt := new(big.Int).SetInt64(int64(sum))
+	v, _ := rand.Int(rand.Reader, bigInt)
+
+	value := float64(v.Int64()) * math.Pow10(-6)
+
+	pickIdx = 0
+	for idx, limit := range maxLimitList {
+		if math_tool.IsFloatLessThan(value, limit) {
+			pickIdx = idx
+			break
+		}
+	}
+
+	return pickIdx
 }
