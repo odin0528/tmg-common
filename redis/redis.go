@@ -351,28 +351,11 @@ func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
 func RedisUnlock(key string) bool {
 	mutex := getMutex(key)
 	if nil == mutex {
-		logs.Error(
-			logs.LOG_TYPE_SYSTEM,
-			logs.LOG_KEY_CACHE,
-			"Get redis lock failed",
-			map[string]interface{}{
-				logs.FIELD_KEY_CACHE_KEY: key,
-			},
-		)
 		return false
 	}
 
-	ok, err := mutex.Unlock()
+	ok, _ := mutex.Unlock()
 	if false == ok {
-		logs.Error(
-			logs.LOG_TYPE_SYSTEM,
-			logs.LOG_KEY_CACHE,
-			fmt.Sprintf("Unlock redis failed err: %v", err),
-			map[string]interface{}{
-				logs.FIELD_KEY_CACHE_KEY: key,
-			},
-		)
-
 		return false
 	}
 
