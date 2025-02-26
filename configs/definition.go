@@ -57,6 +57,8 @@ const (
 	WEB_API_AUTH_TOKEN_DURATION_HOURS        string = "auth_token_duration_hours"
 	WEB_API_ENABLE_TRUST_IP                  string = "enable_trust_ip"
 	WEB_API_MIDDLE_PATH                      string = "middle_path"
+	WEB_API_MIDDLE_PATH_WOW_GAMING           string = "wow_gaming"
+	WEB_API_MIDDLE_PATH_AI_LIVE_CASINO       string = "ai_live_casino"
 	WEB_API_CALC_GAME_CURRENT_RTP_PERIOD_DAY string = "calc_game_current_rtp_period_day"
 	WEB_API_GAME_SERVER_IPS                  string = "game_server_ips"
 
