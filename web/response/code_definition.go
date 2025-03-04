@@ -72,6 +72,7 @@ const (
 	CODE_IS_NOT_FEATURE_GAME            = 13012
 	CODE_CAMP_IS_NOT_EXIST              = 13013
 	CODE_GAME_IS_NOT_SELECT_STATE_ERROR = 13014
+	CODE_ROOM_IS_NOT_FOUND              = 13015
 )
 
 // db
