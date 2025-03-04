@@ -119,6 +119,8 @@ const (
 	RTP_NOTIFY_HASH_KEY = "rtp_notify_hash_key"
 
 	WALLET_TYPE_AND_SYNC_MODE_KEY = "wallet_type_and_sync_mode"
+
+	DO_DIRECT_BET_PREFIX_KEY = "do_direct_bet_prefix"
 )
 
 const (
