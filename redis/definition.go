@@ -121,6 +121,8 @@ const (
 	WALLET_TYPE_AND_SYNC_MODE_KEY = "wallet_type_and_sync_mode"
 
 	DO_DIRECT_BET_PREFIX_KEY = "do_direct_bet_prefix"
+
+	GAME_OPTION_PREFIX_KEY = "game_option_prefix"
 )
 
 const (
