@@ -123,6 +123,7 @@ const (
 	DO_DIRECT_BET_PREFIX_KEY = "do_direct_bet_prefix"
 
 	GAME_OPTION_PREFIX_KEY = "game_option_prefix"
+	COMMON_LIST_KEY        = "list"
 )
 
 const (
