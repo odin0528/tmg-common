@@ -73,6 +73,7 @@ const (
 	MSG_DUPLICATE_TOKEN          = "player is duplicate"
 	MSG_BET_AREA_IS_LOCK         = "bet area is lock"
 	MSG_ROOM_IS_NOT_FOUND        = "room is not found"
+	MSG_GAME_CONTROL_TYPE_ERROR  = "game occur error"
 )
 
 // internal
