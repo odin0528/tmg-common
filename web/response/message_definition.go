@@ -71,6 +71,7 @@ const (
 	MSG_IS_NOT_FEATURE_GAME      = "game is not feature game"
 	MSG_DUPLICATE_TOKEN          = "player is duplicate"
 	MSG_BET_AREA_IS_LOCK         = "bet area is lock"
+	MSG_ROOM_IS_NOT_FOUND        = "room is not found"
 )
 
 // internal
