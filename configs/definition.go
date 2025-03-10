@@ -48,7 +48,7 @@ const (
 	SYSTEM_ENABLE_DEMO_TOOL              string = "enable_demo_tool"
 	SYSTEM_ENABLE_WATCHDOG               string = "enable_watchdog"
 	SYSTEM_SEVICE_NAME                   string = "service_name"
-	SYSTEM_DISABLE_CHECK_JP_THRESHOLD    string = "disable_check_jp_threshold"
+	SYSTEM_ENABLE_CHECK_JP_THRESHOLD     string = "enable_check_jp_threshold"
 
 	WEB_API_API_CENTER_DOMAIN                string = "api_center_domain"
 	WEB_API_GAME_SERVER_DOMAIN               string = "game_server_domain"
