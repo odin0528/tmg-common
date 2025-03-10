@@ -99,7 +99,9 @@ const (
 
 	INTERVAL_SECOND_CHECK_BET_RECORD_LASTET_UPDATED_AT string = "interval_second_check_bet_record_lastet_updated_at"
 
-	REIDS_LOCK_DEFAULT_EXPIRE_SECOND = 30 * time.Second
+	REIDS_LOCK_DEFAULT_EXPIRE_SECOND                    = 30 * time.Second
+	REDIS_LOCK_DEFAULT_RETRY_TIMES                  int = 30
+	REDIS_LOCK_DEFAULT_RETRY_INTERVAL_TIME_DURATION     = 200 * time.Millisecond
 
 	GAME_COLLECT_HASH_KEY               = "game_collect_hash_key"
 	PLAYER_COLLECT_CHANGE_LIST_KEY      = "player_collect_change_list"
