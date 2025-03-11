@@ -28,3 +28,16 @@ func Remove(source []string, target string) []string {
 	}
 	return source
 }
+
+func GetCombinedString(symbol string, keys ...string) string {
+	result := ""
+	for i, key := range keys {
+		result += key
+
+		if i != (len(keys) - 1) {
+			result += symbol
+		}
+	}
+
+	return result
+}
