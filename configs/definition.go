@@ -114,6 +114,7 @@ const (
 	BOT_TELEGRAM_ALARM_INTERNAL_CHAT_ROOM_ID    string = "telegram_alarm_internal_chat_room_id"
 	BOT_TELEGRAM_ALARM_INTERNAL_BOT_TOKEN       string = "telegram_alarm_internal_bot_token"
 
+	MQ_PROTOCOL               string = "protocol"
 	MQ_USERNAME               string = "username"
 	MQ_PASSWORD               string = "password"
 	MQ_HOST                   string = "host"
