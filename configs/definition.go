@@ -140,6 +140,8 @@ const (
 	ENABLE_WS_BASE64           int = 1
 	ENABLE_WS_MSG_PACK         int = 2
 	ENABLE_WS_MIX_BASE64_SHIFT int = 3
+
+	GAME_EANBLE_FORCED_CONTROL_TYPE string = "enable_forced_control_type"
 )
 
 var configMutex sync.RWMutex
