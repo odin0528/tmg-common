@@ -12,7 +12,7 @@ func Init() (*amqp.Connection, *amqp.Channel, error) {
 }
 
 func Connection() (*amqp.Connection, *amqp.Channel, error) {
-	var url = fmt.Sprintf("%s:%s@%s:%s/",
+	var url = fmt.Sprintf("amqps://%s:%s@%s:%s/",
 		configs.Get(configs.SECTION_RABBIT_MQ, configs.MQ_USERNAME, "guest"),
 		configs.Get(configs.SECTION_RABBIT_MQ, configs.MQ_PASSWORD, "guest"),
 		configs.Get(configs.SECTION_RABBIT_MQ, configs.MQ_HOST, "localhost"),
