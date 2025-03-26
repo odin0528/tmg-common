@@ -1,16 +1,10 @@
 package utils
 
 import (
-	"crypto/rand"
 	"encoding/json"
 	"errors"
 	"fmt"
-	"mgmt/common/math_tool"
 	"mgmt/common/web/response"
-
-	"log"
-	"math"
-	"math/big"
 )
 
 func ToGenericSlice[T any](input []T) []any {
@@ -51,36 +45,4 @@ func ToStringSpecifiedTypeMap[T any](input map[string]interface{}) (map[string]T
 	}
 
 	return result, nil
-}
-
-func PickByWeights(weights []float64) (pickIdx int) {
-	if len(weights) == 0 {
-		log.Println("weights is empty")
-		return 0
-	}
-
-	sum := 0.0
-	maxLimitList := make([]float64, len(weights))
-
-	for idx, weight := range weights {
-		sum += weight
-		maxLimitList[idx] = sum
-	}
-
-	sum *= math.Pow10(6)
-
-	bigInt := new(big.Int).SetInt64(int64(sum))
-	v, _ := rand.Int(rand.Reader, bigInt)
-
-	value := float64(v.Int64()) * math.Pow10(-6)
-
-	pickIdx = 0
-	for idx, limit := range maxLimitList {
-		if math_tool.IsFloatLessThan(value, limit) {
-			pickIdx = idx
-			break
-		}
-	}
-
-	return pickIdx
 }
