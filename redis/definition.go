@@ -218,3 +218,8 @@ type GameCollectInfo struct {
 	Data        interface{} `json:"data"`
 	ExpiredTime time.Time   `json:"expired_time"`
 }
+
+type Z struct {
+	Score  float64
+	Member string
+}
