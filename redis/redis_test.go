@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"mgmt/common/configs"
 	"mgmt/common/logs"
+	"github.com/go-redis/redis/v8"
 	"strconv"
 	"testing"
 	"time"
@@ -561,4 +562,43 @@ func TestRedisSet(t *testing.T) {
 	}
 
 	t.Log("Redis set ok")
+}
+
+func TestZIncrBy(t *testing.T) {
+
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%s", "localhost", "6379"),
+		Password: "123456",
+		DB:       0,
+		PoolSize: 100,
+	})
+	SetRedisClient(redisClient)
+	key := "rankings"
+
+	_, err := ZIncrBy(key, 1, "TITAN_MONSTER")
+	assert.Nil(t, err)
+
+	_, err = ZIncrBy(key, 2, "ALICE_AND_WONDERLAND")
+	assert.Nil(t, err)
+
+	_, err = ZIncrBy(key, 3, "CALL_UFO")
+	assert.Nil(t, err)
+
+	results, err := ZRangeWithScores(key, 0, -1)
+	assert.Nil(t, err)
+
+	assert.Equal(t, len(results), 3)
+	assert.Equal(t, results[0].Member, "TITAN_MONSTER")
+	assert.Equal(t, results[1].Member, "ALICE_AND_WONDERLAND")
+	assert.Equal(t, results[2].Member, "CALL_UFO")
+
+	results, err = ZRevRangeWithScores(key, 0, -1)
+	assert.Nil(t, err)
+
+	assert.Equal(t, len(results), 3)
+	assert.Equal(t, results[0].Member, "CALL_UFO")
+	assert.Equal(t, results[1].Member, "ALICE_AND_WONDERLAND")
+	assert.Equal(t, results[2].Member, "TITAN_MONSTER")
+
+	Delete([]string{key})
 }

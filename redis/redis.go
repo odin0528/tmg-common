@@ -57,6 +57,10 @@ func GetRedisClient() *redis.Client {
 	return nil
 }
 
+func SetRedisClient(client *redis.Client) {
+	redisConn = client
+}
+
 func ClearApiCenterKey() {
 	Delete([]string{RISK_CONTROL_ODDS_TYPE_BACKUP_HASH_KEY})
 }
@@ -689,4 +693,47 @@ func SetKeyExpiryIfNotExist(key string, timeout time.Duration) error {
 	}
 
 	return nil
+}
+
+func ZIncrBy(key string, increment float64, member string) (float64, error) {
+	score, err := redisConn.ZIncrBy(context.Background(), key, increment, member).Result()
+	return score, err
+}
+
+func ZRangeWithScores(key string, start, stop int64) ([]Z, error) {
+	zSlice, err := redisConn.ZRangeWithScores(context.Background(), key, start, stop).Result()
+	if err != nil {
+		return nil, err
+	}
+
+	result := make([]Z, 0, len(zSlice))
+	for _, z := range zSlice {
+		memberStr, ok := z.Member.(string)
+		if ok {
+			result = append(result, Z{
+				Score:  z.Score,
+				Member: memberStr,
+			})
+		}
+	}
+	return result, nil
+}
+
+func ZRevRangeWithScores(key string, start, stop int64) ([]Z, error) {
+	zSlice, err := redisConn.ZRevRangeWithScores(context.Background(), key, start, stop).Result()
+	if err != nil {
+		return nil, err
+	}
+
+	result := make([]Z, 0, len(zSlice))
+	for _, z := range zSlice {
+		memberStr, ok := z.Member.(string)
+		if ok {
+			result = append(result, Z{
+				Score:  z.Score,
+				Member: memberStr,
+			})
+		}
+	}
+	return result, nil
 }
