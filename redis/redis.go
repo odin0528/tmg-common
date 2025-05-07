@@ -63,6 +63,7 @@ func SetRedisClient(client *redis.Client) {
 
 func ClearApiCenterKey() {
 	Delete([]string{RISK_CONTROL_ODDS_TYPE_BACKUP_HASH_KEY})
+	ResetPresetRoomGameOption()
 }
 
 func ClearAll() {
@@ -736,4 +737,27 @@ func ZRevRangeWithScores(key string, start, stop int64) ([]Z, error) {
 		}
 	}
 	return result, nil
+}
+
+func ResetPresetRoomGameOption() {
+	awaitDeleteKeys := []string{}
+	redisPattern := GetCacheKey(GAME_OPTION_PREFIX_KEY, COMMON_LIST_KEY, "*")
+	existKeys, err := Scan(redisPattern)
+
+	if err != nil {
+		return
+	}
+
+	awaitDeleteKeys = append(awaitDeleteKeys, existKeys...)
+
+	batchSize := 1
+	for i := 0; i < len(awaitDeleteKeys); i += batchSize {
+		end := i + batchSize
+		if end > len(awaitDeleteKeys) {
+			end = len(awaitDeleteKeys)
+		}
+		currentDeleteKeys := awaitDeleteKeys[i:end]
+
+		Delete(currentDeleteKeys)
+	}
 }
