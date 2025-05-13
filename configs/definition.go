@@ -128,6 +128,12 @@ const (
 	MQ_CONSUMER_BATCH_SIZE_REPORT               string = "consumer_batch_size_report"
 	MQ_CONSUMER_BATCH_TIMEOUT_SECOND_REPORT     string = "consumer_batch_timeout_second_report"
 
+	AWS_S3_ACCESS_KEY_ID          string = "aws_s3_access_key_id"
+	AWS_S3_SECRET_ACCESS_KEY      string = "aws_s3_secret_access_key"
+	AWS_S3_REGION                 string = "aws_s3_region"
+	AWS_S3_BUCKET                 string = "aws_s3_bucket"
+	AWS_S3_FOLDER_PLAYER_PORTRAIT string = "aws_s3_folder_player_portrait"
+
 	ENABLE_CHECK_BET_RECORD_LASTET_UPDATED_AT string = "enable_check_bet_record_lastet_updated_at"
 
 	GEOIP_FILE_PATH string = "file_path"
