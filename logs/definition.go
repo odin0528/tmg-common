@@ -14,6 +14,7 @@ const (
 	LOG_FILE_RISK_CONTROL  = "risk_control.log"
 	LOG_FILE_GSI_API       = "gsi_api.log"
 	LOG_FILE_RABBIT_MQ     = "rabbit_mq.log"
+	LOG_FILE_AI_AGENT      = "ai_agent.log"
 
 	TIME_KEY       = "created_at"
 	LEVEL_KEY      = "level"
@@ -32,6 +33,7 @@ const (
 	LOG_TYPE_RISK_CONTROL  = "risk_control"
 	LOG_TYPE_GSI_API       = "gsi_api"
 	LOG_TYPE_RABBIT_MQ     = "rabbit_mq"
+	LOG_TYPE_AI_AGENT      = "ai_agent"
 
 	SAVE_BET_RECORD = "Save bet record info"
 	UNKNOWN_CALLER  = "Unknown caller"
@@ -76,6 +78,7 @@ const (
 	LOG_KEY_MQ_CONSUMER         = "consumer"
 	LOG_KEY_NOTIFY              = "notify"
 	LOG_KEY_TG_BOT              = "tg_bot"
+	LOG_KEY_AI_AGENT            = "ai_agent"
 
 	LOG_KEY_CAMP_WAR_PLAYER_AWARD_RECORD = "camp_war_player_award_record"
 )
@@ -128,28 +131,36 @@ const (
 	FIELD_KEY_UID                  = "uid"
 	FIELD_KEY_SCRIPTRANGEINFO      = "script_range_info"
 	FIELD_KEY_IDX                  = "idx"
+	FIELD_KEY_AGENT_TOKEN          = "agent_token"
+	FIELD_KEY_PATTERN_TYPE         = "pattern_type"
 )
 
-var level zap.AtomicLevel
-var systemLogger *zap.Logger
-var recordLogger *zap.Logger
-var cmsLogger *zap.Logger
-var panicRecvoerLogger *zap.Logger
-var betLogger *zap.Logger
-var httpLogger *zap.Logger
-var riskControlLogger *zap.Logger
-var gsiApiLogger *zap.Logger
-var rabbitMqLogger *zap.Logger
+var (
+	level              zap.AtomicLevel
+	systemLogger       *zap.Logger
+	recordLogger       *zap.Logger
+	cmsLogger          *zap.Logger
+	panicRecvoerLogger *zap.Logger
+	betLogger          *zap.Logger
+	httpLogger         *zap.Logger
+	riskControlLogger  *zap.Logger
+	gsiApiLogger       *zap.Logger
+	rabbitMqLogger     *zap.Logger
+	aiAgentLogger      *zap.Logger
+)
 
-var systemLoggerCloseFunc func()
-var recordLoggerCloseFunc func()
-var cmsLoggerCloseFunc func()
-var panicRecvoerLoggerCloseFunc func()
-var betLoggerCloseFunc func()
-var httpLoggerCloseFunc func()
-var riskControlLoggerCloseFunc func()
-var gsiApiLoggerCloseFunc func()
-var rabbitMqLoggerCloseFunc func()
+var (
+	systemLoggerCloseFunc       func()
+	recordLoggerCloseFunc       func()
+	cmsLoggerCloseFunc          func()
+	panicRecvoerLoggerCloseFunc func()
+	betLoggerCloseFunc          func()
+	httpLoggerCloseFunc         func()
+	riskControlLoggerCloseFunc  func()
+	gsiApiLoggerCloseFunc       func()
+	rabbitMqLoggerCloseFunc     func()
+	aiAgentLoggerCloseFunc      func()
+)
 
 var currentDate string
 
