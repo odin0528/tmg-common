@@ -603,3 +603,39 @@ func TestZIncrBy(t *testing.T) {
 
 	Delete([]string{key})
 }
+
+func TestPipeline(t *testing.T) {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%s", "localhost", "6379"),
+		Password: "123456",
+		DB:       0,
+		PoolSize: 100,
+	})
+	SetRedisClient(redisClient)
+
+	keysCount := 10
+
+	results, err := RunPipeline(func(p Pipeline) {
+		for i := 0; i < keysCount; i++ {
+			key := fmt.Sprintf("key_%d", i)
+			p.Set(key, i, time.Minute)
+		}
+	})
+	assert.Nil(t, err)
+
+	for _, res := range results {
+		assert.Nil(t, res.Err)
+	}
+
+	results, err = RunPipeline(func(p Pipeline) {
+		for i := 0; i < keysCount; i++ {
+			key := fmt.Sprintf("key_%d", i)
+			p.Get(key)
+		}
+	})
+
+	for i, res := range results {
+		assert.Equal(t, res.Result, fmt.Sprintf("%d", i))
+		assert.Nil(t, res.Err)
+	}
+}

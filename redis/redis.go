@@ -761,3 +761,50 @@ func ResetPresetRoomGameOption() {
 		Delete(currentDeleteKeys)
 	}
 }
+
+func RunPipeline(fn func(Pipeline)) ([]CmdResult, error) {
+	client := GetRedisClient()
+	if client == nil {
+		return nil, errors.New("redis client not initialized")
+	}
+
+	ctx := context.Background()
+	pipe := client.Pipeline()
+
+	wrapper := &redisPipelineWrapper{
+		pipe: pipe,
+		ctx:  ctx,
+		cmds: []redis.Cmder{},
+	}
+
+	// 使用者自定義要執行哪些 pipeline 操作
+	fn(wrapper)
+
+	_, err := pipe.Exec(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// 統一包裝回傳結果
+	results := make([]CmdResult, 0, len(wrapper.cmds))
+	for _, cmd := range wrapper.cmds {
+		var res CmdResult
+
+		switch c := cmd.(type) {
+		case *redis.StringCmd:
+			res = CmdResult{
+				Result: c.Val(), // 放入實際字串值
+				Err:    c.Err(),
+			}
+		default:
+			res = CmdResult{
+				Result: cmd.String(),
+				Err:    cmd.Err(),
+			}
+		}
+
+		results = append(results, res)
+	}
+
+	return results, nil
+}
