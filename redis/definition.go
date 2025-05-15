@@ -1,6 +1,7 @@
 package redis
 
 import (
+	"context"
 	"time"
 
 	"github.com/go-redis/redis/v8"
@@ -222,4 +223,23 @@ type GameCollectInfo struct {
 type Z struct {
 	Score  float64
 	Member string
+}
+
+// Pipeline 定義可用的 Redis pipeline 操作方法
+type Pipeline interface {
+	Set(key string, value interface{}, expiration time.Duration)
+	Get(key string)
+	// 可依需求增加更多常用方法
+}
+
+// CmdResult 是每個 Redis 指令執行後的結果
+type CmdResult struct {
+	Result string
+	Err    error
+}
+
+type redisPipelineWrapper struct {
+	pipe redis.Pipeliner
+	ctx  context.Context
+	cmds []redis.Cmder
 }
