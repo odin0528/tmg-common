@@ -117,7 +117,6 @@ func DecodeByBase64Shift(src []byte) ([]byte, error) {
 	}
 
 	decode, err := DecodeByBase64(src)
-
 	if err != nil {
 		return data, err
 	}

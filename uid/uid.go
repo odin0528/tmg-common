@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"xxx/common/configs"
 
 	"github.com/bwmarrin/snowflake"
 )

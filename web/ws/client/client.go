@@ -122,9 +122,7 @@ func (client *WsClient) GetID() string {
 }
 
 func (client *WsClient) keepAlive(msg []byte) bool {
-
 	event, err := ws.ParseEvent(msg)
-
 	if err != nil {
 		return false
 	}

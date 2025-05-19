@@ -6,10 +6,11 @@ import (
 	"fmt"
 	"game_server/common/configs"
 	"game_server/common/logs"
-	"github.com/go-redis/redis/v8"
 	"strconv"
 	"testing"
 	"time"
+
+	"github.com/go-redis/redis/v8"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -293,7 +294,6 @@ func TestHashMap(t *testing.T) {
 	}
 
 	for k, v := range results {
-
 		if k == "player_1" {
 			num, err := strconv.Atoi(v)
 			if err != nil {
@@ -565,7 +565,6 @@ func TestRedisSet(t *testing.T) {
 }
 
 func TestZIncrBy(t *testing.T) {
-
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%s", "localhost", "6379"),
 		Password: "123456",

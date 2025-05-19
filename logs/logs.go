@@ -25,7 +25,7 @@ func InitLogs() {
 	isDaily := configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_DAILY, configs.NO)
 
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
-		if createErr := os.MkdirAll(filePath, 0755); createErr != nil {
+		if createErr := os.MkdirAll(filePath, 0o755); createErr != nil {
 			log.Panicln("Failed to create log file path.")
 		}
 	}
@@ -73,6 +73,11 @@ func InitLogs() {
 	if rabbitMqLogger != nil {
 		rabbitMqLogger.Sync()
 		rabbitMqLoggerCloseFunc()
+	}
+
+	if aiAgentLogger != nil {
+		aiAgentLogger.Sync()
+		aiAgentLoggerCloseFunc()
 	}
 
 	files := configs.Get(configs.SECTION_LOG, configs.LOG_FILE, configs.LOG_DEFAULT_FILE)
@@ -150,6 +155,14 @@ func InitLogs() {
 				rabbitMqLogger, rabbitMqLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RABBIT_MQ))
 			}
 		}
+
+		if file == LOG_FILE_AI_AGENT {
+			if isDaily == configs.YES {
+				aiAgentLogger, aiAgentLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_AI_AGENT))
+			} else {
+				aiAgentLogger, aiAgentLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_AI_AGENT))
+			}
+		}
 	}
 
 	if isEnableDebugLog() {
@@ -178,8 +191,7 @@ func initPanicLog() {
 	}
 
 	fileName := configs.Get(configs.SECTION_LOG, configs.LOG_FILE_PATH, configs.LOG_DEFAULT_PATH) + "/" + configs.Get(configs.SECTION_LOG, "panic_file", "panic.log")
-	file, err := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-
+	file, err := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0o666)
 	if err != nil {
 		log.Panicln(err)
 		return
@@ -279,6 +291,8 @@ func getLogger(logType string) *zap.Logger {
 		outputLogger = gsiApiLogger
 	case LOG_TYPE_RABBIT_MQ:
 		outputLogger = rabbitMqLogger
+	case LOG_TYPE_AI_AGENT:
+		outputLogger = aiAgentLogger
 	default:
 		outputLogger = systemLogger
 	}
@@ -291,7 +305,7 @@ func Debug(logType, logKey, msg string, payload interface{}, fields ...Field) {
 		zapFields := transferMappingToFields(logKey, fields)
 		zapFields = append(zapFields,
 			zap.Any(FIELD_KEY_PAYLOAD, payload),
-			zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(BASE_SKIP_LAYER)), //Skip "Debug" layer
+			zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(BASE_SKIP_LAYER)), // Skip "Debug" layer
 			zap.String(FIELD_KEY_FUNC_CALLER_STACK, combinFuncCallerName(getAllFuncCallerNameList(BASE_SKIP_LAYER))),
 		)
 		if log := getLogger(logType); log != nil {
@@ -304,7 +318,7 @@ func Info(logType, logKey, msg string, payload interface{}, fields ...Field) {
 	zapFields := transferMappingToFields(logKey, fields)
 	zapFields = append(zapFields,
 		zap.Any(FIELD_KEY_PAYLOAD, payload),
-		zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(BASE_SKIP_LAYER)), //Skip "Info" layer
+		zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(BASE_SKIP_LAYER)), // Skip "Info" layer
 	)
 
 	if log := getLogger(logType); log != nil {
@@ -316,7 +330,7 @@ func Error(logType, logKey, msg string, payload interface{}, fields ...Field) {
 	zapFields := transferMappingToFields(logKey, fields)
 	zapFields = append(zapFields,
 		zap.Any(FIELD_KEY_PAYLOAD, payload),
-		zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(BASE_SKIP_LAYER)), //Skip "Error" layer
+		zap.String(FIELD_KEY_FUNC_NAME, getFuncCallerName(BASE_SKIP_LAYER)), // Skip "Error" layer
 		zap.String(FIELD_KEY_FUNC_CALLER_STACK, combinFuncCallerName(getAllFuncCallerNameList(BASE_SKIP_LAYER))),
 	)
 

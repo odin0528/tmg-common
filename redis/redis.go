@@ -16,8 +16,10 @@ import (
 	jsoniter "github.com/json-iterator/go"
 )
 
-var redisConn *redis.Client
-var mutexMap sync.Map
+var (
+	redisConn *redis.Client
+	mutexMap  sync.Map
+)
 
 func InitRedis(ctx context.Context) error {
 	section := configs.SECTION_CACHE
@@ -74,7 +76,7 @@ func clearCmsLoginCache() {
 	infos, _ := GetAllHashMap(LOGIN_DETAIL_HASH_KEY)
 
 	keys := []string{}
-	for key, _ := range infos {
+	for key := range infos {
 		keys = append(keys, key)
 	}
 
@@ -89,7 +91,7 @@ func clearCmsLoginCache() {
 
 	accountMap["superadmin"] = JWT_CMS_ACCOUNT_TOKEN + "superadmin"
 
-	for account, _ := range accountMap {
+	for account := range accountMap {
 		accountCacheKey := JWT_CMS_ACCOUNT_TOKEN + account
 		tokenMap, err := GetAllHashMap(accountCacheKey)
 		if err != nil {
@@ -97,7 +99,7 @@ func clearCmsLoginCache() {
 		}
 
 		tokens := []string{}
-		for token, _ := range tokenMap {
+		for token := range tokenMap {
 			tokens = append(tokens, token)
 		}
 
@@ -107,7 +109,6 @@ func clearCmsLoginCache() {
 			}
 		}
 	}
-
 }
 
 func Put(key string, value interface{}, timeout time.Duration) (err error) {
@@ -180,7 +181,6 @@ func IncreaseBy(key string, value int64) (int64, error) {
 }
 
 func Delete(keys []string) error {
-
 	return redisConn.Del(context.Background(), keys...).Err()
 }
 
@@ -743,7 +743,6 @@ func ResetPresetRoomGameOption() {
 	awaitDeleteKeys := []string{}
 	redisPattern := GetCacheKey(GAME_OPTION_PREFIX_KEY, COMMON_LIST_KEY, "*")
 	existKeys, err := Scan(redisPattern)
-
 	if err != nil {
 		return
 	}
