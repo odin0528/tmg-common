@@ -231,8 +231,6 @@ type Pipeline interface {
 	Get(key string)
 	Exec(ctx context.Context) ([]CmdResult, error)
 	Discard() error
-	HSet(key string, field string, value interface{})
-	HGet(key string, field string)
 	// 可依需求增加更多常用方法
 }
 

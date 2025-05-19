@@ -28,13 +28,3 @@ func (tp *TxPipelineWrapper) Discard() error {
 	tp.cmds = tp.cmds[:0]
 	return tp.pipe.Discard()
 }
-
-func (tp *TxPipelineWrapper) HSet(key string, field string, value interface{}) {
-	cmd := tp.pipe.HSet(context.TODO(), key, field, value)
-	tp.cmds = append(tp.cmds, cmd)
-}
-
-func (tp *TxPipelineWrapper) HGet(key string, field string) {
-	cmd := tp.pipe.HGet(context.TODO(), key, field)
-	tp.cmds = append(tp.cmds, cmd)
-}
