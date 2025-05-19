@@ -5,14 +5,6 @@ import (
 	"time"
 )
 
-func (rp *PipelineWrapper) Set(key string, value interface{}, expiration time.Duration) {
-	rp.pipe.Set(context.TODO(), key, value, expiration)
-}
-
-func (rp *PipelineWrapper) Get(key string) {
-	rp.pipe.Get(context.TODO(), key)
-}
-
 func (rp *PipelineWrapper) Exec(ctx context.Context) ([]CmdResult, error) {
 	cmds, err := rp.pipe.Exec(ctx)
 	if err != nil {
@@ -22,6 +14,18 @@ func (rp *PipelineWrapper) Exec(ctx context.Context) ([]CmdResult, error) {
 	return processPipelineResults(cmds), nil
 }
 
-func (rp *PipelineWrapper) Discard() error {
-	return nil
+func (rp *PipelineWrapper) Set(key string, value interface{}, expiration time.Duration) {
+	rp.pipe.Set(context.TODO(), key, value, expiration)
+}
+
+func (rp *PipelineWrapper) Get(key string) {
+	rp.pipe.Get(context.TODO(), key)
+}
+
+func (rp *PipelineWrapper) HSet(key string, field string, value interface{}) {
+	rp.pipe.HSet(context.TODO(), key, field, value)
+}
+
+func (rp *PipelineWrapper) HGet(key string, field string) {
+	rp.pipe.HGet(context.TODO(), key, field)
 }
