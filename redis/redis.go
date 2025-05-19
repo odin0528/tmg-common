@@ -904,7 +904,6 @@ func RunPipelined(ctx context.Context, fn func(Pipeline)) ([]CmdResult, error) {
 
 	wrapper := &PipelineWrapper{
 		pipe: pipe,
-		cmds: []redis.Cmder{},
 	}
 
 	// 使用者自定義要執行哪些 pipeline 操作
@@ -924,7 +923,6 @@ func GetPipeline() Pipeline {
 
 	wrapper := &PipelineWrapper{
 		pipe: pipe,
-		cmds: []redis.Cmder{},
 	}
 
 	return wrapper
@@ -939,24 +937,23 @@ func GetPipelineWithContext(ctx context.Context) (Pipeline, bool) {
 	return pipeline, ok
 }
 
-func GetTxPipeline() Pipeline {
+func GetTxPipeline() TxPipeline {
 	client := GetRedisClient()
 	pipe := client.TxPipeline()
 
 	wrapper := &TxPipelineWrapper{
-		pipe: pipe,
-		cmds: []redis.Cmder{},
+		PipelineWrapper{pipe},
 	}
 
 	return wrapper
 }
 
-func WithTxPipeline(ctx context.Context, pipeline Pipeline) context.Context {
+func WithTxPipeline(ctx context.Context, pipeline TxPipeline) context.Context {
 	return context.WithValue(ctx, redisTxPipelineKey, pipeline)
 }
 
-func GetTxPipelineWithContext(ctx context.Context) (Pipeline, bool) {
-	txPipeline, ok := ctx.Value(redisTxPipelineKey).(Pipeline)
+func GetTxPipelineWithContext(ctx context.Context) (TxPipeline, bool) {
+	txPipeline, ok := ctx.Value(redisTxPipelineKey).(TxPipeline)
 	return txPipeline, ok
 }
 

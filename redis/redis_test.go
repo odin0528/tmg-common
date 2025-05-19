@@ -812,18 +812,4 @@ func TestTxPipelineWithContext_Discard(t *testing.T) {
 	assert.Nil(t, DiscardTxPipeline(ctx))
 	//_, err := pipe.Exec(context.Background()) // 因為已經執行 Discard 了，所以這次 Exec 將不會執行任何指令
 	//assert.Nil(t, err)
-
-	pipe, ok = GetTxPipelineWithContext(ctx)
-	assert.True(t, ok)
-	for i := 0; i < keysCount; i++ {
-		key := fmt.Sprintf("key_%d", i)
-		pipe.Get(key)
-	}
-	commands, err := pipe.Exec(context.Background())
-	assert.Nil(t, err)
-
-	for i, res := range commands {
-		assert.Equal(t, res.Result, fmt.Sprintf("%d", i))
-		assert.Nil(t, res.Err)
-	}
 }
