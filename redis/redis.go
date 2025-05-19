@@ -5,10 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
 	"sync"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
+
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -19,6 +21,11 @@ import (
 var (
 	redisConn *redis.Client
 	mutexMap  sync.Map
+)
+
+const (
+	redisTxPipelineKey string = "redis_tx_pipeline"
+	redisPipelineKey   string = "redis_pipeline"
 )
 
 func InitRedis(ctx context.Context) error {
@@ -65,7 +72,6 @@ func SetRedisClient(client *redis.Client) {
 
 func ClearApiCenterKey() {
 	Delete([]string{RISK_CONTROL_ODDS_TYPE_BACKUP_HASH_KEY})
-	ResetPresetRoomGameOption()
 }
 
 func ClearAll() {
@@ -761,6 +767,134 @@ func ResetPresetRoomGameOption() {
 	}
 }
 
+func processPipelineResults(cmds []redis.Cmder) []CmdResult {
+	results := make([]CmdResult, 0, len(cmds))
+	for _, cmd := range cmds {
+		var res CmdResult
+
+		switch c := cmd.(type) {
+		case *redis.StringCmd:
+			res = CmdResult{
+				Result: c.Val(),
+				Err:    c.Err(),
+			}
+		case *redis.IntCmd:
+			res = CmdResult{
+				Result: strconv.FormatInt(c.Val(), 10),
+				Err:    c.Err(),
+			}
+		case *redis.FloatCmd:
+			res = CmdResult{
+				Result: strconv.FormatFloat(c.Val(), 'f', -1, 64),
+				Err:    c.Err(),
+			}
+		case *redis.BoolCmd:
+			res = CmdResult{
+				Result: strconv.FormatBool(c.Val()),
+				Err:    c.Err(),
+			}
+		case *redis.StringSliceCmd:
+			val, err := c.Result()
+			if err != nil {
+				res = CmdResult{
+					Result: "",
+					Err:    err,
+				}
+			} else {
+				jsonBytes, err := json.Marshal(val)
+				if err != nil {
+					res = CmdResult{
+						Result: "",
+						Err:    err,
+					}
+				} else {
+					res = CmdResult{
+						Result: string(jsonBytes),
+						Err:    nil,
+					}
+				}
+			}
+		case *redis.IntSliceCmd:
+			val, err := c.Result()
+			if err != nil {
+				res = CmdResult{
+					Result: "",
+					Err:    err,
+				}
+			} else {
+				jsonBytes, err := json.Marshal(val)
+				if err != nil {
+					res = CmdResult{
+						Result: "",
+						Err:    err,
+					}
+				} else {
+					res = CmdResult{
+						Result: string(jsonBytes),
+						Err:    nil,
+					}
+				}
+			}
+		case *redis.StatusCmd:
+			res = CmdResult{
+				Result: c.Val(),
+				Err:    c.Err(),
+			}
+		case *redis.SliceCmd:
+			val, err := c.Result()
+			if err != nil {
+				res = CmdResult{
+					Result: "",
+					Err:    err,
+				}
+			} else {
+				jsonBytes, err := json.Marshal(val)
+				if err != nil {
+					res = CmdResult{
+						Result: "",
+						Err:    err,
+					}
+				} else {
+					res = CmdResult{
+						Result: string(jsonBytes),
+						Err:    nil,
+					}
+				}
+			}
+		case *redis.StringStringMapCmd:
+			val, err := c.Result()
+			if err != nil {
+				res = CmdResult{
+					Result: "",
+					Err:    err,
+				}
+			} else {
+				jsonBytes, err := json.Marshal(val)
+				if err != nil {
+					res = CmdResult{
+						Result: "",
+						Err:    err,
+					}
+				} else {
+					res = CmdResult{
+						Result: string(jsonBytes),
+						Err:    nil,
+					}
+				}
+			}
+		default:
+			res = CmdResult{
+				Result: cmd.String(),
+				Err:    cmd.Err(),
+			}
+		}
+
+		results = append(results, res)
+	}
+	return results
+}
+
+// RunPipeline 使用回調函數執行 Pipeline 操作
 func RunPipeline(fn func(Pipeline)) ([]CmdResult, error) {
 	client := GetRedisClient()
 	if client == nil {
@@ -779,31 +913,73 @@ func RunPipeline(fn func(Pipeline)) ([]CmdResult, error) {
 	// 使用者自定義要執行哪些 pipeline 操作
 	fn(wrapper)
 
-	_, err := pipe.Exec(ctx)
+	cmds, err := pipe.Exec(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	// 統一包裝回傳結果
-	results := make([]CmdResult, 0, len(wrapper.cmds))
-	for _, cmd := range wrapper.cmds {
-		var res CmdResult
+	return processPipelineResults(cmds), nil
+}
 
-		switch c := cmd.(type) {
-		case *redis.StringCmd:
-			res = CmdResult{
-				Result: c.Val(), // 放入實際字串值
-				Err:    c.Err(),
-			}
-		default:
-			res = CmdResult{
-				Result: cmd.String(),
-				Err:    cmd.Err(),
-			}
-		}
+func GetTxPipeline() redis.Pipeliner {
+	return redisConn.TxPipeline()
+}
 
-		results = append(results, res)
+func WithTxPipeline(ctx context.Context, pipeline redis.Pipeliner) context.Context {
+	return context.WithValue(ctx, redisTxPipelineKey, pipeline)
+}
+
+func GetTxPipelineWithContext(ctx context.Context) (redis.Pipeliner, bool) {
+	txPipeline, ok := ctx.Value(redisTxPipelineKey).(redis.Pipeliner)
+	return txPipeline, ok
+}
+
+func RunTxPipelineWithCtx(ctx context.Context) ([]CmdResult, error) {
+	pipeTx, ok := GetTxPipelineWithContext(ctx)
+	if !ok {
+		return nil, errors.New("no tx pipeline found")
 	}
 
-	return results, nil
+	cmds, err := pipeTx.Exec(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return processPipelineResults(cmds), nil
+}
+
+func GetPipeline() redis.Pipeliner {
+	return redisConn.Pipeline()
+}
+
+func WithPipeline(ctx context.Context, pipeline redis.Pipeliner) context.Context {
+	return context.WithValue(ctx, redisPipelineKey, pipeline)
+}
+
+func GetPipelineWithContext(ctx context.Context) (redis.Pipeliner, bool) {
+	pipeline, ok := ctx.Value(redisPipelineKey).(redis.Pipeliner)
+	return pipeline, ok
+}
+
+func RunPipelineWithCtx(ctx context.Context) ([]CmdResult, error) {
+	pipe, ok := GetPipelineWithContext(ctx)
+	if !ok {
+		return nil, errors.New("no pipeline found")
+	}
+
+	cmds, err := pipe.Exec(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return processPipelineResults(cmds), nil
+}
+
+func DiscardTxPipeline(ctx context.Context) error {
+	pipeTx, ok := GetTxPipelineWithContext(ctx)
+	if !ok {
+		return errors.New("no tx pipeline found")
+	}
+	pipeTx.Discard()
+	return nil
 }
