@@ -2,8 +2,7 @@ package cache
 
 import (
 	"time"
-
-	"mgmt/common/redis"
+	"xxx/common/redis"
 
 	"github.com/go-redsync/redsync/v4"
 )
