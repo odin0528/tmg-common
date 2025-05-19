@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"mgmt/common/configs"
-	"mgmt/common/logs"
-	"mgmt/common/math_tool"
 	"strconv"
+	"xxx/common/configs"
+	"xxx/common/logs"
+	"xxx/common/math_tool"
 
 	"github.com/vmihailenco/msgpack/v5"
 )
@@ -117,7 +117,6 @@ func DecodeByBase64Shift(src []byte) ([]byte, error) {
 	}
 
 	decode, err := DecodeByBase64(src)
-
 	if err != nil {
 		return data, err
 	}
