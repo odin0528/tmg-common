@@ -893,19 +893,17 @@ func processPipelineResults(cmds []redis.Cmder) []CmdResult {
 	return results
 }
 
-// RunPipeline 使用回調函數執行 Pipeline 操作
-func RunPipeline(fn func(Pipeline)) ([]CmdResult, error) {
+// RunPipelined 使用回調函數執行 Pipeline 操作
+func RunPipelined(ctx context.Context, fn func(Pipeline)) ([]CmdResult, error) {
 	client := GetRedisClient()
 	if client == nil {
 		return nil, errors.New("redis client not initialized")
 	}
 
-	ctx := context.Background()
 	pipe := client.Pipeline()
 
-	wrapper := &redisPipelineWrapper{
+	wrapper := &PipelineWrapper{
 		pipe: pipe,
-		ctx:  ctx,
 		cmds: []redis.Cmder{},
 	}
 
@@ -920,65 +918,67 @@ func RunPipeline(fn func(Pipeline)) ([]CmdResult, error) {
 	return processPipelineResults(cmds), nil
 }
 
-func GetTxPipeline() redis.Pipeliner {
-	return redisConn.TxPipeline()
-}
+func GetPipeline() Pipeline {
+	client := GetRedisClient()
+	pipe := client.Pipeline()
 
-func WithTxPipeline(ctx context.Context, pipeline redis.Pipeliner) context.Context {
-	return context.WithValue(ctx, redisTxPipelineKey, pipeline)
-}
-
-func GetTxPipelineWithContext(ctx context.Context) (redis.Pipeliner, bool) {
-	txPipeline, ok := ctx.Value(redisTxPipelineKey).(redis.Pipeliner)
-	return txPipeline, ok
-}
-
-func RunTxPipelineWithCtx(ctx context.Context) ([]CmdResult, error) {
-	pipeTx, ok := GetTxPipelineWithContext(ctx)
-	if !ok {
-		return nil, errors.New("no tx pipeline found")
+	wrapper := &PipelineWrapper{
+		pipe: pipe,
+		cmds: []redis.Cmder{},
 	}
 
-	cmds, err := pipeTx.Exec(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return processPipelineResults(cmds), nil
+	return wrapper
 }
 
-func GetPipeline() redis.Pipeliner {
-	return redisConn.Pipeline()
-}
-
-func WithPipeline(ctx context.Context, pipeline redis.Pipeliner) context.Context {
+func WithPipeline(ctx context.Context, pipeline Pipeline) context.Context {
 	return context.WithValue(ctx, redisPipelineKey, pipeline)
 }
 
-func GetPipelineWithContext(ctx context.Context) (redis.Pipeliner, bool) {
-	pipeline, ok := ctx.Value(redisPipelineKey).(redis.Pipeliner)
+func GetPipelineWithContext(ctx context.Context) (Pipeline, bool) {
+	pipeline, ok := ctx.Value(redisPipelineKey).(Pipeline)
 	return pipeline, ok
 }
 
-func RunPipelineWithCtx(ctx context.Context) ([]CmdResult, error) {
-	pipe, ok := GetPipelineWithContext(ctx)
-	if !ok {
-		return nil, errors.New("no pipeline found")
+func GetTxPipeline() Pipeline {
+	client := GetRedisClient()
+	pipe := client.TxPipeline()
+
+	wrapper := &TxPipelineWrapper{
+		pipe: pipe,
+		cmds: []redis.Cmder{},
 	}
 
-	cmds, err := pipe.Exec(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return processPipelineResults(cmds), nil
+	return wrapper
 }
+
+func WithTxPipeline(ctx context.Context, pipeline Pipeline) context.Context {
+	return context.WithValue(ctx, redisTxPipelineKey, pipeline)
+}
+
+func GetTxPipelineWithContext(ctx context.Context) (Pipeline, bool) {
+	txPipeline, ok := ctx.Value(redisTxPipelineKey).(Pipeline)
+	return txPipeline, ok
+}
+
+//func RunTxPipelineWithCtx(ctx context.Context) ([]CmdResult, error) {
+//	pipeTx, ok := GetTxPipelineWithContext(ctx)
+//	if !ok {
+//		return nil, errors.New("no tx pipeline found")
+//	}
+//
+//	cmds, err := pipeTx.Exec(ctx)
+//	if err != nil {
+//		return nil, err
+//	}
+//
+//	return processPipelineResults(cmds), nil
+//}
 
 func DiscardTxPipeline(ctx context.Context) error {
 	pipeTx, ok := GetTxPipelineWithContext(ctx)
 	if !ok {
 		return errors.New("no tx pipeline found")
 	}
-	pipeTx.Discard()
-	return nil
+
+	return pipeTx.Discard()
 }
