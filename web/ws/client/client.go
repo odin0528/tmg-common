@@ -4,9 +4,10 @@ import (
 	"errors"
 	"sync/atomic"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/web/response"
-	"xxx/common/web/ws"
+
+	"mgmt/common/configs"
+	"mgmt/common/web/response"
+	"mgmt/common/web/ws"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
