@@ -230,8 +230,12 @@ type Pipeline interface {
 	Set(key string, value interface{}, expiration time.Duration)
 	Get(key string)
 	Exec(ctx context.Context) ([]CmdResult, error)
-	Discard() error
 	// 可依需求增加更多常用方法
+}
+
+type TxPipeline interface {
+	Pipeline
+	Discard() error
 }
 
 // CmdResult 是每個 Redis 指令執行後的結果
@@ -242,10 +246,8 @@ type CmdResult struct {
 
 type PipelineWrapper struct {
 	pipe redis.Pipeliner
-	cmds []redis.Cmder
 }
 
 type TxPipelineWrapper struct {
-	pipe redis.Pipeliner
-	cmds []redis.Cmder
+	PipelineWrapper
 }

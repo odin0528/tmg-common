@@ -6,13 +6,11 @@ import (
 )
 
 func (rp *PipelineWrapper) Set(key string, value interface{}, expiration time.Duration) {
-	cmd := rp.pipe.Set(context.TODO(), key, value, expiration)
-	rp.cmds = append(rp.cmds, cmd)
+	rp.pipe.Set(context.TODO(), key, value, expiration)
 }
 
 func (rp *PipelineWrapper) Get(key string) {
-	cmd := rp.pipe.Get(context.TODO(), key)
-	rp.cmds = append(rp.cmds, cmd)
+	rp.pipe.Get(context.TODO(), key)
 }
 
 func (rp *PipelineWrapper) Exec(ctx context.Context) ([]CmdResult, error) {
