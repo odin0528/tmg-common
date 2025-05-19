@@ -229,6 +229,8 @@ type Z struct {
 type Pipeline interface {
 	Set(key string, value interface{}, expiration time.Duration)
 	Get(key string)
+	Exec(ctx context.Context) ([]CmdResult, error)
+	Discard() error
 	// 可依需求增加更多常用方法
 }
 
@@ -238,8 +240,12 @@ type CmdResult struct {
 	Err    error
 }
 
-type redisPipelineWrapper struct {
+type PipelineWrapper struct {
 	pipe redis.Pipeliner
-	ctx  context.Context
+	cmds []redis.Cmder
+}
+
+type TxPipelineWrapper struct {
+	pipe redis.Pipeliner
 	cmds []redis.Cmder
 }
