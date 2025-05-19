@@ -1,7 +1,7 @@
 package logs
 
 import (
-	"mgmt/common/configs"
+	"XXX/common/configs"
 	"testing"
 )
 

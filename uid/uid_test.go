@@ -1,11 +1,11 @@
 package uid
 
 import (
-	"mgmt/common/configs"
 	"strconv"
 	"sync"
 	"testing"
 	"time"
+	"xxx/common/configs"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -23,7 +23,6 @@ func TestGetCustomizeUniqueIDFormat(t *testing.T) {
 }
 
 func TestConcurrencyGenerateUniqueID(t *testing.T) {
-
 	configs.Init("../../common/configs/example/")
 
 	Init()
@@ -46,11 +45,9 @@ func TestConcurrencyGenerateUniqueID(t *testing.T) {
 	}
 
 	time.Sleep(time.Second * 3)
-
 }
 
 func TestGenerateUniqueIDAlwaysLessOrEqualThanSnowFlakeID(t *testing.T) {
-
 	configs.Init("../../common/configs/example/")
 
 	Init()

@@ -2,11 +2,11 @@ package client
 
 import (
 	"errors"
-	"mgmt/common/configs"
-	"mgmt/common/web/response"
-	"mgmt/common/web/ws"
 	"sync/atomic"
 	"time"
+	"xxx/common/configs"
+	"xxx/common/web/response"
+	"xxx/common/web/ws"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
@@ -122,9 +122,7 @@ func (client *WsClient) GetID() string {
 }
 
 func (client *WsClient) keepAlive(msg []byte) bool {
-
 	event, err := ws.ParseEvent(msg)
-
 	if err != nil {
 		return false
 	}

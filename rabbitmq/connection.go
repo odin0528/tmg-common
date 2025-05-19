@@ -2,7 +2,7 @@ package rabbitmq
 
 import (
 	"fmt"
-	"mgmt/common/configs"
+	"xxx/common/configs"
 
 	"github.com/streadway/amqp"
 )
@@ -12,7 +12,7 @@ func Init() (*amqp.Connection, *amqp.Channel, error) {
 }
 
 func Connection() (*amqp.Connection, *amqp.Channel, error) {
-	var url = fmt.Sprintf("%s://%s:%s@%s:%s/",
+	url := fmt.Sprintf("%s://%s:%s@%s:%s/",
 		configs.Get(configs.SECTION_RABBIT_MQ, configs.MQ_PROTOCOL, "amqps"),
 		configs.Get(configs.SECTION_RABBIT_MQ, configs.MQ_USERNAME, "guest"),
 		configs.Get(configs.SECTION_RABBIT_MQ, configs.MQ_PASSWORD, "guest"),
@@ -25,7 +25,6 @@ func Connection() (*amqp.Connection, *amqp.Channel, error) {
 	}
 
 	ch, err := conn.Channel()
-
 	if err != nil {
 		return nil, nil, err
 	}
