@@ -813,3 +813,31 @@ func TestTxPipelineWithContext_Discard(t *testing.T) {
 	//_, err := pipe.Exec(context.Background()) // 因為已經執行 Discard 了，所以這次 Exec 將不會執行任何指令
 	//assert.Nil(t, err)
 }
+
+func TestPipelineWrapper_HGet_HSet(t *testing.T) {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%s", "localhost", "6379"),
+		Password: "123456",
+		DB:       0,
+		PoolSize: 100,
+	})
+	SetRedisClient(redisClient)
+
+	pipe := GetPipeline()
+
+	key := "key_1"
+	field := "field_1"
+
+	pipe.HSet(key, field, 123)
+	_, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
+
+	pipe = GetPipeline()
+	pipe.HGet(key, field)
+
+	commands, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
+
+	assert.Equal(t, commands[0].Result, "123")
+	assert.Nil(t, commands[0].Err)
+}
