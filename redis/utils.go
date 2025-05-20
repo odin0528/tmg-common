@@ -2,7 +2,7 @@ package redis
 
 import (
 	"fmt"
-	"mgmt/common/utils"
+	"game_server/common/utils"
 	"time"
 )
 

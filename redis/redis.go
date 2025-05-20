@@ -981,7 +981,6 @@ func DiscardTxPipeline(ctx context.Context) error {
 }
 
 func AddMultiZSetByScriptBuckets(buckets map[string][]any) error {
-
 	_, err := RunPipelined(context.Background(), func(p Pipeline) {
 		for key, raws := range buckets {
 			if len(raws) == 0 {
@@ -1047,4 +1046,24 @@ func DeleteWithContext(ctx context.Context, keys []string) error {
 		}
 	}
 	return nil
+}
+
+func AccessLimit(ctx context.Context, key string, interval int, limit int) (cnt int64, err error) {
+	accessLimitScript := redis.NewScript(`
+	local count = redis.call('INCR', KEYS[1])
+	if count == 1 then
+	redis.call('EXPIRE', KEYS[1], ARGV[1])
+	end
+	return count`)
+
+	cnt, err = accessLimitScript.Run(ctx, redisConn, []string{key}, interval).Int64()
+	if err != nil {
+		return 0, err
+	}
+
+	if cnt >= int64(limit) {
+		return cnt, fmt.Errorf("access limit exceeded: %d", cnt)
+	}
+
+	return cnt, nil
 }
