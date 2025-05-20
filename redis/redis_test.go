@@ -4,11 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 	"strconv"
 	"testing"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
 
 	"github.com/go-redis/redis/v8"
 
@@ -618,6 +618,7 @@ func TestPipelined(t *testing.T) {
 			key := fmt.Sprintf("key_%d", i)
 			p.Set(key, i, time.Minute)
 		}
+		return
 	})
 	assert.Nil(t, err)
 
@@ -630,6 +631,7 @@ func TestPipelined(t *testing.T) {
 			key := fmt.Sprintf("key_%d", i)
 			p.Get(key)
 		}
+		return
 	})
 
 	for i, res := range results {

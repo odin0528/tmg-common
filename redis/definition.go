@@ -85,6 +85,7 @@ const (
 	RISK_CONTROL_SCRIPT_WEIGHT_HASH_LOCK_KEY = "risk_control_script_weight_hash_lock"
 	RISK_CONTROL_ODDS_TYPE_BACKUP_HASH_KEY   = "risk_control_odds_type_backup_hash_key"
 	RISK_CONTROL_HASH_KEY                    = "risk_control_hash_key"
+	RISK_CONTROL_SCRIPT_KEY                  = "risk_control_script_key"
 
 	GAME_CURRENT_RTP_KEY           = "game_current_rtp"
 	GAME_CURRENT_RTP_DATE_LIST_KEY = "game_current_rtp_date_list"
@@ -240,6 +241,7 @@ type Pipeline interface {
 	HSet(key string, field string, value interface{})
 	HGet(key string, field string)
 
+	ZAdd(key string, members ...*redis.Z)
 	// 可依需求增加更多常用方法
 }
 
@@ -250,7 +252,7 @@ type TxPipeline interface {
 
 // CmdResult 是每個 Redis 指令執行後的結果
 type CmdResult struct {
-	Result string
+	Result any
 	Err    error
 }
 

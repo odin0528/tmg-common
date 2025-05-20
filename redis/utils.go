@@ -2,8 +2,10 @@ package redis
 
 import (
 	"fmt"
+	"mgmt/common/utils"
+	"mgmt/pkg/model"
+	"strings"
 	"time"
-	"xxx/common/utils"
 )
 
 func GetPlayerBetInfoHashKey(account string) string {
@@ -52,8 +54,37 @@ func GetDailyBetRankKey(gameName, currency string) string {
 	return cacheKey
 }
 
-func GetScriptKey(gameName string, featureIndex, featureSecondIndex int) string {
-	return fmt.Sprintf("%s_%d_%d", gameName, featureIndex, featureSecondIndex)
+func GetScriptKey(gameName, tableName string, oddsType int) string {
+	return fmt.Sprintf("%s:%s:%s:%d",
+		RISK_CONTROL_SCRIPT_KEY,
+		strings.ToLower(gameName),
+		tableName,
+		oddsType,
+	)
+}
+
+func GetScriptKeyWithCondition(gameName, tableName, condition string, oddsType int) string {
+	return fmt.Sprintf("%s:%s:%s:%s:%d",
+		RISK_CONTROL_SCRIPT_KEY,
+		strings.ToLower(gameName),
+		tableName,
+		condition,
+		oddsType,
+	)
+}
+
+func GetScriptKeyByGame(gameName, tableName, condition string, featureIndex, oddsType int) string {
+	switch strings.ToUpper(gameName) {
+	//bonus也有condition的話跑第一個
+	case model.GAME_NAME_BIG_FIVE_GAME:
+		return GetScriptKeyWithCondition(gameName, tableName, condition, oddsType)
+	default:
+		if featureIndex == 0 {
+			return GetScriptKeyWithCondition(gameName, tableName, condition, oddsType)
+		} else {
+			return GetScriptKey(gameName, tableName, oddsType)
+		}
+	}
 }
 
 func GetScriptKeyWithModeAndFeatureType(gameName string, featureIndex, featureSecondIndex, mode, featureType int) string {

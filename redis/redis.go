@@ -5,11 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
+	"mgmt/pkg/model"
 	"strconv"
 	"sync"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -978,4 +979,66 @@ func DiscardTxPipeline(ctx context.Context) error {
 	}
 
 	return pipeTx.Discard()
+}
+
+func AddMultiZSetByScriptBuckets(buckets map[string][]model.RiskControlGameScript) error {
+
+	_, err := RunPipelined(context.Background(), func(p Pipeline) {
+		for key, scripts := range buckets {
+			if len(scripts) == 0 {
+				continue
+			}
+
+			zs := make([]*redis.Z, 0, len(scripts))
+			for i := range scripts {
+				b, err := json.Marshal(scripts[i])
+				if err != nil {
+					return
+				}
+				zs = append(zs, &redis.Z{
+					Score:  float64(scripts[i].Id),
+					Member: b,
+				})
+			}
+			p.ZAdd(key, zs...)
+		}
+		return
+	})
+	return err
+}
+
+func ZCard(key string) (int64, error) {
+	count, err := redisConn.ZCard(context.Background(), key).Result()
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func ZRange(key string, start, stop int64) ([]string, error) {
+	result, err := redisConn.ZRange(context.Background(), key, start, stop).Result()
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+func DeleteWithContext(ctx context.Context, keys []string) error {
+	const batchSize = 5000
+	for i := 0; i < len(keys); i += batchSize {
+		end := i + batchSize
+		if end > len(keys) {
+			end = len(keys)
+		}
+
+		batch := keys[i:end]
+		if err := redisConn.Del(ctx, batch...).Err(); err != nil {
+			return err
+		}
+
+		if ctx.Err() != nil {
+			return ctx.Err()
+		}
+	}
+	return nil
 }
