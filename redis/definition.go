@@ -156,6 +156,13 @@ var ANNOUNCEMENT_MODE_LIST = []int{
 	ANNOUNCEMENT_MODE_OFFICAL,
 }
 
+const (
+	KEY_ROOM_RTP_STATS = "rtp_stats"
+	KEY_RTP            = "rtp"
+	KEY_TOTAL_BET      = "total_bet"
+	KEY_TOTAL_PAYOUT   = "total_payout"
+)
+
 var REDIS_IS_NIL_ERR error = redis.Nil
 
 type CmsLoginTimeoutCacheInfo struct {
