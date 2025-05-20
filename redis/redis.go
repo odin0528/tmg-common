@@ -10,7 +10,6 @@ import (
 	"time"
 	"xxx/common/configs"
 	"xxx/common/logs"
-	"xxx/pkg/model"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -981,28 +980,35 @@ func DiscardTxPipeline(ctx context.Context) error {
 	return pipeTx.Discard()
 }
 
-func AddMultiZSetByScriptBuckets(buckets map[string][]model.RiskControlGameScript) error {
+func AddMultiZSetByScriptBuckets(buckets map[string][]any) error {
 
 	_, err := RunPipelined(context.Background(), func(p Pipeline) {
-		for key, scripts := range buckets {
-			if len(scripts) == 0 {
+		for key, raws := range buckets {
+			if len(raws) == 0 {
 				continue
 			}
 
-			zs := make([]*redis.Z, 0, len(scripts))
-			for i := range scripts {
-				b, err := json.Marshal(scripts[i])
+			var zs []*redis.Z
+			for _, raw := range raws {
+				b, err := json.Marshal(raw)
 				if err != nil {
-					return
+					continue
+				}
+				var m map[string]any
+				if err := json.Unmarshal(b, &m); err != nil {
+					continue
+				}
+				idVal, ok := m["id"].(float64)
+				if !ok {
+					continue
 				}
 				zs = append(zs, &redis.Z{
-					Score:  float64(scripts[i].Id),
+					Score:  idVal,
 					Member: b,
 				})
 			}
 			p.ZAdd(key, zs...)
 		}
-		return
 	})
 	return err
 }
