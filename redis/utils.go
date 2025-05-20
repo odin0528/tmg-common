@@ -2,8 +2,8 @@ package redis
 
 import (
 	"fmt"
-	"mgmt/common/utils"
 	"time"
+	"xxx/common/utils"
 )
 
 func GetPlayerBetInfoHashKey(account string) string {
@@ -50,10 +50,6 @@ func GetDailyBetRankKey(gameName, currency string) string {
 
 	cacheKey := GetCacheKey(DAILY_BET_RANK_KEY, date, gameName, currency)
 	return cacheKey
-}
-
-func GetScriptKey(gameName string, featureIndex, featureSecondIndex int) string {
-	return fmt.Sprintf("%s_%d_%d", gameName, featureIndex, featureSecondIndex)
 }
 
 func GetScriptKeyWithModeAndFeatureType(gameName string, featureIndex, featureSecondIndex, mode, featureType int) string {

@@ -3,6 +3,8 @@ package redis
 import (
 	"context"
 	"time"
+
+	"github.com/go-redis/redis/v8"
 )
 
 func (rp *PipelineWrapper) Exec(ctx context.Context) ([]CmdResult, error) {
@@ -28,4 +30,8 @@ func (rp *PipelineWrapper) HSet(key string, field string, value interface{}) {
 
 func (rp *PipelineWrapper) HGet(key string, field string) {
 	rp.pipe.HGet(context.TODO(), key, field)
+}
+
+func (rp *PipelineWrapper) ZAdd(key string, members ...*redis.Z) {
+	rp.pipe.ZAdd(context.TODO(), key, members...)
 }
