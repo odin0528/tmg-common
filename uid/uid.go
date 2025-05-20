@@ -2,9 +2,9 @@ package uid
 
 import (
 	"log"
-	"mgmt/common/configs"
 	"os"
 	"strconv"
+	"xxx/common/configs"
 
 	"github.com/bwmarrin/snowflake"
 )

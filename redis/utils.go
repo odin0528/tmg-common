@@ -2,10 +2,10 @@ package redis
 
 import (
 	"fmt"
-	"mgmt/common/utils"
-	"mgmt/pkg/model"
 	"strings"
 	"time"
+	"xxx/common/utils"
+	"xxx/pkg/model"
 )
 
 func GetPlayerBetInfoHashKey(account string) string {
