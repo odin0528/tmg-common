@@ -63,3 +63,7 @@ func GetScriptKeyWithModeAndFeatureType(gameName string, featureIndex, featureSe
 func GetGameCollectKey(gameName, playerAccount, currency string) string {
 	return fmt.Sprintf("%s_%s_%s", gameName, playerAccount, currency)
 }
+
+func GetRoomRtpStatKey(roomId string, currency string) string {
+	return GetCacheKey(KEY_ROOM_RTP_STATS, roomId, currency)
+}
