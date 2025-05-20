@@ -4,11 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"mgmt/common/configs"
-	"mgmt/common/logs"
+	"log"
 	"strconv"
 	"testing"
 	"time"
+
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 
 	"github.com/go-redis/redis/v8"
 
@@ -840,4 +842,34 @@ func TestPipelineWrapper_HGet_HSet(t *testing.T) {
 
 	assert.Equal(t, commands[0].Result, "123")
 	assert.Nil(t, commands[0].Err)
+}
+
+func TestAccessLimit(t *testing.T) {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%s", "localhost", "6380"),
+		Password: "123456",
+		DB:       0,
+
+		PoolSize: 100,
+	})
+	SetRedisClient(redisClient)
+
+	ctx := context.Background()
+
+	playerID := "test_player"
+	limit := 30
+	interval := 60
+
+	for i := 1; i <= 35; i++ { // 模擬 35 次事件
+		key := fmt.Sprintf("AI_Agent:%s", playerID)
+		cnt, err := AccessLimit(ctx, key, interval, limit)
+		if err != nil {
+			log.Fatalf("redis error: %v", err)
+		}
+		if cnt >= int64(limit) {
+			log.Printf("[ALERT] %s hit %d actions in %d s", playerID, cnt, interval)
+			break
+		}
+		time.Sleep(300 * time.Millisecond)
+	}
 }

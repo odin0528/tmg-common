@@ -5,11 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"mgmt/common/configs"
-	"mgmt/common/logs"
 	"strconv"
 	"sync"
 	"time"
+
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -978,4 +979,24 @@ func DiscardTxPipeline(ctx context.Context) error {
 	}
 
 	return pipeTx.Discard()
+}
+
+func AccessLimit(ctx context.Context, key string, interval int, limit int) (cnt int64, err error) {
+	accessLimitScript := redis.NewScript(`
+	local count = redis.call('INCR', KEYS[1])
+	if count == 1 then
+	redis.call('EXPIRE', KEYS[1], ARGV[1])
+	end
+	return count`)
+
+	cnt, err = accessLimitScript.Run(ctx, redisConn, []string{key}, interval).Int64()
+	if err != nil {
+		return 0, err
+	}
+
+	if cnt >= int64(limit) {
+		return cnt, fmt.Errorf("access limit exceeded: %d", cnt)
+	}
+
+	return cnt, nil
 }
