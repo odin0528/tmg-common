@@ -979,3 +979,72 @@ func DiscardTxPipeline(ctx context.Context) error {
 
 	return pipeTx.Discard()
 }
+
+func AddMultiZSetByScriptBuckets(buckets map[string][]any) error {
+
+	_, err := RunPipelined(context.Background(), func(p Pipeline) {
+		for key, raws := range buckets {
+			if len(raws) == 0 {
+				continue
+			}
+
+			var zs []*redis.Z
+			for _, raw := range raws {
+				b, err := json.Marshal(raw)
+				if err != nil {
+					continue
+				}
+				var m map[string]any
+				if err := json.Unmarshal(b, &m); err != nil {
+					continue
+				}
+				idVal, ok := m["id"].(float64)
+				if !ok {
+					continue
+				}
+				zs = append(zs, &redis.Z{
+					Score:  idVal,
+					Member: b,
+				})
+			}
+			p.ZAdd(key, zs...)
+		}
+	})
+	return err
+}
+
+func ZCard(key string) (int64, error) {
+	count, err := redisConn.ZCard(context.Background(), key).Result()
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func ZRange(key string, start, stop int64) ([]string, error) {
+	result, err := redisConn.ZRange(context.Background(), key, start, stop).Result()
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+func DeleteWithContext(ctx context.Context, keys []string) error {
+	const batchSize = 5000
+	for i := 0; i < len(keys); i += batchSize {
+		end := i + batchSize
+		if end > len(keys) {
+			end = len(keys)
+		}
+
+		batch := keys[i:end]
+		if err := redisConn.Del(ctx, batch...).Err(); err != nil {
+			return err
+		}
+
+		if ctx.Err() != nil {
+			return ctx.Err()
+		}
+	}
+	return nil
+}
