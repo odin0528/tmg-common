@@ -233,7 +233,7 @@ func newLogger(filepath string) (*zap.Logger, func()) {
 		MessageKey:     MESSAGE_KEY,
 		StacktraceKey:  STACKTRACE_KEY,
 		LineEnding:     zapcore.DefaultLineEnding,
-		EncodeLevel:    zapcore.CapitalColorLevelEncoder,
+		EncodeLevel:    zapcore.CapitalLevelEncoder,
 		EncodeTime:     zapcore.ISO8601TimeEncoder,
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
