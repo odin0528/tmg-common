@@ -113,7 +113,8 @@ const (
 
 	DEFAULT_COLLECT_EXPIRED_TIME = time.Minute * 15
 
-	LOGIN_TYPE_COUNT_HASH_KEY = "player_login_type_count_hash_key"
+	LOGIN_TYPE_COUNT_HASH_KEY = "player_login_type_count_hash_key" // 人次（不針對玩家去重）
+	LOGIN_TYPE_USER_HASH_KEY  = "player_login_type_users_hash_key" // 人數（針對玩家去重）
 	LOGIN_TYPE_LOBBY          = "login_type_lobby"
 	LOGIN_TYPE_GAME           = "login_type_game"
 

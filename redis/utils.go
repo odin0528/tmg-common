@@ -67,3 +67,7 @@ func GetRoomRtpStatKey(roomId string, currency string) string {
 func GetScriptKey(gameName string, featureIndex, featureSecondIndex int) string {
 	return fmt.Sprintf("%s_%d_%d", gameName, featureIndex, featureSecondIndex)
 }
+
+func GetLoginUsersCountByLoginTypeKey(date, loginType string) string {
+	return GetCacheKey(LOGIN_TYPE_USER_HASH_KEY, date, loginType)
+}
