@@ -129,6 +129,8 @@ const (
 
 	GAME_OPTION_PREFIX_KEY = "game_option_prefix"
 	COMMON_LIST_KEY        = "list"
+
+	RISK_CONTROL_SCRIPT_WEIGHT_DETAIL_KEY = "risk_control_script_weight_detail"
 )
 
 const (

@@ -19,3 +19,7 @@ func Shuffle[T any](target []T) {
 func PickByWeights(weights []float64) (pickIdx int) {
 	return math_rng.PickByWeights(weights)
 }
+
+func PickByWeightsByPool(weights []float64, oddLimit float64) (pickIdx int) {
+	return math_rng.PickByWeights(weights)
+}

@@ -5,11 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"mgmt/common/configs"
-	"mgmt/common/logs"
 	"strconv"
 	"sync"
 	"time"
+
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -370,6 +371,14 @@ func RedisUnlock(key string) bool {
 	}
 
 	return true
+}
+
+func GetRedisLockOptions(retryDelay time.Duration, retryTimes int, expireSec time.Duration) []redsync.Option {
+	return []redsync.Option{
+		redsync.WithRetryDelay(retryDelay),
+		redsync.WithTries(retryTimes),
+		redsync.WithExpiry(expireSec),
+	}
 }
 
 func BatchRedisLock(redisKeys []string) ([]string, bool) {
@@ -1066,4 +1075,12 @@ func AccessLimit(ctx context.Context, key string, interval int, limit int) (cnt 
 	}
 
 	return cnt, nil
+}
+
+func NewLuaScript(script string) *redis.Script {
+	return redis.NewScript(script)
+}
+
+func RunScript(script *redis.Script, keys []string, args ...interface{}) (interface{}, error) {
+	return script.Run(context.Background(), redisConn, keys, args...).Result()
 }
