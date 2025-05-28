@@ -51,6 +51,11 @@ const (
 	SYSTEM_ENABLE_WATCHDOG               string = "enable_watchdog"
 	SYSTEM_SEVICE_NAME                   string = "service_name"
 	SYSTEM_ENABLE_CHECK_JP_THRESHOLD     string = "enable_check_jp_threshold"
+<<<<<<< Updated upstream
+=======
+	SYSTEM_ENABLE_TEST_MODE              string = "enable_test_mode"
+	SYSTEM_ENABLE_RTP_TRACKING           string = "enable_rtp_tracking"
+>>>>>>> Stashed changes
 
 	WEB_API_API_CENTER_DOMAIN                string = "api_center_domain"
 	WEB_API_GAME_SERVER_DOMAIN               string = "game_server_domain"
