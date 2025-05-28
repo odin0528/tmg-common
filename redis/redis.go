@@ -1088,3 +1088,45 @@ func NewLuaScript(script string) *redis.Script {
 func RunScript(script *redis.Script, keys []string, args ...interface{}) (interface{}, error) {
 	return script.Run(context.Background(), redisConn, keys, args...).Result()
 }
+
+func XAdd(key string, values map[string]interface{}, maxLenApprox int64) (string, error) {
+	return redisConn.XAdd(context.Background(), &redis.XAddArgs{
+		Stream:       key,
+		ID:           "*",
+		Values:       values,
+		MaxLenApprox: maxLenApprox,
+	}).Result()
+}
+
+func XRange(key string, startTime, endTime int64, limit int64) ([]redis.XMessage, error) {
+	start := fmt.Sprintf("%d-0", startTime)
+	end := fmt.Sprintf("%d-0", endTime)
+	if limit == 0 {
+		return redisConn.XRange(context.Background(), key, start, end).Result()
+	}
+	return redisConn.XRangeN(context.Background(), key, start, end, limit).Result()
+}
+
+func XRevRange(key string, startTime, endTime int64, limit int64) ([]redis.XMessage, error) {
+	start := fmt.Sprintf("%d-0", startTime)
+	end := fmt.Sprintf("%d-0", endTime)
+	if limit == 0 {
+		return redisConn.XRevRange(context.Background(), key, start, end).Result()
+	}
+	return redisConn.XRevRangeN(context.Background(), key, start, end, limit).Result()
+}
+
+func XLen(key string) (int64, error) {
+	return redisConn.XLen(context.Background(), key).Result()
+}
+
+func XTrim(key string, expireTime time.Duration) error {
+	const trimLimit int64 = 1000
+
+	cutoffID := fmt.Sprintf("%d-0", time.Now().
+		Add(-expireTime).
+		UnixMilli(),
+	)
+
+	return redisConn.XTrimMinIDApprox(context.Background(), key, cutoffID, trimLimit).Err()
+}
