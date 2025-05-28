@@ -2,7 +2,6 @@ package redis
 
 import (
 	"fmt"
-	"strconv"
 	"time"
 
 	"mgmt/common/utils"
@@ -72,8 +71,4 @@ func GetScriptKey(gameName string, featureIndex, featureSecondIndex int) string 
 
 func GetLoginUsersCountByLoginTypeKey(date, loginType string) string {
 	return GetCacheKey(LOGIN_TYPE_USER_HASH_KEY, date, loginType)
-}
-
-func GetScriptWeightDetailKey(gameName string, featureIndex, featureSecondIndex, mode, featureType int) string {
-	return GetCacheKey(RISK_CONTROL_SCRIPT_WEIGHT_DETAIL_KEY, gameName, strconv.Itoa(featureIndex), strconv.Itoa(featureSecondIndex), strconv.Itoa(mode), strconv.Itoa(featureType))
 }
