@@ -186,6 +186,10 @@ func IncreaseBy(key string, value int64) (int64, error) {
 	return redisConn.IncrBy(context.Background(), key, value).Result()
 }
 
+func IncreaseByFloat(key string, value float64) (float64, error) {
+	return redisConn.IncrByFloat(context.Background(), key, value).Result()
+}
+
 func Delete(keys []string) error {
 	return redisConn.Del(context.Background(), keys...).Err()
 }
