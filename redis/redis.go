@@ -1069,6 +1069,65 @@ func AccessLimit(ctx context.Context, key string, interval int, limit int) (cnt 
 	return cnt, nil
 }
 
+func GetKeyValue(pattern string) (map[string]interface{}, error) {
+	cursor := uint64(0)
+	result := make(map[string]interface{})
+
+	ctx := redisConn.Context()
+
+	for {
+		keys, nextCursor, err := redisConn.Scan(ctx, cursor, pattern, DEFAULT_SCAN_AMOUNT).Result()
+		if err != nil {
+			return result, err
+		}
+
+		for _, key := range keys {
+			keyType, err := redisConn.Type(ctx, key).Result()
+			if err != nil {
+				continue
+			}
+
+			switch keyType {
+			case "string":
+				val, err := redisConn.Get(ctx, key).Result()
+				if err == nil {
+					result[key] = val
+				}
+			case "hash":
+				val, err := redisConn.HGetAll(ctx, key).Result()
+				if err == nil {
+					result[key] = val
+				}
+			case "list":
+				val, err := redisConn.LRange(ctx, key, 0, -1).Result()
+				if err == nil {
+					result[key] = val
+				}
+			case "set":
+				val, err := redisConn.SMembers(ctx, key).Result()
+				if err == nil {
+					result[key] = val
+				}
+			case "zset":
+				val, err := redisConn.ZRangeWithScores(ctx, key, 0, -1).Result()
+				if err == nil {
+					result[key] = val
+				}
+			default:
+				result[key] = fmt.Sprintf("[Unsupported type: %s]", keyType)
+			}
+		}
+
+		if nextCursor == 0 {
+			break
+		}
+		cursor = nextCursor
+	}
+
+	return result, nil
+
+}
+
 func GetValue(key string) (map[string]interface{}, error) {
 	result := map[string]interface{}{}
 	ctx := redisConn.Context()
