@@ -5,12 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"mgmt/common/configs"
-	"mgmt/common/logs"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
+	"xxx/common/configs"
+	"xxx/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -1125,7 +1125,6 @@ func GetKeyValue(pattern string) (map[string]interface{}, error) {
 	}
 
 	return result, nil
-
 }
 
 func GetValue(key string) (map[string]interface{}, error) {
@@ -1167,7 +1166,6 @@ func GetValue(key string) (map[string]interface{}, error) {
 		result[key] = fmt.Sprintf("[Unsupported type: %s]", keyType)
 	}
 	return result, nil
-
 }
 
 func DeleteKeys(pattern string) error {
