@@ -32,6 +32,14 @@ func (rp *PipelineWrapper) HGet(key string, field string) {
 	rp.pipe.HGet(context.TODO(), key, field)
 }
 
+func (rp *PipelineWrapper) HGetAll(key string) {
+	rp.pipe.HGetAll(context.TODO(), key)
+}
+
 func (rp *PipelineWrapper) ZAdd(key string, members ...*redis.Z) {
 	rp.pipe.ZAdd(context.TODO(), key, members...)
+}
+
+func (rp *PipelineWrapper) Publish(channel string, message interface{}) {
+	rp.pipe.Publish(context.TODO(), channel, message)
 }
