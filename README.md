@@ -10,7 +10,7 @@ PS:若已加入過的專案跳至第6步，初始化submodule 內容
 
 ## 2. 將logs/logs.go 和 web/ws/client/client.go 和 caches 底下所有.go中使用到的config import路徑前贅調整成golang module的名稱，新專案module名稱請查案該專案的go.mod第一行module
     Ex: module game_server
-    將 "mgmt/common/web/response" 改成 "game_server/common/web/response"
+    將 "xxx/common/web/response" 改成 "mgmt/common/web/response"
 
 ## 3. 將子專案新增至新專案中 
     $ git submodule add http://gltw.6633663.com/Backend_GSGame/common.git common

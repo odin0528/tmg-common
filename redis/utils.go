@@ -2,9 +2,8 @@ package redis
 
 import (
 	"fmt"
-	"time"
-
 	"mgmt/common/utils"
+	"time"
 )
 
 func GetPlayerBetInfoHashKey(account string) string {
@@ -53,14 +52,22 @@ func GetDailyBetRankKey(gameName, currency string) string {
 	return cacheKey
 }
 
-func GetScriptKey(gameName string, featureIndex, featureSecondIndex int) string {
-	return fmt.Sprintf("%s_%d_%d", gameName, featureIndex, featureSecondIndex)
-}
-
 func GetScriptKeyWithModeAndFeatureType(gameName string, featureIndex, featureSecondIndex, mode, featureType int) string {
 	return fmt.Sprintf("%s_%d_%d_%d_%d", gameName, featureIndex, featureSecondIndex, mode, featureType)
 }
 
 func GetGameCollectKey(gameName, playerAccount, currency string) string {
 	return fmt.Sprintf("%s_%s_%s", gameName, playerAccount, currency)
+}
+
+func GetRoomRtpStatKey(roomId string, currency string) string {
+	return GetCacheKey(KEY_ROOM_RTP_STATS, roomId, currency)
+}
+
+func GetScriptKey(gameName string, featureIndex, featureSecondIndex int) string {
+	return fmt.Sprintf("%s_%d_%d", gameName, featureIndex, featureSecondIndex)
+}
+
+func GetLoginUsersCountByLoginTypeKey(date, loginType string) string {
+	return GetCacheKey(LOGIN_TYPE_USER_HASH_KEY, date, loginType)
 }

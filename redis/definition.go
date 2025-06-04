@@ -85,6 +85,7 @@ const (
 	RISK_CONTROL_SCRIPT_WEIGHT_HASH_LOCK_KEY = "risk_control_script_weight_hash_lock"
 	RISK_CONTROL_ODDS_TYPE_BACKUP_HASH_KEY   = "risk_control_odds_type_backup_hash_key"
 	RISK_CONTROL_HASH_KEY                    = "risk_control_hash_key"
+	RISK_CONTROL_SCRIPT_KEY                  = "risk_control_script_key"
 
 	GAME_CURRENT_RTP_KEY           = "game_current_rtp"
 	GAME_CURRENT_RTP_DATE_LIST_KEY = "game_current_rtp_date_list"
@@ -112,7 +113,8 @@ const (
 
 	DEFAULT_COLLECT_EXPIRED_TIME = time.Minute * 15
 
-	LOGIN_TYPE_COUNT_HASH_KEY = "player_login_type_count_hash_key"
+	LOGIN_TYPE_COUNT_HASH_KEY = "player_login_type_count_hash_key" // 人次（不針對玩家去重）
+	LOGIN_TYPE_USER_HASH_KEY  = "player_login_type_users_hash_key" // 人數（針對玩家去重）
 	LOGIN_TYPE_LOBBY          = "login_type_lobby"
 	LOGIN_TYPE_GAME           = "login_type_game"
 
@@ -155,6 +157,13 @@ var ANNOUNCEMENT_MODE_LIST = []int{
 	ANNOUNCEMENT_MODE_INTERACTION,
 	ANNOUNCEMENT_MODE_OFFICAL,
 }
+
+const (
+	KEY_ROOM_RTP_STATS = "rtp_stats"
+	KEY_RTP            = "rtp"
+	KEY_TOTAL_BET      = "total_bet"
+	KEY_TOTAL_PAYOUT   = "total_payout"
+)
 
 var REDIS_IS_NIL_ERR error = redis.Nil
 
@@ -229,17 +238,29 @@ type Z struct {
 type Pipeline interface {
 	Set(key string, value interface{}, expiration time.Duration)
 	Get(key string)
+	Exec(ctx context.Context) ([]CmdResult, error)
+	HSet(key string, field string, value interface{})
+	HGet(key string, field string)
+
+	ZAdd(key string, members ...*redis.Z)
 	// 可依需求增加更多常用方法
+}
+
+type TxPipeline interface {
+	Pipeline
+	Discard() error
 }
 
 // CmdResult 是每個 Redis 指令執行後的結果
 type CmdResult struct {
-	Result string
+	Result any
 	Err    error
 }
 
-type redisPipelineWrapper struct {
+type PipelineWrapper struct {
 	pipe redis.Pipeliner
-	ctx  context.Context
-	cmds []redis.Cmder
+}
+
+type TxPipelineWrapper struct {
+	PipelineWrapper
 }

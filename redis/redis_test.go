@@ -4,12 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 	"strconv"
 	"testing"
 	"time"
-
-	"mgmt/common/configs"
-	"mgmt/common/logs"
 
 	"github.com/go-redis/redis/v8"
 
@@ -603,7 +602,152 @@ func TestZIncrBy(t *testing.T) {
 	Delete([]string{key})
 }
 
+func TestPipelined(t *testing.T) {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%s", "localhost", "6379"),
+		Password: "123456",
+		DB:       0,
+		PoolSize: 100,
+	})
+	SetRedisClient(redisClient)
+
+	keysCount := 1000
+
+	results, err := RunPipelined(context.Background(), func(p Pipeline) {
+		for i := 0; i < keysCount; i++ {
+			key := fmt.Sprintf("key_%d", i)
+			p.Set(key, i, time.Minute)
+		}
+		return
+	})
+	assert.Nil(t, err)
+
+	for _, res := range results {
+		assert.Nil(t, res.Err)
+	}
+
+	results, err = RunPipelined(context.Background(), func(p Pipeline) {
+		for i := 0; i < keysCount; i++ {
+			key := fmt.Sprintf("key_%d", i)
+			p.Get(key)
+		}
+		return
+	})
+
+	for i, res := range results {
+		assert.Equal(t, res.Result, fmt.Sprintf("%d", i))
+		assert.Nil(t, res.Err)
+	}
+}
+
 func TestPipeline(t *testing.T) {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%s", "localhost", "6379"),
+		Password: "123456",
+		DB:       0,
+		PoolSize: 100,
+	})
+	SetRedisClient(redisClient)
+
+	keysCount := 1000
+
+	pipe := GetPipeline()
+
+	for i := 0; i < keysCount; i++ {
+		key := fmt.Sprintf("key_%d", i)
+		pipe.Set(key, i, time.Minute)
+	}
+	_, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
+
+	pipe = GetPipeline()
+	for i := 0; i < keysCount; i++ {
+		key := fmt.Sprintf("key_%d", i)
+		pipe.Get(key)
+	}
+	commands, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
+
+	for i, res := range commands {
+		assert.Equal(t, res.Result, fmt.Sprintf("%d", i))
+		assert.Nil(t, res.Err)
+	}
+}
+
+func TestPipelineWithContext(t *testing.T) {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%s", "localhost", "6379"),
+		Password: "123456",
+		DB:       0,
+		PoolSize: 100,
+	})
+	SetRedisClient(redisClient)
+
+	keysCount := 1000
+
+	ctx := context.Background()
+
+	ctx = WithPipeline(ctx, GetPipeline())
+
+	pipe, ok := GetPipelineWithContext(ctx)
+	assert.True(t, ok)
+
+	for i := 0; i < keysCount; i++ {
+		key := fmt.Sprintf("key_%d", i)
+		pipe.Set(key, i, time.Minute)
+	}
+	_, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
+
+	pipe = GetPipeline()
+	for i := 0; i < keysCount; i++ {
+		key := fmt.Sprintf("key_%d", i)
+		pipe.Get(key)
+	}
+	commands, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
+
+	for i, res := range commands {
+		assert.Equal(t, res.Result, fmt.Sprintf("%d", i))
+		assert.Nil(t, res.Err)
+	}
+}
+
+func TestTxPipeline(t *testing.T) {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%s", "localhost", "6379"),
+		Password: "123456",
+		DB:       0,
+		PoolSize: 100,
+	})
+	SetRedisClient(redisClient)
+
+	keysCount := 1000
+
+	pipe := GetTxPipeline()
+
+	for i := 0; i < keysCount; i++ {
+		key := fmt.Sprintf("key_%d", i)
+		pipe.Set(key, i, time.Minute)
+	}
+	_, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
+
+	pipe = GetTxPipeline()
+	for i := 0; i < keysCount; i++ {
+		key := fmt.Sprintf("key_%d", i)
+		pipe.Get(key)
+	}
+	commands, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
+
+	for i, res := range commands {
+		assert.Equal(t, res.Result, fmt.Sprintf("%d", i))
+		assert.Nil(t, res.Err)
+	}
+}
+
+func TestTxPipelineWithContext(t *testing.T) {
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%s", "localhost", "6379"),
 		Password: "123456",
@@ -614,27 +758,118 @@ func TestPipeline(t *testing.T) {
 
 	keysCount := 10
 
-	results, err := RunPipeline(func(p Pipeline) {
-		for i := 0; i < keysCount; i++ {
-			key := fmt.Sprintf("key_%d", i)
-			p.Set(key, i, time.Minute)
-		}
-	})
-	assert.Nil(t, err)
+	ctx := context.Background()
 
-	for _, res := range results {
-		assert.Nil(t, res.Err)
+	ctx = WithTxPipeline(ctx, GetTxPipeline())
+
+	pipe, ok := GetTxPipelineWithContext(ctx)
+	assert.True(t, ok)
+
+	for i := 0; i < keysCount; i++ {
+		key := fmt.Sprintf("key_%d", i)
+		pipe.Set(key, i, time.Minute)
 	}
 
-	results, err = RunPipeline(func(p Pipeline) {
-		for i := 0; i < keysCount; i++ {
-			key := fmt.Sprintf("key_%d", i)
-			p.Get(key)
-		}
-	})
+	_, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
 
-	for i, res := range results {
+	pipe, ok = GetTxPipelineWithContext(ctx)
+	assert.True(t, ok)
+	for i := 0; i < keysCount; i++ {
+		key := fmt.Sprintf("key_%d", i)
+		pipe.Get(key)
+	}
+	commands, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
+
+	for i, res := range commands {
 		assert.Equal(t, res.Result, fmt.Sprintf("%d", i))
 		assert.Nil(t, res.Err)
+	}
+}
+
+func TestTxPipelineWithContext_Discard(t *testing.T) {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%s", "localhost", "6379"),
+		Password: "123456",
+		DB:       0,
+		PoolSize: 100,
+	})
+	SetRedisClient(redisClient)
+
+	keysCount := 10
+
+	ctx := context.Background()
+
+	ctx = WithTxPipeline(ctx, GetTxPipeline())
+
+	pipe, ok := GetTxPipelineWithContext(ctx)
+	assert.True(t, ok)
+
+	for i := 0; i < keysCount; i++ {
+		key := fmt.Sprintf("key_%d", i)
+		pipe.Set(key, i, time.Minute)
+	}
+
+	assert.Nil(t, DiscardTxPipeline(ctx))
+	//_, err := pipe.Exec(context.Background()) // 因為已經執行 Discard 了，所以這次 Exec 將不會執行任何指令
+	//assert.Nil(t, err)
+}
+
+func TestPipelineWrapper_HGet_HSet(t *testing.T) {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%s", "localhost", "6379"),
+		Password: "123456",
+		DB:       0,
+		PoolSize: 100,
+	})
+	SetRedisClient(redisClient)
+
+	pipe := GetPipeline()
+
+	key := "key_1"
+	field := "field_1"
+
+	pipe.HSet(key, field, 123)
+	_, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
+
+	pipe = GetPipeline()
+	pipe.HGet(key, field)
+
+	commands, err := pipe.Exec(context.Background())
+	assert.Nil(t, err)
+
+	assert.Equal(t, commands[0].Result, "123")
+	assert.Nil(t, commands[0].Err)
+}
+
+func TestAccessLimit(t *testing.T) {
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:     fmt.Sprintf("%s:%s", "localhost", "6380"),
+		Password: "123456",
+		DB:       0,
+
+		PoolSize: 100,
+	})
+	SetRedisClient(redisClient)
+
+	ctx := context.Background()
+
+	playerID := "test_player"
+	limit := 30
+	interval := 60
+
+	for i := 1; i <= 35; i++ { // 模擬 35 次事件
+		key := fmt.Sprintf("AI_Agent:%s", playerID)
+		cnt, err := AccessLimit(ctx, key, interval, limit)
+		if err != nil {
+			t.Log("redis error: %v", err)
+		}
+		if cnt >= int64(limit) {
+			t.Log("[ALERT] %s hit %d actions in %d s", playerID, cnt, interval)
+			break
+		}
+		time.Sleep(300 * time.Millisecond)
 	}
 }

@@ -4,14 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"mgmt/common/configs"
+	"mgmt/common/utils"
 	"os"
 	"reflect"
 	"strings"
 	"syscall"
 	"time"
-
-	"mgmt/common/configs"
-	"mgmt/common/utils"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -234,7 +233,7 @@ func newLogger(filepath string) (*zap.Logger, func()) {
 		MessageKey:     MESSAGE_KEY,
 		StacktraceKey:  STACKTRACE_KEY,
 		LineEnding:     zapcore.DefaultLineEnding,
-		EncodeLevel:    zapcore.CapitalColorLevelEncoder,
+		EncodeLevel:    zapcore.CapitalLevelEncoder,
 		EncodeTime:     zapcore.ISO8601TimeEncoder,
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,

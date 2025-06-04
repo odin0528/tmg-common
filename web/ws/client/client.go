@@ -2,12 +2,11 @@ package client
 
 import (
 	"errors"
-	"sync/atomic"
-	"time"
-
 	"mgmt/common/configs"
 	"mgmt/common/web/response"
 	"mgmt/common/web/ws"
+	"sync/atomic"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"

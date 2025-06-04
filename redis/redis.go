@@ -5,12 +5,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 	"strconv"
 	"sync"
 	"time"
-
-	"mgmt/common/configs"
-	"mgmt/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -894,20 +893,17 @@ func processPipelineResults(cmds []redis.Cmder) []CmdResult {
 	return results
 }
 
-// RunPipeline 使用回調函數執行 Pipeline 操作
-func RunPipeline(fn func(Pipeline)) ([]CmdResult, error) {
+// RunPipelined 使用回調函數執行 Pipeline 操作
+func RunPipelined(ctx context.Context, fn func(Pipeline)) ([]CmdResult, error) {
 	client := GetRedisClient()
 	if client == nil {
 		return nil, errors.New("redis client not initialized")
 	}
 
-	ctx := context.Background()
 	pipe := client.Pipeline()
 
-	wrapper := &redisPipelineWrapper{
+	wrapper := &PipelineWrapper{
 		pipe: pipe,
-		ctx:  ctx,
-		cmds: []redis.Cmder{},
 	}
 
 	// 使用者自定義要執行哪些 pipeline 操作
@@ -921,65 +917,153 @@ func RunPipeline(fn func(Pipeline)) ([]CmdResult, error) {
 	return processPipelineResults(cmds), nil
 }
 
-func GetTxPipeline() redis.Pipeliner {
-	return redisConn.TxPipeline()
-}
+func GetPipeline() Pipeline {
+	client := GetRedisClient()
+	pipe := client.Pipeline()
 
-func WithTxPipeline(ctx context.Context, pipeline redis.Pipeliner) context.Context {
-	return context.WithValue(ctx, redisTxPipelineKey, pipeline)
-}
-
-func GetTxPipelineWithContext(ctx context.Context) (redis.Pipeliner, bool) {
-	txPipeline, ok := ctx.Value(redisTxPipelineKey).(redis.Pipeliner)
-	return txPipeline, ok
-}
-
-func RunTxPipelineWithCtx(ctx context.Context) ([]CmdResult, error) {
-	pipeTx, ok := GetTxPipelineWithContext(ctx)
-	if !ok {
-		return nil, errors.New("no tx pipeline found")
+	wrapper := &PipelineWrapper{
+		pipe: pipe,
 	}
 
-	cmds, err := pipeTx.Exec(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return processPipelineResults(cmds), nil
+	return wrapper
 }
 
-func GetPipeline() redis.Pipeliner {
-	return redisConn.Pipeline()
-}
-
-func WithPipeline(ctx context.Context, pipeline redis.Pipeliner) context.Context {
+func WithPipeline(ctx context.Context, pipeline Pipeline) context.Context {
 	return context.WithValue(ctx, redisPipelineKey, pipeline)
 }
 
-func GetPipelineWithContext(ctx context.Context) (redis.Pipeliner, bool) {
-	pipeline, ok := ctx.Value(redisPipelineKey).(redis.Pipeliner)
+func GetPipelineWithContext(ctx context.Context) (Pipeline, bool) {
+	pipeline, ok := ctx.Value(redisPipelineKey).(Pipeline)
 	return pipeline, ok
 }
 
-func RunPipelineWithCtx(ctx context.Context) ([]CmdResult, error) {
-	pipe, ok := GetPipelineWithContext(ctx)
-	if !ok {
-		return nil, errors.New("no pipeline found")
+func GetTxPipeline() TxPipeline {
+	client := GetRedisClient()
+	pipe := client.TxPipeline()
+
+	wrapper := &TxPipelineWrapper{
+		PipelineWrapper{pipe},
 	}
 
-	cmds, err := pipe.Exec(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return processPipelineResults(cmds), nil
+	return wrapper
 }
+
+func WithTxPipeline(ctx context.Context, pipeline TxPipeline) context.Context {
+	return context.WithValue(ctx, redisTxPipelineKey, pipeline)
+}
+
+func GetTxPipelineWithContext(ctx context.Context) (TxPipeline, bool) {
+	txPipeline, ok := ctx.Value(redisTxPipelineKey).(TxPipeline)
+	return txPipeline, ok
+}
+
+//func RunTxPipelineWithCtx(ctx context.Context) ([]CmdResult, error) {
+//	pipeTx, ok := GetTxPipelineWithContext(ctx)
+//	if !ok {
+//		return nil, errors.New("no tx pipeline found")
+//	}
+//
+//	cmds, err := pipeTx.Exec(ctx)
+//	if err != nil {
+//		return nil, err
+//	}
+//
+//	return processPipelineResults(cmds), nil
+//}
 
 func DiscardTxPipeline(ctx context.Context) error {
 	pipeTx, ok := GetTxPipelineWithContext(ctx)
 	if !ok {
 		return errors.New("no tx pipeline found")
 	}
-	pipeTx.Discard()
+
+	return pipeTx.Discard()
+}
+
+func AddMultiZSetByScriptBuckets(buckets map[string][]any) error {
+	_, err := RunPipelined(context.Background(), func(p Pipeline) {
+		for key, raws := range buckets {
+			if len(raws) == 0 {
+				continue
+			}
+
+			var zs []*redis.Z
+			for _, raw := range raws {
+				b, err := json.Marshal(raw)
+				if err != nil {
+					continue
+				}
+				var m map[string]any
+				if err := json.Unmarshal(b, &m); err != nil {
+					continue
+				}
+				idVal, ok := m["id"].(float64)
+				if !ok {
+					continue
+				}
+				zs = append(zs, &redis.Z{
+					Score:  idVal,
+					Member: b,
+				})
+			}
+			p.ZAdd(key, zs...)
+		}
+	})
+	return err
+}
+
+func ZCard(key string) (int64, error) {
+	count, err := redisConn.ZCard(context.Background(), key).Result()
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+func ZRange(key string, start, stop int64) ([]string, error) {
+	result, err := redisConn.ZRange(context.Background(), key, start, stop).Result()
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+func DeleteWithContext(ctx context.Context, keys []string) error {
+	const batchSize = 5000
+	for i := 0; i < len(keys); i += batchSize {
+		end := i + batchSize
+		if end > len(keys) {
+			end = len(keys)
+		}
+
+		batch := keys[i:end]
+		if err := redisConn.Del(ctx, batch...).Err(); err != nil {
+			return err
+		}
+
+		if ctx.Err() != nil {
+			return ctx.Err()
+		}
+	}
 	return nil
+}
+
+func AccessLimit(ctx context.Context, key string, interval int, limit int) (cnt int64, err error) {
+	accessLimitScript := redis.NewScript(`
+	local count = redis.call('INCR', KEYS[1])
+	if count == 1 then
+	redis.call('EXPIRE', KEYS[1], ARGV[1])
+	end
+	return count`)
+
+	cnt, err = accessLimitScript.Run(ctx, redisConn, []string{key}, interval).Int64()
+	if err != nil {
+		return 0, err
+	}
+
+	if cnt >= int64(limit) {
+		return cnt, fmt.Errorf("access limit exceeded: %d", cnt)
+	}
+
+	return cnt, nil
 }

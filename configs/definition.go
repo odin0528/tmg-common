@@ -40,6 +40,7 @@ const (
 	SYSTEM_WEBSOCKET_ENCODE_MODE         string = "websocket_encode_mode"
 	SYSTEM_WEBSOCKET_DECODE_MODE         string = "websocket_decode_mode"
 	SYSTEN_ENABLE_BATTLE_BOT             string = "enable_battle_bot"
+	SYSTEM_ENABLE_SLOT_BATTLE_BOT        string = "enable_slot_battle_bot"
 	SYSTEM_ENABLE_HUNDRED_BOT            string = "enable_hundred_bot"
 	SYSTEM_ENABLE_LOBBY_OVERALL          string = "enable_lobby_overall"
 	SYSTEM_EXCLUDE_CURRENCIES            string = "exclude_currencies"
