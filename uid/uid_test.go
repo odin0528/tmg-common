@@ -1,11 +1,11 @@
 package uid
 
 import (
+	"mgmt/common/configs"
 	"strconv"
 	"sync"
 	"testing"
 	"time"
-	"xxx/common/configs"
 
 	"github.com/stretchr/testify/assert"
 )
