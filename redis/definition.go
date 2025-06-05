@@ -243,8 +243,9 @@ type Pipeline interface {
 	Exec(ctx context.Context) ([]CmdResult, error)
 	HSet(key string, field string, value interface{})
 	HGet(key string, field string)
-
+	HGetAll(key string)
 	ZAdd(key string, members ...*redis.Z)
+	Publish(channel string, message interface{})
 	// 可依需求增加更多常用方法
 }
 
