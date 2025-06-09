@@ -1,6 +1,9 @@
 package utils
 
-import "log"
+import (
+	"log"
+	"strconv"
+)
 
 func FailOnError(err error, msg string) {
 	if err != nil {
@@ -33,4 +36,20 @@ func IsElementExist[T comparable](list []T, element T) bool {
 		}
 	}
 	return false
+}
+
+func StringToFloat64(s string) float64 {
+	f, err := strconv.ParseFloat(s, 64)
+	if err != nil {
+		return 0
+	}
+	return f
+}
+
+func StringToInt(s string) int {
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		return 0
+	}
+	return i
 }

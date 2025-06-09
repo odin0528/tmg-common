@@ -2,8 +2,9 @@ package redis
 
 import (
 	"fmt"
-	"mgmt/common/utils"
 	"time"
+
+	"mgmt/common/utils"
 )
 
 func GetPlayerBetInfoHashKey(account string) string {
