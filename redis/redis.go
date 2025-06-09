@@ -9,8 +9,9 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
+
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -184,6 +185,10 @@ func Decrease(key string) (int64, error) {
 
 func IncreaseBy(key string, value int64) (int64, error) {
 	return redisConn.IncrBy(context.Background(), key, value).Result()
+}
+
+func IncreaseByFloat(key string, value float64) (float64, error) {
+	return redisConn.IncrByFloat(context.Background(), key, value).Result()
 }
 
 func Delete(keys []string) error {
@@ -371,6 +376,14 @@ func RedisUnlock(key string) bool {
 	}
 
 	return true
+}
+
+func GetRedisLockOptions(retryDelay time.Duration, retryTimes int, expireSec time.Duration) []redsync.Option {
+	return []redsync.Option{
+		redsync.WithRetryDelay(retryDelay),
+		redsync.WithTries(retryTimes),
+		redsync.WithExpiry(expireSec),
+	}
 }
 
 func BatchRedisLock(redisKeys []string) ([]string, bool) {
@@ -1067,6 +1080,56 @@ func AccessLimit(ctx context.Context, key string, interval int, limit int) (cnt 
 	}
 
 	return cnt, nil
+}
+
+func NewLuaScript(script string) *redis.Script {
+	return redis.NewScript(script)
+}
+
+func RunScript(script *redis.Script, keys []string, args ...interface{}) (interface{}, error) {
+	return script.Run(context.Background(), redisConn, keys, args...).Result()
+}
+
+func XAdd(key string, values map[string]interface{}, maxLenApprox int64) (string, error) {
+	return redisConn.XAdd(context.Background(), &redis.XAddArgs{
+		Stream:       key,
+		ID:           "*",
+		Values:       values,
+		MaxLenApprox: maxLenApprox,
+	}).Result()
+}
+
+func XRange(key string, startTime, endTime int64, limit int64) ([]redis.XMessage, error) {
+	start := fmt.Sprintf("%d-0", startTime)
+	end := fmt.Sprintf("%d-0", endTime)
+	if limit == 0 {
+		return redisConn.XRange(context.Background(), key, start, end).Result()
+	}
+	return redisConn.XRangeN(context.Background(), key, start, end, limit).Result()
+}
+
+func XRevRange(key string, startTime, endTime int64, limit int64) ([]redis.XMessage, error) {
+	start := fmt.Sprintf("%d-0", startTime)
+	end := fmt.Sprintf("%d-0", endTime)
+	if limit == 0 {
+		return redisConn.XRevRange(context.Background(), key, start, end).Result()
+	}
+	return redisConn.XRevRangeN(context.Background(), key, start, end, limit).Result()
+}
+
+func XLen(key string) (int64, error) {
+	return redisConn.XLen(context.Background(), key).Result()
+}
+
+func XTrim(key string, expireTime time.Duration) error {
+	const trimLimit int64 = 1000
+
+	cutoffID := fmt.Sprintf("%d-0", time.Now().
+		Add(-expireTime).
+		UnixMilli(),
+	)
+
+	return redisConn.XTrimMinIDApprox(context.Background(), key, cutoffID, trimLimit).Err()
 }
 
 func GetKeyValue(pattern string) (map[string]interface{}, error) {

@@ -7,8 +7,9 @@ import (
 	"strconv"
 	"testing"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
+
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 
 	"github.com/go-redis/redis/v8"
 
@@ -864,10 +865,10 @@ func TestAccessLimit(t *testing.T) {
 		key := fmt.Sprintf("AI_Agent:%s", playerID)
 		cnt, err := AccessLimit(ctx, key, interval, limit)
 		if err != nil {
-			t.Log("redis error: %v", err)
+			fmt.Printf("redis error: %v", err)
 		}
 		if cnt >= int64(limit) {
-			t.Log("[ALERT] %s hit %d actions in %d s", playerID, cnt, interval)
+			fmt.Printf("[ALERT] %s hit %d actions in %d s", playerID, cnt, interval)
 			break
 		}
 		time.Sleep(300 * time.Millisecond)
