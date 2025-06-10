@@ -7,8 +7,9 @@ import (
 	"strconv"
 	"testing"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
+
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 
 	"github.com/go-redis/redis/v8"
 
