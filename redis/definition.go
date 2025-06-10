@@ -246,6 +246,7 @@ type Pipeline interface {
 	HGetAll(key string)
 	ZAdd(key string, members ...*redis.Z)
 	Publish(channel string, message interface{})
+	Unlink(keys []string) ([]CmdResult, error)
 	// 可依需求增加更多常用方法
 }
 
