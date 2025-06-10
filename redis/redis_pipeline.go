@@ -43,3 +43,9 @@ func (rp *PipelineWrapper) ZAdd(key string, members ...*redis.Z) {
 func (rp *PipelineWrapper) Publish(channel string, message interface{}) {
 	rp.pipe.Publish(context.TODO(), channel, message)
 }
+
+func (rp *PipelineWrapper) Unlink(keys []string) ([]CmdResult, error) {
+	ctx := context.Background()
+	rp.pipe.Unlink(ctx, keys...)
+	return rp.Exec(ctx)
+}
