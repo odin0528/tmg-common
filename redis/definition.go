@@ -131,6 +131,8 @@ const (
 	COMMON_LIST_KEY        = "list"
 
 	RISK_CONTROL_SCRIPT_WEIGHT_DETAIL_KEY = "risk_control_script_weight_detail"
+
+	AI_AGENT_ROOM_INFO_KEY = "ai_agent_room_info"
 )
 
 const (
