@@ -43,6 +43,7 @@ const (
 	SYSTEM_ENABLE_SLOT_BATTLE_BOT        string = "enable_slot_battle_bot"
 	SYSTEM_ENABLE_HUNDRED_BOT            string = "enable_hundred_bot"
 	SYSTEM_ENABLE_LOBBY_OVERALL          string = "enable_lobby_overall"
+	SYSTEM_ENABLE_AI_AGENT               string = "enable_ai_agent"
 	SYSTEM_EXCLUDE_CURRENCIES            string = "exclude_currencies"
 	SYSTEM_HUNDRED_ROOM_TYPE             string = "hundred_room_type"
 	SYSTEM_ENABLE_PRESET_ROOM            string = "enable_preset_room"
@@ -161,5 +162,7 @@ const (
 	GAME_EANBLE_FORCED_CONTROL_TYPE string = "enable_forced_control_type"
 )
 
-var configMutex sync.RWMutex
-var envConfig *ini.File
+var (
+	configMutex sync.RWMutex
+	envConfig   *ini.File
+)
