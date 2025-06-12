@@ -20,6 +20,24 @@ func IsExist(source []string, target string) bool {
 	return false
 }
 
+func StringIntersection(slice1, slice2 []string) []string {
+	set := make(map[string]bool)
+	result := []string{}
+
+	for _, item := range slice1 {
+		set[item] = true
+	}
+
+	for _, item := range slice2 {
+		if set[item] {
+			result = append(result, item)
+			delete(set, item)
+		}
+	}
+
+	return result
+}
+
 func Remove(source []string, target string) []string {
 	for i, v := range source {
 		if v == target {
