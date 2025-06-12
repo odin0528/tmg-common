@@ -2,7 +2,7 @@ package rabbitmq
 
 import (
 	"fmt"
-	"game_server/common/configs"
+	"xxx/common/configs"
 
 	"github.com/streadway/amqp"
 )

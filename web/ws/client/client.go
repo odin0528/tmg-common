@@ -2,11 +2,11 @@ package client
 
 import (
 	"errors"
-	"game_server/common/configs"
-	"game_server/common/web/response"
-	"game_server/common/web/ws"
 	"sync/atomic"
 	"time"
+	"xxx/common/configs"
+	"xxx/common/web/response"
+	"xxx/common/web/ws"
 
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
