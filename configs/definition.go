@@ -56,6 +56,7 @@ const (
 
 	WEB_API_API_CENTER_DOMAIN                string = "api_center_domain"
 	WEB_API_GAME_SERVER_DOMAIN               string = "game_server_domain"
+	WEB_API_SCRIPT_SERVER_DOMAIN             string = "script_server_domain"
 	WEB_API_ALLOW_CORS_DOMAIN                string = "allowed_cors_domain"
 	WEB_API_ALLOW_CORS_HEADERS               string = "allowed_cors_headers"
 	WEB_API_JWT_SECRET_KEY_DURATION_HOURS    string = "jwt_secret_key_duration_hours"
