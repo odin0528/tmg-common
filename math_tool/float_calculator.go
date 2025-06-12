@@ -151,14 +151,12 @@ func GetDisplayFloatDecimalDown(value float64) float64 {
 	return makeDisplayRoundDown(value, ROUND_DISPLAY_PRECISION)
 }
 
-// TODO 無條件進位第幾位
 func makeDisplayRoundUp(value float64, n int32) float64 {
 	decimal := decimal.NewFromFloat(value)
 	v, _ := decimal.RoundUp(n).Float64()
 	return v
 }
 
-// TODO 無條件捨去第幾位
 func makeDisplayRoundDown(value float64, n int32) float64 {
 	decimal := decimal.NewFromFloat(value)
 	v, _ := decimal.RoundDown(n).Float64()

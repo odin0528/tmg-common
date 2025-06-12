@@ -1,12 +1,11 @@
 package uid
 
 import (
+	"game_server/common/configs"
+	"github.com/bwmarrin/snowflake"
 	"log"
 	"os"
 	"strconv"
-	"xxx/common/configs"
-
-	"github.com/bwmarrin/snowflake"
 )
 
 func Init() {
