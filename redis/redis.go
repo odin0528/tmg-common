@@ -9,9 +9,8 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	"mgmt/common/configs"
-	"mgmt/common/logs"
+	"xxx/common/configs"
+	"xxx/common/logs"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
