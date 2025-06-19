@@ -3,7 +3,8 @@ package redis
 import (
 	"fmt"
 	"time"
-	"xxx/common/utils"
+
+	"mgmt/common/utils"
 )
 
 func GetPlayerBetInfoHashKey(account string) string {
@@ -74,4 +75,8 @@ func GetLoginUsersCountByLoginTypeKey(date, loginType string) string {
 
 func GetAIAgentRoomInfoKey(gameName string) string {
 	return GetCacheKey(AI_AGENT_ROOM_INFO_KEY, gameName)
+}
+
+func GetAILobbySettlementBetRecordKey() string {
+	return GetCacheKey(AI_LOBBY_SETTLEMENT_BET_RECORD_KEY)
 }
