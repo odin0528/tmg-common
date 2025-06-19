@@ -132,7 +132,8 @@ const (
 
 	RISK_CONTROL_SCRIPT_WEIGHT_DETAIL_KEY = "risk_control_script_weight_detail"
 
-	AI_AGENT_ROOM_INFO_KEY = "ai_agent_room_info"
+	AI_AGENT_ROOM_INFO_KEY             = "ai_agent_room_info"
+	AI_LOBBY_SETTLEMENT_BET_RECORD_KEY = "ai_lobby_settlement_bet_record"
 )
 
 const (
