@@ -4,11 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
 	"strconv"
 	"testing"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
 
 	"github.com/go-redis/redis/v8"
 
