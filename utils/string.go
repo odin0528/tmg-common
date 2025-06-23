@@ -1,6 +1,6 @@
 package utils
 
-import "game_server/common/math_tool"
+import "xxx/common/math_tool"
 
 func GetRandomString(length int) string {
 	b := make([]rune, length)

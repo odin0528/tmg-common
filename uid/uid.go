@@ -1,10 +1,10 @@
 package uid
 
 import (
-	"game_server/common/configs"
 	"log"
 	"os"
 	"strconv"
+	"xxx/common/configs"
 
 	"github.com/bwmarrin/snowflake"
 )
