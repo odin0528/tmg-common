@@ -133,6 +133,7 @@ const (
 	FIELD_KEY_IDX                  = "idx"
 	FIELD_KEY_AGENT_TOKEN          = "agent_token"
 	FIELD_KEY_PATTERN_TYPE         = "pattern_type"
+	FIELD_KEY_EVENT                = "event"
 )
 
 var (

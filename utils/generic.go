@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"xxx/common/web/response"
+	"game_server/common/web/response"
 )
 
 func ToGenericSlice[T any](input []T) []any {
