@@ -134,6 +134,8 @@ const (
 
 	AI_AGENT_ROOM_INFO_KEY             = "ai_agent_room_info"
 	AI_LOBBY_SETTLEMENT_BET_RECORD_KEY = "ai_lobby_settlement_bet_record"
+
+	PLATFORM_PRIVATE_KEY = "platform_private_key"
 )
 
 const (
