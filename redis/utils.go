@@ -3,6 +3,7 @@ package redis
 import (
 	"fmt"
 	"mgmt/common/utils"
+	"strconv"
 	"time"
 )
 
@@ -78,4 +79,17 @@ func GetAIAgentRoomInfoKey(gameName string) string {
 
 func GetAILobbySettlementBetRecordKey() string {
 	return GetCacheKey(AI_LOBBY_SETTLEMENT_BET_RECORD_KEY)
+}
+
+func GetAgentAccountByPlatformName(platformName string) string {
+	return GetCacheKey(AGENT_ACCOUNT_BY_PLATFORM_NAME_KEY, platformName)
+}
+
+func GetGameListByAgent(agent string) string {
+	return GetCacheKey(GAME_LIST_BY_AGENT_KEY, agent)
+}
+
+func GetDefaultGameOptionCacheKey(gameName, currency string, roomLevel int) string {
+	roomLevelStr := strconv.Itoa(roomLevel)
+	return GetCacheKey(GAME_OPTION_KEY, "default", gameName, currency, roomLevelStr)
 }

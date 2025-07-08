@@ -779,6 +779,27 @@ func ResetPresetRoomGameOption() {
 	}
 }
 
+func ClearCachedData(pattern string) {
+	awaitDeleteKeys := []string{}
+	existKeys, err := Scan(pattern)
+	if err != nil {
+		return
+	}
+
+	awaitDeleteKeys = append(awaitDeleteKeys, existKeys...)
+
+	batchSize := 1
+	for i := 0; i < len(awaitDeleteKeys); i += batchSize {
+		end := i + batchSize
+		if end > len(awaitDeleteKeys) {
+			end = len(awaitDeleteKeys)
+		}
+		currentDeleteKeys := awaitDeleteKeys[i:end]
+
+		Delete(currentDeleteKeys)
+	}
+}
+
 func processPipelineResults(cmds []redis.Cmder) []CmdResult {
 	results := make([]CmdResult, 0, len(cmds))
 	for _, cmd := range cmds {

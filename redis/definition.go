@@ -136,6 +136,11 @@ const (
 	AI_LOBBY_SETTLEMENT_BET_RECORD_KEY = "ai_lobby_settlement_bet_record"
 
 	PLATFORM_PRIVATE_KEY = "platform_private_key"
+
+	AGENT_ACCOUNT_BY_PLATFORM_NAME_KEY = "agent_account"
+	GAME_LIST_BY_AGENT_KEY             = "agent_game_list"
+
+	GAME_OPTION_KEY = "game_option"
 )
 
 const (
