@@ -1293,3 +1293,35 @@ func DeleteKeys(pattern string) error {
 
 	return nil
 }
+
+func ClearAgentIdSerialNum() {
+	now := time.Now()
+
+	reserveListMap := map[string]bool{}
+
+	for i := 0; i < CLEAR_AGENT_ID_SERIAL_NUM_X_DAYS_BEFORE; i++ {
+		reserveListMap[fmt.Sprintf("%s%s", AGENT_ID_SERIAL_NUMBER_PREFIX, now.AddDate(0, 0, -i).Format(utils.DATE_YYYYMMDD_FORMAT))] = true
+	}
+
+	currntKeyList, err := Scan(AGENT_ID_SERIAL_NUMBER_PREFIX + "*")
+	if err != nil {
+		return
+	}
+
+	deleteKeys := []string{}
+	for _, key := range currntKeyList {
+		if !reserveListMap[key] {
+			deleteKeys = append(deleteKeys, key)
+		}
+	}
+
+	ctx := context.Background()
+	if len(deleteKeys) > 0 {
+		pipe := redisConn.Pipeline()
+		for _, k := range deleteKeys {
+			pipe.Del(ctx, k)
+		}
+
+		pipe.Exec(ctx)
+	}
+}

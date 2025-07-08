@@ -140,7 +140,8 @@ const (
 	AGENT_ACCOUNT_BY_PLATFORM_NAME_KEY = "agent_account"
 	GAME_LIST_BY_AGENT_KEY             = "agent_game_list"
 
-	GAME_OPTION_KEY = "game_option"
+	GAME_OPTION_KEY                         = "game_option"
+	CLEAR_AGENT_ID_SERIAL_NUM_X_DAYS_BEFORE = 3
 )
 
 const (
