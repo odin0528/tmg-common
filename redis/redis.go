@@ -1303,16 +1303,25 @@ func ClearAgentIdSerialNum() {
 		reserveListMap[fmt.Sprintf("%s%s", AGENT_ID_SERIAL_NUMBER_PREFIX, now.AddDate(0, 0, -i).Format(utils.DATE_YYYYMMDD_FORMAT))] = true
 	}
 
-	keyList, err := Scan(AGENT_ID_SERIAL_NUMBER_PREFIX + "*")
-
+	currntKeyList, err := Scan(AGENT_ID_SERIAL_NUMBER_PREFIX + "*")
 	if err != nil {
 		return
 	}
 
-	for _, key := range keyList {
+	deleteKeys := []string{}
+	for _, key := range currntKeyList {
 		if !reserveListMap[key] {
-			//	Delete([]string{key})
-			fmt.Println("delete-key: " + key)
+			deleteKeys = append(deleteKeys, key)
 		}
+	}
+
+	ctx := context.Background()
+	if len(deleteKeys) > 0 {
+		pipe := redisConn.Pipeline()
+		for _, k := range deleteKeys {
+			pipe.Del(ctx, k)
+		}
+
+		pipe.Exec(ctx)
 	}
 }
