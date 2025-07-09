@@ -89,7 +89,7 @@ func GetGameListByAgent(agent string) string {
 	return GetCacheKey(GAME_LIST_BY_AGENT_KEY, agent)
 }
 
-func GetDefaultGameOptionCacheKey(gameName, currency string, roomLevel int) string {
+func GetGameOptionCacheKey(platformName, gameName, currency string, roomLevel int) string {
 	roomLevelStr := strconv.Itoa(roomLevel)
-	return GetCacheKey(GAME_OPTION_KEY, "default", gameName, currency, roomLevelStr)
+	return GetCacheKey(GAME_OPTION_KEY, platformName, gameName, currency, roomLevelStr)
 }
