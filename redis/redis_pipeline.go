@@ -49,3 +49,7 @@ func (rp *PipelineWrapper) Unlink(keys []string) ([]CmdResult, error) {
 	rp.pipe.Unlink(ctx, keys...)
 	return rp.Exec(ctx)
 }
+
+func (rp *PipelineWrapper) Del(key string) {
+	rp.pipe.Del(context.TODO(), key)
+}

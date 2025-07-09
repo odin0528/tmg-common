@@ -178,6 +178,10 @@ const (
 	KEY_TOTAL_PAYOUT   = "total_payout"
 )
 
+const (
+	SHORT_EXPIRE_TIME = 10 * time.Minute
+)
+
 var REDIS_IS_NIL_ERR error = redis.Nil
 
 type CmsLoginTimeoutCacheInfo struct {
@@ -258,6 +262,7 @@ type Pipeline interface {
 	ZAdd(key string, members ...*redis.Z)
 	Publish(channel string, message interface{})
 	Unlink(keys []string) ([]CmdResult, error)
+	Del(key string)
 	// 可依需求增加更多常用方法
 }
 
