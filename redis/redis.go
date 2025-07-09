@@ -5,13 +5,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"mgmt/common/configs"
-	"mgmt/common/logs"
-	"mgmt/common/utils"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
+
+	"mgmt/common/configs"
+	"mgmt/common/logs"
+	"mgmt/common/utils"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -1142,9 +1143,7 @@ func XLen(key string) (int64, error) {
 	return redisConn.XLen(context.Background(), key).Result()
 }
 
-func XTrim(key string, expireTime time.Duration) error {
-	const trimLimit int64 = 1000
-
+func XTrim(key string, expireTime time.Duration, trimLimit int64) error {
 	cutoffID := fmt.Sprintf("%d-0", time.Now().
 		Add(-expireTime).
 		UnixMilli(),
