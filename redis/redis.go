@@ -1142,9 +1142,7 @@ func XLen(key string) (int64, error) {
 	return redisConn.XLen(context.Background(), key).Result()
 }
 
-func XTrim(key string, expireTime time.Duration) error {
-	const trimLimit int64 = 1000
-
+func XTrim(key string, expireTime time.Duration, trimLimit int64) error {
 	cutoffID := fmt.Sprintf("%d-0", time.Now().
 		Add(-expireTime).
 		UnixMilli(),
