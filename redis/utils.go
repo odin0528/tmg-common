@@ -93,3 +93,7 @@ func GetGameOptionCacheKey(platformName, gameName, currency string, roomLevel in
 	roomLevelStr := strconv.Itoa(roomLevel)
 	return GetCacheKey(GAME_OPTION_KEY, platformName, gameName, currency, roomLevelStr)
 }
+
+func GetPlatformCurrencyGameOptionCacheKey(platformName, currency string) string {
+	return GetCacheKey(GAME_OPTION_KEY, platformName, currency)
+}
