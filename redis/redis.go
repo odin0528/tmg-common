@@ -1325,3 +1325,7 @@ func ClearAgentIdSerialNum() {
 		pipe.Exec(ctx)
 	}
 }
+
+func SetNX(key string, value interface{}, expiration time.Duration) (bool, error) {
+	return redisConn.SetNX(context.Background(), key, value, expiration).Result()
+}

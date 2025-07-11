@@ -263,6 +263,7 @@ type Pipeline interface {
 	Publish(channel string, message interface{})
 	Unlink(keys []string) ([]CmdResult, error)
 	Del(key string)
+	DelHashMap(key string, field []string)
 	// 可依需求增加更多常用方法
 }
 

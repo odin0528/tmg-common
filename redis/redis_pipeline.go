@@ -53,3 +53,7 @@ func (rp *PipelineWrapper) Unlink(keys []string) ([]CmdResult, error) {
 func (rp *PipelineWrapper) Del(key string) {
 	rp.pipe.Del(context.TODO(), key)
 }
+
+func (rp *PipelineWrapper) DelHashMap(key string, field []string) {
+	rp.pipe.HDel(context.TODO(), key, field...)
+}
