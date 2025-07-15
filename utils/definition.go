@@ -24,6 +24,7 @@ const (
 
 const (
 	// Microsecond
+	DATE_YYYYMM_FORMAT                         = "200601"
 	DATE_YYYYMMDD_FORMAT                       = "20060102"
 	DATE_FORMAT                                = "2006-01-02"
 	TIME_FORMAT                                = "2006-01-02 15:04:05"
