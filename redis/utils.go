@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"strconv"
 	"time"
-	"xxx/common/utils"
+
+	"mgmt/common/utils"
 )
 
 func GetPlayerBetInfoHashKey(account string) string {
