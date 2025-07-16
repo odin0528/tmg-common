@@ -134,6 +134,9 @@ const (
 	FIELD_KEY_AGENT_TOKEN          = "agent_token"
 	FIELD_KEY_PATTERN_TYPE         = "pattern_type"
 	FIELD_KEY_EVENT                = "event"
+	FIELD_KEY_TOTAL_UPDATE_MONEY   = "total_update_money"
+	FIELD_KEY_REMARK_ID            = "remark_id"
+	FIELD_KEY_REMARK               = "remark"
 )
 
 var (
