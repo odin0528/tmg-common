@@ -59,6 +59,7 @@ const (
 	SINGLE_WALLET_SYNC_BET_RECORD_HASH_MAP_KEY    string = "sw_sync_bet_record_hash_key"
 	SINGLE_WALLET_AWARD_RECORD_HASH_MAP_KEY       string = "sw_award_record_hash_key"
 	SINGLE_WALLET_AWARD_RECORD_RETRY_HASH_MAP_KEY string = "sw_award_record_retry_hash_key"
+	SINGLE_WALLET_BET_MONEY_HASH_MAP_KEY          string = "sw_bet_money_hash_map"
 
 	SINGLE_WALLET_WITHDRAW_HASH_MAP_LOCK_KEY           string = "sw_witdraw_hash_lock"
 	SINGLE_WALLET_BET_RECORD_HASH_MAP_LOCK_KEY         string = "sw_bet_record_hash_lock"
@@ -66,6 +67,7 @@ const (
 	SINGLE_WALLET_SYNC_BET_RECORD_HASH_MAP_LOCK_KEY    string = "sw_sync_bet_record_hash_lock"
 	SINGLE_WALLET_AWARD_RECORD_HASH_MAP_LOCK_KEY       string = "sw_award_record_hash_lock"
 	SINGLE_WALLET_AWARD_RECORD_RETRY_HASH_MAP_LOCK_KEY string = "sw_award_record_retry_hash_lock"
+	SINGLE_WALLET_BET_MONEY_HASH_MAP_LOCK_KEY          string = "sw_bet_money_hash_map_lock"
 
 	SINGLE_WALLET_TRANSFER_RECORD_QUERY string = "sw_record_query"
 
