@@ -1,6 +1,6 @@
 package template
 
-const ( //模板編號 //用字串 未來分類或做其他變化比較方便
+const ( // 模板編號 //用字串 未來分類或做其他變化比較方便
 	ANNOUNCEMENT_SYSTEM_EMERGENCY_MAINTENANCE             = "1"
 	ANNOUNCEMENT_NORMAL_MAINTENANCE                       = "2"
 	ANNOUNCEMENT_REWARD_JP                                = "3"
@@ -16,7 +16,13 @@ const ( //模板編號 //用字串 未來分類或做其他變化比較方便
 	MAIL_CONTEXT_CAMP_WAR_BARONG_AWARD_FROM_SYSTEM_ASSIGN = "13"
 )
 
-const ( //取代key-name
+const (
+	MAIL_TITLE_ACTIVITY_FREE_SPIN                      = "1001"
+	MAIL_CONTEXT_ACTIVITY_FREE_SPIN                    = "1002"
+	MAIL_CONTEXT_ACTIVITY_FREE_SPIN_FROM_SYSTEM_ASSIGN = "1003"
+)
+
+const ( // 取代key-name
 	REPLACE_INFO_TIME_RANGE_TEXT = "time_range_text"
 	REPLACE_INFO_GAME_NAME       = "game_name"
 	REPLACE_INFO_PLAYER_ACCOUNT  = "player_account"
