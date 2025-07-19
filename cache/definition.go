@@ -3,6 +3,7 @@ package cache
 import (
 	"time"
 
+	"github.com/dgraph-io/ristretto/v2"
 	"github.com/go-redsync/redsync/v4"
 )
 
@@ -28,4 +29,8 @@ type IRedisCacheRepository interface {
 	PutInHashMap(key string, values map[string]interface{}) error
 	GetHashMap(key string, field string) (result string, err error)
 	DelHashMap(key string, field []string) (err error)
+}
+
+type LocalCache[K ristretto.Key, V any] struct {
+	Cache *ristretto.Cache[K, V]
 }
