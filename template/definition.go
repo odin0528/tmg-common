@@ -17,8 +17,8 @@ const ( // 模板編號 //用字串 未來分類或做其他變化比較方便
 )
 
 const (
-	MAIL_TITLE_ACTIVITY_FREE_SPIN                      = "1001"
-	MAIL_CONTEXT_ACTIVITY_FREE_SPIN                    = "1002"
+	MAIL_TITLE_ACTIVITY_FREE_SPIN                      = "18"
+	MAIL_CONTEXT_ACTIVITY_FREE_SPIN                    = "19"
 	MAIL_CONTEXT_ACTIVITY_FREE_SPIN_FROM_SYSTEM_ASSIGN = "1003"
 )
 
