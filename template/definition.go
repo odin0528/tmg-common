@@ -17,11 +17,14 @@ const ( //模板編號 //用字串 未來分類或做其他變化比較方便
 )
 
 const ( //取代key-name
-	REPLACE_INFO_TIME_RANGE_TEXT = "time_range_text"
-	REPLACE_INFO_GAME_NAME       = "game_name"
-	REPLACE_INFO_PLAYER_ACCOUNT  = "player_account"
-	REPLACE_INFO_JACKPOT_NAME    = "jackpot_name"
-	REPLACE_INFO_AWARD           = "award"
-	REPLACE_INFO_MULTIPLIER      = "multiplier"
-	REPLACE_INFO_CAMP_TYPE       = "camp_type"
+	REPLACE_INFO_TIME_RANGE_TEXT    = "time_range_text"
+	REPLACE_INFO_GAME_NAME          = "game_name"
+	REPLACE_INFO_PLAYER_ACCOUNT     = "player_account"
+	REPLACE_INFO_JACKPOT_NAME       = "jackpot_name"
+	REPLACE_INFO_AWARD              = "award"
+	REPLACE_INFO_MULTIPLIER         = "multiplier"
+	REPLACE_INFO_CAMP_TYPE          = "camp_type"
+	REPLACE_INFO_TOTAL_TIMES        = "total_times"
+	REPLACE_INFO_END_DATE_TIME      = "end_date_time"
+	REPLACE_INFO_GAME_NAME_CURRENCY = "game_name_currency"
 )
