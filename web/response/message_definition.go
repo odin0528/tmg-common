@@ -59,6 +59,7 @@ const (
 	MSG_PLAYER_UPDATE_BALANCE_ABNORMAL     = "player update balance abnormal"
 	MSG_PLAYER_REACH_MAX_SELECT_CAMP_TIMES = "player's change limit has been reached"
 	MSG_CARD_TYPE_INCORRECT                = "your card type are incorrect"
+	MSG_PLAYER_IS_NOT_IN_FREE_SPIN_STATE   = "player is not in free spin state"
 )
 
 // game
