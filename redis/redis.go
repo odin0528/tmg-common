@@ -789,7 +789,7 @@ func ClearCachedData(pattern string) {
 
 	awaitDeleteKeys = append(awaitDeleteKeys, existKeys...)
 
-	batchSize := 1
+	batchSize := 100
 	for i := 0; i < len(awaitDeleteKeys); i += batchSize {
 		end := i + batchSize
 		if end > len(awaitDeleteKeys) {
