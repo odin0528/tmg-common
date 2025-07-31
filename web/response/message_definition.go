@@ -18,6 +18,7 @@ const (
 	MSG_AUTH_PROVIDER_IS_EMPTY            = "provider-code is null"
 	MSG_AUTH_PROVIDER_NOT_EXIST           = "provider-code is not exist"
 	MSG_ACCOUNT_IS_NOT_ACTIVE             = "account is not active"
+	MSG_PLAYER_WALLET_IS_NOT_READY        = "player wallet is not ready"
 )
 
 // api
