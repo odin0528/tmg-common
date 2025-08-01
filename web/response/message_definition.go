@@ -61,6 +61,8 @@ const (
 	MSG_PLAYER_REACH_MAX_SELECT_CAMP_TIMES = "player's change limit has been reached"
 	MSG_CARD_TYPE_INCORRECT                = "your card type are incorrect"
 	MSG_PLAYER_IS_NOT_IN_FREE_SPIN_STATE   = "player is not in free spin state"
+	MSG_PLAYER_ACTIVITY_EXPIRED            = "player activity has expired"
+	MSG_PLAYER_ACTIVITY_NO_REMAINING_TIMES = "player has no remaining times"
 )
 
 // game
