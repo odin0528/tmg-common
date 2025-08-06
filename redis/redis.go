@@ -23,7 +23,6 @@ import (
 var (
 	redisConn *redis.Client
 	mutexMap  sync.Map
-	rs        *redsync.Redsync
 )
 
 const (
@@ -57,8 +56,6 @@ func InitRedis(ctx context.Context) error {
 	}
 
 	redisConn = redisClient
-	pool := goredis.NewPool(redisConn)
-	rs = redsync.New(pool)
 
 	return nil
 }
@@ -337,44 +334,35 @@ func RedisLock(key string, options ...redsync.Option) bool {
 }
 
 func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
-	if configs.GetBool(configs.SECTION_CACHE, "newmutex", false) {
-		mutex := rs.NewMutex(cacheKey, options...)
+	var mutex *redsync.Mutex
+	val, ok := mutexMap.Load(cacheKey)
+	if !ok {
+		pool := goredis.NewPool(redisConn)
+		rs := redsync.New(pool)
+
+		mutex = rs.NewMutex(cacheKey, options...)
 		if mutex == nil {
 			return nil
 		}
 
-		return mutex
+		mutexMap.Store(cacheKey, mutex)
 	} else {
-		var mutex *redsync.Mutex
-		val, ok := mutexMap.Load(cacheKey)
-		if !ok {
-			pool := goredis.NewPool(redisConn)
-			rs := redsync.New(pool)
+		mutex, ok = val.(*redsync.Mutex)
 
-			mutex = rs.NewMutex(cacheKey, options...)
-			if mutex == nil {
-				return nil
-			}
-
-			mutexMap.Store(cacheKey, mutex)
-		} else {
-			mutex, ok = val.(*redsync.Mutex)
-
-			if false == ok {
-				logs.Error(
-					logs.LOG_TYPE_SYSTEM,
-					logs.LOG_KEY_CACHE,
-					"Convert redis mutex failed",
-					map[string]interface{}{
-						logs.FIELD_KEY_CACHE_KEY: cacheKey,
-					},
-				)
-				return nil
-			}
+		if false == ok {
+			logs.Error(
+				logs.LOG_TYPE_SYSTEM,
+				logs.LOG_KEY_CACHE,
+				"Convert redis mutex failed",
+				map[string]interface{}{
+					logs.FIELD_KEY_CACHE_KEY: cacheKey,
+				},
+			)
+			return nil
 		}
-
-		return mutex
 	}
+
+	return mutex
 }
 
 func RedisUnlock(key string) bool {
