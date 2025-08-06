@@ -3,7 +3,6 @@ package redis
 import (
 	"fmt"
 	"strconv"
-	"strings"
 	"time"
 	"xxx/common/utils"
 )
@@ -13,14 +12,16 @@ func GetPlayerBetInfoHashKey(account string) string {
 }
 
 func GetCacheKey(keys ...string) string {
-	var builder strings.Builder
+	result := ""
 	for i, key := range keys {
-		builder.WriteString(key)
-		if i != len(keys)-1 {
-			builder.WriteString(":")
+		result += key
+
+		if i != (len(keys) - 1) {
+			result += ":"
 		}
 	}
-	return builder.String()
+
+	return result
 }
 
 func GetAllCacheKey(keys ...string) string {
