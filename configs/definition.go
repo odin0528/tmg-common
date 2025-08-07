@@ -165,6 +165,11 @@ const (
 	ENABLE_WS_MIX_BASE64_SHIFT int = 3
 
 	GAME_EANBLE_FORCED_CONTROL_TYPE string = "enable_forced_control_type"
+
+	SPIN_MODE string = "spin_mode"
+
+	SPIN_MODE_CLOSE int = 0
+	SPIN_MODE_OPEN  int = 1
 )
 
 var (
