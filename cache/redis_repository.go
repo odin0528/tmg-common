@@ -21,7 +21,11 @@ func (repository *RedisCacheRepository) GetPreviousSecretKey() string {
 }
 
 func (repository *RedisCacheRepository) GetSecretKeyValue() (string, bool) {
-	return redis.GetString(redis.JWT_SECRET_KEY)
+	value, ok := redis.GetString(redis.JWT_SECRET_KEY)
+	if value == "" || !ok {
+		return "", false
+	}
+	return value, true
 }
 
 func (repository *RedisCacheRepository) Put(key string, value interface{}, timeout time.Duration) error {
