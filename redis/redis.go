@@ -24,6 +24,8 @@ var (
 	redisConn *redis.Client
 	mutexMap  sync.Map
 	rs        *redsync.Redsync
+
+	cleanupOnce sync.Once
 )
 
 const (
@@ -338,17 +340,24 @@ func RedisLock(key string, options ...redsync.Option) bool {
 
 func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
 	if configs.GetBool(configs.SECTION_CACHE, "newmutex", false) {
-		var mutex *redsync.Mutex
+		cleanupOnce.Do(startRedisLockSyncMutexCleanup)
+
+		var mutexWrapper *MutexWrapper
 		val, ok := mutexMap.Load(cacheKey)
 		if !ok {
-			mutex = rs.NewMutex(cacheKey, options...)
+			mutex := rs.NewMutex(cacheKey, options...)
 			if mutex == nil {
 				return nil
 			}
 
-			mutexMap.Store(cacheKey, mutex)
+			mutexWrapper = &MutexWrapper{
+				Mutex:      mutex,
+				LastUsedAt: time.Now(),
+			}
+
+			mutexMap.Store(cacheKey, mutexWrapper)
 		} else {
-			mutex, ok = val.(*redsync.Mutex)
+			mutexWrapper, ok = val.(*MutexWrapper)
 
 			if !ok {
 				logs.Error(
@@ -361,9 +370,11 @@ func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
 				)
 				return nil
 			}
+
+			mutexWrapper.LastUsedAt = time.Now()
 		}
 
-		return mutex
+		return mutexWrapper.Mutex
 	} else {
 		var mutex *redsync.Mutex
 		val, ok := mutexMap.Load(cacheKey)
@@ -1370,4 +1381,26 @@ func ClearAgentIdSerialNum() {
 
 func SetNX(key string, value interface{}, expiration time.Duration) (bool, error) {
 	return redisConn.SetNX(context.Background(), key, value, expiration).Result()
+}
+
+func startRedisLockSyncMutexCleanup() {
+	cleanupInterval := 10 * time.Minute
+	expiryDuration := 30 * time.Minute
+
+	ticker := time.NewTicker(cleanupInterval)
+	go func() {
+		for range ticker.C {
+			mutexMap.Range(func(key, value interface{}) bool {
+				wrapper, ok := value.(*MutexWrapper)
+				if !ok {
+					return true
+				}
+
+				if time.Since(wrapper.LastUsedAt) > expiryDuration {
+					mutexMap.Delete(key)
+				}
+				return true
+			})
+		}
+	}()
 }
