@@ -22,9 +22,6 @@ import (
 var (
 	redisConn *redis.Client
 	mutexMap  sync.Map
-	rs        *redsync.Redsync
-
-	cleanupOnce sync.Once
 )
 
 const (
@@ -58,8 +55,6 @@ func InitRedis(ctx context.Context) error {
 	}
 
 	redisConn = redisClient
-	pool := goredis.NewPool(redisConn)
-	rs = redsync.New(pool)
 
 	return nil
 }
@@ -338,73 +333,35 @@ func RedisLock(key string, options ...redsync.Option) bool {
 }
 
 func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
-	if configs.GetBool(configs.SECTION_CACHE, "newmutex", false) {
-		cleanupOnce.Do(startRedisLockSyncMutexCleanup)
+	var mutex *redsync.Mutex
+	val, ok := mutexMap.Load(cacheKey)
+	if !ok {
+		pool := goredis.NewPool(redisConn)
+		rs := redsync.New(pool)
 
-		var mutexWrapper *MutexWrapper
-		val, ok := mutexMap.Load(cacheKey)
-		if !ok {
-			mutex := rs.NewMutex(cacheKey, options...)
-			if mutex == nil {
-				return nil
-			}
-
-			mutexWrapper = &MutexWrapper{
-				Mutex:      mutex,
-				LastUsedAt: time.Now(),
-			}
-
-			mutexMap.Store(cacheKey, mutexWrapper)
-		} else {
-			mutexWrapper, ok = val.(*MutexWrapper)
-
-			if !ok {
-				logs.Error(
-					logs.LOG_TYPE_SYSTEM,
-					logs.LOG_KEY_CACHE,
-					"convert redis mutex failed",
-					map[string]interface{}{
-						logs.FIELD_KEY_CACHE_KEY: cacheKey,
-					},
-				)
-				return nil
-			}
-
-			mutexWrapper.LastUsedAt = time.Now()
+		mutex = rs.NewMutex(cacheKey, options...)
+		if mutex == nil {
+			return nil
 		}
 
-		return mutexWrapper.Mutex
+		mutexMap.Store(cacheKey, mutex)
 	} else {
-		var mutex *redsync.Mutex
-		val, ok := mutexMap.Load(cacheKey)
-		if !ok {
-			pool := goredis.NewPool(redisConn)
-			rs := redsync.New(pool)
+		mutex, ok = val.(*redsync.Mutex)
 
-			mutex = rs.NewMutex(cacheKey, options...)
-			if mutex == nil {
-				return nil
-			}
-
-			mutexMap.Store(cacheKey, mutex)
-		} else {
-			mutex, ok = val.(*redsync.Mutex)
-
-			if false == ok {
-				logs.Error(
-					logs.LOG_TYPE_SYSTEM,
-					logs.LOG_KEY_CACHE,
-					"Convert redis mutex failed",
-					map[string]interface{}{
-						logs.FIELD_KEY_CACHE_KEY: cacheKey,
-					},
-				)
-				return nil
-			}
+		if false == ok {
+			logs.Error(
+				logs.LOG_TYPE_SYSTEM,
+				logs.LOG_KEY_CACHE,
+				"Convert redis mutex failed",
+				map[string]interface{}{
+					logs.FIELD_KEY_CACHE_KEY: cacheKey,
+				},
+			)
+			return nil
 		}
-
-		return mutex
 	}
+
+	return mutex
 }
 
 func RedisUnlock(key string) bool {
@@ -414,7 +371,6 @@ func RedisUnlock(key string) bool {
 	}
 
 	ok, _ := mutex.Unlock()
-
 	if false == ok {
 		return false
 	}
@@ -1380,26 +1336,4 @@ func ClearAgentIdSerialNum() {
 
 func SetNX(key string, value interface{}, expiration time.Duration) (bool, error) {
 	return redisConn.SetNX(context.Background(), key, value, expiration).Result()
-}
-
-func startRedisLockSyncMutexCleanup() {
-	cleanupInterval := 10 * time.Minute
-	expiryDuration := 30 * time.Minute
-
-	ticker := time.NewTicker(cleanupInterval)
-	go func() {
-		for range ticker.C {
-			mutexMap.Range(func(key, value interface{}) bool {
-				wrapper, ok := value.(*MutexWrapper)
-				if !ok {
-					return true
-				}
-
-				if time.Since(wrapper.LastUsedAt) > expiryDuration {
-					mutexMap.Delete(key)
-				}
-				return true
-			})
-		}
-	}()
 }
