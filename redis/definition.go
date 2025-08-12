@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/go-redsync/redsync/v4"
 	"github.com/shopspring/decimal"
 )
 
@@ -286,4 +287,9 @@ type PipelineWrapper struct {
 
 type TxPipelineWrapper struct {
 	PipelineWrapper
+}
+
+type MutexWrapper struct {
+	Mutex      *redsync.Mutex
+	LastUsedAt time.Time
 }
