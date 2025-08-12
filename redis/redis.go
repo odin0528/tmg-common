@@ -405,8 +405,6 @@ func RedisUnlock(key string) bool {
 
 	ok, _ := mutex.Unlock()
 
-	mutexMap.Delete(key)
-
 	if false == ok {
 		return false
 	}
