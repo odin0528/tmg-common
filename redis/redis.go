@@ -375,18 +375,6 @@ func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
 			mutexWrapper.LastUsedAt = time.Now()
 		}
 
-		logs.Info(
-			logs.LOG_TYPE_SYSTEM,
-			logs.LOG_KEY_CACHE,
-			"getMutex",
-			map[string]interface{}{
-				"key":                          cacheKey,
-				"current_mutexWrapper":         mutexWrapper,
-				"current_mutexWrapper_pointer": fmt.Sprintf("%p", &mutexWrapper),
-				"Mutex_pointer":                fmt.Sprintf("%p", &mutexWrapper.Mutex),
-			},
-		)
-
 		return mutexWrapper.Mutex
 	} else {
 		var mutex *redsync.Mutex
