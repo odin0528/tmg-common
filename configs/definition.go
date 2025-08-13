@@ -168,8 +168,8 @@ const (
 
 	SPIN_MODE string = "spin_mode"
 
-	SPIN_MODE_CLOSE int = 0
-	SPIN_MODE_OPEN  int = 1
+	SPIN_MODE_NATURAL int = 0
+	SPIN_MODE_SCRIPT  int = 1
 )
 
 var (
