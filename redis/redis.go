@@ -380,6 +380,7 @@ func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
 			"getMutex",
 			map[string]interface{}{
 				"current_mutexWrapper": mutexWrapper,
+				"pointer":              &mutexWrapper.Mutex,
 			},
 		)
 
@@ -1406,20 +1407,21 @@ func startRedisLockSyncMutexCleanup() {
 					return true
 				}
 
+				logs.Info(
+					logs.LOG_TYPE_SYSTEM,
+					logs.LOG_KEY_CACHE,
+					"startRedisLockSyncMutexCleanup",
+					map[string]interface{}{
+						"current_range_mutexwarpper":         wrapper,
+						"current_range_mutexwarpper_pointer": &wrapper.Mutex,
+					},
+				)
+
 				if time.Since(wrapper.LastUsedAt) > expiryDuration {
 					mutexMap.Delete(key)
 				}
 				return true
 			})
-
-			logs.Info(
-				logs.LOG_TYPE_SYSTEM,
-				logs.LOG_KEY_CACHE,
-				"getMutex",
-				map[string]interface{}{
-					"current_mutexMap": mutexMap,
-				},
-			)
 		}
 	}()
 }
