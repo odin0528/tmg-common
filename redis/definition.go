@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/go-redsync/redsync/v4"
 	"github.com/shopspring/decimal"
 )
 
@@ -144,6 +145,9 @@ const (
 
 	GAME_OPTION_KEY                         = "game_option"
 	CLEAR_AGENT_ID_SERIAL_NUM_X_DAYS_BEFORE = 3
+
+	CLEAN_REDIS_MUTEX_MAP_TIME_MIN_DEFAULT  = 10
+	EXPIRY_REDIS_MUTEX_MAP_TIME_MIN_DEFAULT = 30
 )
 
 const (
@@ -286,4 +290,9 @@ type PipelineWrapper struct {
 
 type TxPipelineWrapper struct {
 	PipelineWrapper
+}
+
+type MutexWrapper struct {
+	Mutex      *redsync.Mutex
+	LastUsedAt time.Time
 }
