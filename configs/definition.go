@@ -88,6 +88,9 @@ const (
 	CACHE_PASSWORD   = "password"
 	CACHE_USE_TLS    = "use_tls"
 
+	CACHE_KEY_CLEAN_REDIS_MUTEX_MAP_TIME_MIN  = "clean_redis_mutex_map_time_min"
+	CACHE_KEY_EXPIRY_REDIS_MUTEX_MAP_TIME_MIN = "expiry_redis_mutex_map_time_min"
+
 	LOG_FILE_PATH        = "file_path"
 	LOG_FILE             = "file"
 	LOG_ENABLE_STD_OUT   = "enable_std_out"

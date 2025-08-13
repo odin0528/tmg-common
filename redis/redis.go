@@ -62,6 +62,8 @@ func InitRedis(ctx context.Context) error {
 	pool := goredis.NewPool(redisConn)
 	rs = redsync.New(pool)
 
+	cleanupOnce.Do(startRedisLockSyncMutexCleanup)
+
 	return nil
 }
 
@@ -340,8 +342,6 @@ func RedisLock(key string, options ...redsync.Option) bool {
 
 func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
 	if configs.GetBool(configs.SECTION_CACHE, "newmutex", false) {
-		cleanupOnce.Do(startRedisLockSyncMutexCleanup)
-
 		var mutexWrapper *MutexWrapper
 		val, ok := mutexMap.Load(cacheKey)
 		if !ok {
@@ -373,6 +373,15 @@ func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
 
 			mutexWrapper.LastUsedAt = time.Now()
 		}
+
+		logs.Info(
+			logs.LOG_TYPE_SYSTEM,
+			logs.LOG_KEY_CACHE,
+			"getMutex",
+			map[string]interface{}{
+				"current_mutexWrapper": mutexWrapper,
+			},
+		)
 
 		return mutexWrapper.Mutex
 	} else {
@@ -415,7 +424,6 @@ func RedisUnlock(key string) bool {
 	}
 
 	ok, _ := mutex.Unlock()
-
 	if false == ok {
 		return false
 	}
@@ -1384,10 +1392,12 @@ func SetNX(key string, value interface{}, expiration time.Duration) (bool, error
 }
 
 func startRedisLockSyncMutexCleanup() {
-	cleanupInterval := 10 * time.Minute
-	expiryDuration := 30 * time.Minute
+	cleanupInterval := time.Duration(configs.GetInt(configs.SECTION_CACHE, configs.CACHE_KEY_CLEAN_REDIS_MUTEX_MAP_TIME_MIN, CLEAN_REDIS_MUTEX_MAP_TIME_MIN_DEFAULT)) * time.Minute
+	expiryDuration := time.Duration(configs.GetInt(configs.SECTION_CACHE, configs.CACHE_KEY_EXPIRY_REDIS_MUTEX_MAP_TIME_MIN, EXPIRY_REDIS_MUTEX_MAP_TIME_MIN_DEFAULT)) * time.Minute
 
 	ticker := time.NewTicker(cleanupInterval)
+	defer ticker.Stop()
+
 	go func() {
 		for range ticker.C {
 			mutexMap.Range(func(key, value interface{}) bool {
@@ -1401,6 +1411,15 @@ func startRedisLockSyncMutexCleanup() {
 				}
 				return true
 			})
+
+			logs.Info(
+				logs.LOG_TYPE_SYSTEM,
+				logs.LOG_KEY_CACHE,
+				"getMutex",
+				map[string]interface{}{
+					"current_mutexMap": mutexMap,
+				},
+			)
 		}
 	}()
 }
