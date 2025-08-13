@@ -62,7 +62,9 @@ func InitRedis(ctx context.Context) error {
 	pool := goredis.NewPool(redisConn)
 	rs = redsync.New(pool)
 
-	cleanupOnce.Do(startRedisLockSyncMutexCleanup)
+	if configs.GetBool(configs.SECTION_CACHE, "newmutex", false) {
+		cleanupOnce.Do(startRedisLockSyncMutexCleanup)
+	}
 
 	return nil
 }
@@ -379,6 +381,7 @@ func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
 			logs.LOG_KEY_CACHE,
 			"getMutex",
 			map[string]interface{}{
+				"key":                          cacheKey,
 				"current_mutexWrapper":         mutexWrapper,
 				"current_mutexWrapper_pointer": fmt.Sprintf("%p", &mutexWrapper),
 				"Mutex_pointer":                fmt.Sprintf("%p", &mutexWrapper.Mutex),
@@ -1398,26 +1401,15 @@ func startRedisLockSyncMutexCleanup() {
 	expiryDuration := time.Duration(configs.GetInt(configs.SECTION_CACHE, configs.CACHE_KEY_EXPIRY_REDIS_MUTEX_MAP_TIME_MIN, EXPIRY_REDIS_MUTEX_MAP_TIME_MIN_DEFAULT)) * time.Minute
 
 	ticker := time.NewTicker(cleanupInterval)
-	defer ticker.Stop()
 
 	go func() {
+		defer ticker.Stop()
 		for range ticker.C {
 			mutexMap.Range(func(key, value interface{}) bool {
 				wrapper, ok := value.(*MutexWrapper)
 				if !ok {
 					return true
 				}
-
-				logs.Info(
-					logs.LOG_TYPE_SYSTEM,
-					logs.LOG_KEY_CACHE,
-					"startRedisLockSyncMutexCleanup",
-					map[string]interface{}{
-						"current_range_mutexwarpper":               wrapper,
-						"current_range_mutexwarpper_pointer":       fmt.Sprintf("%p", &wrapper),
-						"current_range_mutexwarpper_mutex_pointer": fmt.Sprintf("%p", &wrapper.Mutex),
-					},
-				)
 
 				if time.Since(wrapper.LastUsedAt) > expiryDuration {
 					mutexMap.Delete(key)
