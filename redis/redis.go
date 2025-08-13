@@ -378,8 +378,9 @@ func getMutex(cacheKey string, options ...redsync.Option) *redsync.Mutex {
 			logs.LOG_KEY_CACHE,
 			"getMutex",
 			map[string]interface{}{
-				"current_mutexWrapper": mutexWrapper,
-				"pointer":              &mutexWrapper.Mutex,
+				"current_mutexWrapper":         mutexWrapper,
+				"current_mutexWrapper_pointer": &mutexWrapper,
+				"Mutex_pointer":                &mutexWrapper.Mutex,
 			},
 		)
 
@@ -1411,8 +1412,9 @@ func startRedisLockSyncMutexCleanup() {
 					logs.LOG_KEY_CACHE,
 					"startRedisLockSyncMutexCleanup",
 					map[string]interface{}{
-						"current_range_mutexwarpper":         wrapper,
-						"current_range_mutexwarpper_pointer": &wrapper.Mutex,
+						"current_range_mutexwarpper":               wrapper,
+						"current_range_mutexwarpper_pointer":       &wrapper,
+						"current_range_mutexwarpper_mutex_pointer": &wrapper.Mutex,
 					},
 				)
 
