@@ -63,6 +63,7 @@ const (
 	MSG_PLAYER_IS_NOT_IN_FREE_SPIN_STATE   = "player is not in free spin state"
 	MSG_PLAYER_ACTIVITY_EXPIRED            = "player activity has expired"
 	MSG_PLAYER_ACTIVITY_NO_REMAINING_TIMES = "player has no remaining times"
+	MSG_PLAYER_ACCOUNT_IS_ABNORMAL         = "player account is abnormal"
 )
 
 // game
