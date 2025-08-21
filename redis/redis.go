@@ -1406,3 +1406,31 @@ func startRedisLockSyncMutexCleanup() {
 		}
 	}()
 }
+
+// hash
+func KeyExists(key string) bool {
+	n, err := redisConn.Exists(context.Background(), key).Result()
+	if err != nil {
+		return false
+	}
+	return n > 0
+}
+
+func EnsureHash(key string, ttl time.Duration) error {
+	exists := KeyExists(key)
+	if !exists {
+		// 建立一個 placeholder field
+		if err := redisConn.HSet(context.Background(), key, "_init", 1).Err(); err != nil {
+			return err
+		}
+		// 馬上刪掉 placeholder
+		if err := redisConn.HDel(context.Background(), key, "_init").Err(); err != nil {
+			return err
+		}
+		// 設定 TTL
+		if err := redisConn.Expire(context.Background(), key, ttl).Err(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
