@@ -85,7 +85,7 @@ func FormatTimeToMicrosecondString(when time.Time) string {
 }
 
 func ConvertToDBTimeString(when time.Time) string {
-	return when.In(TaiwanTimezone).Format(TIME_FORMAT_WITH_MICRO_SEC)
+	return when.In(TaiwanTimezone).Format(TIME_FORMAT)
 }
 
 func ParseDBTimeString(timeStr string) (time.Time, error) {
