@@ -229,4 +229,5 @@ const (
 	MSG_PLATFORM_PLAYER_HAVE_MULTIPLE_AGENTS            = "player have multiple agents"
 	MSG_PLATFORM_IS_SINAGLE_WALLET_CAN_NOT_TRANSFER     = "wallet is single wallet. can't transfer"
 	MSG_PLATFORM_DUPLICATE_TRANSACTION_ID               = "duplicate transaction id"
+	MSG_PLATFORM_DUPLICATE_FREE_SPIN_ID                 = "duplicate free spin id"
 )
