@@ -65,6 +65,8 @@ const (
 	LOG_KEY_SLOT_PLAYER         = "slot_player"
 	LOG_KEY_SINGLE_ROOM         = "single_room"
 	LOG_KEY_SINGLE_PLAYER       = "single_player"
+	LOG_KEY_LOTTO_ROOM          = "lotto_room"
+	LOG_KEY_LOTTO_PLAYER        = "lotto_player"
 	LOG_KEY_MQ                  = "mq"
 	LOG_KEY_AGENT               = "agent"
 	LOG_KEY_CMS_USER            = "cms_user"
