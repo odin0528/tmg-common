@@ -31,6 +31,8 @@ const (
 	TIME_FORMAT_WITH_MICRO_SEC          string = "2006-01-02 15:04:05.999999"
 	TIME_FORMAT_WITH_MICRO_SEC_TIMEZONE string = "2006-01-02 15:04:05.999999 -0700"
 	QUERY_TIME_FLOAT_LIMIT                     = 999999000
+	TIME_FORMAT_HH                             = "2006-01-02 15"
+	TIME_FORMAT_HHMM                           = "2006-01-02 15:04"
 )
 
 var letterRunes = []rune("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
