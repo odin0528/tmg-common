@@ -232,4 +232,6 @@ const (
 	MSG_PLATFORM_IS_SINAGLE_WALLET_CAN_NOT_TRANSFER     = "wallet is single wallet. can't transfer"
 	MSG_PLATFORM_DUPLICATE_TRANSACTION_ID               = "duplicate transaction id"
 	MSG_PLATFORM_DUPLICATE_FREE_SPIN_ID                 = "duplicate free spin id"
+	MSG_PLATFORM_GET_PLAYER_BALANCE_ERROR               = "failed to get player's balance"
+	MSG_PLATFORM_GET_AGENT_ERROR                        = "failed to get agent"
 )
