@@ -1,5 +1,7 @@
 package api
 
+import "sync/atomic"
+
 type HTTP_METHOD string
 type WebAPICallback func([]byte, interface{}, error)
 
@@ -16,11 +18,18 @@ const (
 
 	HEADER_KEY_CONTENT_TYPE = "Content-Type"
 	HEADER_KEY_AUTH         = "Authorization"
+	HEADER_KEY_USER_AGENT   = "User-Agent"
 
 	CONTENT_TYPE_JSON = "application/json;charset=UTF-8"
 
 	DATA_MONEY_KEY = "money"
+
+	CUSTOM_USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) WowGaming/1.0 Safari/537.36"
+
+	REDIS_KEY_ENABLE_CUSTOM_USER_AGENT = "enable_custom_user_agent"
 )
+
+var enableCustomUserAgent atomic.Bool
 
 type Response struct {
 	Code int         `json:"code"`

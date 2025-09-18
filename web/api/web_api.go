@@ -2,6 +2,10 @@ package api
 
 import (
 	"bytes"
+	"fmt"
+	"mgmt/common/logs"
+	"mgmt/common/redis"
+
 	"encoding/json"
 	"errors"
 	"io"
@@ -9,6 +13,30 @@ import (
 	"net/http"
 	"time"
 )
+
+func InitUserAgentSwitch() {
+	enableCustomUserAgent.Store(false) // 預設關閉
+
+	// 初始化時先讀 Redis
+	v, ok := redis.GetString(REDIS_KEY_ENABLE_CUSTOM_USER_AGENT)
+	if ok && v == "1" {
+		enableCustomUserAgent.Store(true)
+	}
+
+	// 定時刷新 Redis 開關
+	go func() {
+		ticker := time.NewTicker(1 * time.Minute)
+		defer ticker.Stop()
+		for range ticker.C {
+			v, ok := redis.GetString(REDIS_KEY_ENABLE_CUSTOM_USER_AGENT)
+			if ok {
+				enableCustomUserAgent.Store(v == "1")
+			}
+		}
+	}()
+
+	logs.Info(logs.LOG_TYPE_SYSTEM, logs.LOG_KEY_API, fmt.Sprintf("InitUserAgentSwitch completed: %v", time.Now()), map[string]interface{}{})
+}
 
 func sendRequest(method HTTP_METHOD, url string, header map[string]string, body interface{}, timeout time.Duration) ([]byte, error) {
 	var bodyBytes []byte
@@ -31,6 +59,10 @@ func sendRequest(method HTTP_METHOD, url string, header map[string]string, body 
 
 	for k, v := range header {
 		request.Header.Set(k, v)
+	}
+
+	if enableCustomUserAgent.Load() {
+		request.Header.Set(HEADER_KEY_USER_AGENT, CUSTOM_USER_AGENT)
 	}
 
 	tr := http.Transport{
