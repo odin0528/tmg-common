@@ -3,6 +3,7 @@ package api
 import (
 	"bytes"
 	"fmt"
+	"xxx/common/configs"
 	"xxx/common/logs"
 	"xxx/common/redis"
 
@@ -62,7 +63,7 @@ func sendRequest(method HTTP_METHOD, url string, header map[string]string, body 
 	}
 
 	if enableCustomUserAgent.Load() {
-		request.Header.Set(HEADER_KEY_USER_AGENT, CUSTOM_USER_AGENT)
+		request.Header.Set(HEADER_KEY_USER_AGENT, getUserAgent())
 	}
 
 	tr := http.Transport{
@@ -89,6 +90,23 @@ func sendRequest(method HTTP_METHOD, url string, header map[string]string, body 
 	}
 
 	return respBytes, nil
+}
+
+func getUserAgent() string {
+	profile := configs.Get(configs.SECTION_WEB_API, configs.WEB_API_APP_PROFILE, "")
+
+	switch profile {
+	case configs.WEB_API_APP_PROFILE_WOW_GAMING_PROD:
+		return "WOWGaming-GameServer//2.0.1 (prod; golang)"
+	case configs.WEB_API_APP_PROFILE_WOW_GAMING_STAGING:
+		return "WOWGaming-GameServer//2.0.1 (staging; golang)"
+	case configs.WEB_API_APP_PROFILE_AI_LIVE_CASINO_PROD:
+		return "AILiveCasino-GameServer//2.0.1 (prod; golang)"
+	case configs.WEB_API_APP_PROFILE_AI_LIVE_CASINO_STAGING:
+		return "AILiveCasino-GameServer//2.0.1 (staging; golang)"
+	default:
+		return ""
+	}
 }
 
 func SendWebAPIAsync(method HTTP_METHOD, url string, header map[string]string, body interface{}, callback WebAPICallback, callerInfo interface{}) {
