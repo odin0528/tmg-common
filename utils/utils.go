@@ -53,3 +53,17 @@ func StringToInt(s string) int {
 	}
 	return i
 }
+
+func TernaryOperatorString(condition bool, trueVal, falseVal string) string {
+	if condition {
+		return trueVal
+	}
+	return falseVal
+}
+
+func TernaryOperatorInt(condition bool, trueVal, falseVal int) int {
+	if condition {
+		return trueVal
+	}
+	return falseVal
+}
