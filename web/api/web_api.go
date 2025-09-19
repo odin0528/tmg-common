@@ -26,7 +26,7 @@ func InitUserAgentSwitch() {
 
 	// 定時刷新 Redis 開關
 	go func() {
-		ticker := time.NewTicker(1 * time.Minute)
+		ticker := time.NewTicker(10 * time.Second)
 		defer ticker.Stop()
 		for range ticker.C {
 			v, ok := redis.GetString(REDIS_KEY_ENABLE_CUSTOM_USER_AGENT)
