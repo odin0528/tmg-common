@@ -1,6 +1,11 @@
 package utils
 
-import "xxx/common/math_tool"
+import (
+	"errors"
+	"fmt"
+	"strconv"
+	"xxx/common/math_tool"
+)
 
 func GetRandomString(length int) string {
 	b := make([]rune, length)
@@ -58,4 +63,27 @@ func GetCombinedString(symbol string, keys ...string) string {
 	}
 
 	return result
+}
+
+func ConvertHashToIntegerList(hash string, charsPerGroup int) ([]int, error) {
+	b := []byte(hash)
+	if len(b) != 64 {
+		return nil, errors.New("invalid hash length")
+	}
+
+	if len(b)%charsPerGroup != 0 {
+		return []int{}, fmt.Errorf("hash length (%d) is not divisible by charsPerGroup (%d)", len(b), charsPerGroup)
+	}
+
+	integerList := make([]int, 0, len(b)/charsPerGroup)
+	for i := 0; i < len(b); i += charsPerGroup {
+		integer, err := strconv.ParseInt(string(b[i:i+charsPerGroup]), 16, 64)
+		if err != nil {
+			return []int{}, err
+		}
+
+		integerList = append(integerList, int(integer))
+	}
+
+	return integerList, nil
 }
