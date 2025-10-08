@@ -150,6 +150,9 @@ const (
 	EXPIRY_REDIS_MUTEX_MAP_TIME_MIN_DEFAULT = 30
 
 	CONST_KEY = "const"
+
+	LOTTO_HISTORY_LOCK_KEY_PREFIX      = "lotto_history_lock_"
+	LOTTO_HISTORY_CONDITION_KEY_PREFIX = "lotto_history_condition"
 )
 
 const (
