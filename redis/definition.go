@@ -153,6 +153,9 @@ const (
 
 	LOTTO_HISTORY_LOCK_KEY_PREFIX      = "lotto_history_lock_"
 	LOTTO_HISTORY_CONDITION_KEY_PREFIX = "lotto_history_condition"
+
+	AGENT_REVERSE_PREFIX          = "agent_reverse_prefix"
+	AGENT_REVERSE_GAME_MAP_PREFIX = "agent_reverse_game_map_prefix"
 )
 
 const (
