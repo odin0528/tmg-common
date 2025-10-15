@@ -20,5 +20,6 @@ type WsClient struct {
 	socket      *websocket.Conn
 	sendChannal chan []byte
 	isClose     int64
+	closeChan   chan bool
 	mutex       sync.Mutex
 }

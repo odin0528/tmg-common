@@ -17,6 +17,7 @@ func NewWsClient(socket *websocket.Conn) *WsClient {
 		id:          uuid.New().String(),
 		socket:      socket,
 		sendChannal: make(chan []byte),
+		closeChan:   make(chan bool, 1),
 	}
 }
 
@@ -43,11 +44,14 @@ func (client *WsClient) InitReader(callback func(client *WsClient, message []byt
 func (client *WsClient) InitSender() {
 	go func() {
 		for {
-			if client.IsClose() {
+			select {
+			case <-client.closeChan:
 				return
-			}
-			msg, ok := <-client.sendChannal
-			if ok {
+			case msg, ok := <-client.sendChannal:
+				if !ok {
+					return
+				}
+
 				encodeType := configs.GetInt(configs.SECTION_SYSTEM, configs.SYSTEM_WEBSOCKET_ENCODE_MODE, configs.ENABLE_WS_BASE64)
 				switch encodeType {
 				case configs.ENABLE_WS_MSG_PACK:
@@ -115,6 +119,7 @@ func (client *WsClient) IsClose() bool {
 
 func (client *WsClient) SetClose() {
 	atomic.StoreInt64(&client.isClose, 1)
+	client.closeChan <- true
 }
 
 func (client *WsClient) GetID() string {
