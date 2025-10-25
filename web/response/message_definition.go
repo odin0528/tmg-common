@@ -31,7 +31,9 @@ const (
 	MSG_API_INTERNAL_SERVER_ERROR     = "Internal server error"
 	MSG_API_REQUEST_TOO_FREQUENTLY    = "request too frequently"
 
-	MSG_API_TIMEOUT_ERROR = "api timeout error"
+	MSG_API_TIMEOUT_ERROR             = "api timeout error"
+	MSG_INTERNAL_NETWORK_ERROR        = "Internal network error"
+	MSG_GAME_ABNORMAL_NOTIFY_CUSTOMER = "Game is abnormal, please notify customer service for assistance"
 )
 
 // ws
