@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"xxx/common/configs"
 	"xxx/common/utils"
 )
 
@@ -95,4 +96,9 @@ func GetGameOptionCacheKey(platformName, gameName, currency string, roomLevel in
 
 func GetPlatformCurrencyGameOptionCacheKey(platformName, currency string) string {
 	return GetCacheKey(GAME_OPTION_KEY, platformName, currency)
+}
+
+func IsNamespaceMaintain() bool {
+	namespace := configs.Get(configs.SECTION_SYSTEM, configs.SYSTEM_NAMESPACE, "blue")
+	return IsExistByAllType(GetCacheKey(NAMESAPCE_IS_MAINTAIN_KEY, namespace))
 }

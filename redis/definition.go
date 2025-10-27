@@ -156,6 +156,8 @@ const (
 
 	AGENT_REVERSE_PREFIX          = "agent_reverse_prefix"
 	AGENT_REVERSE_GAME_MAP_PREFIX = "agent_reverse_game_map_prefix"
+
+	NAMESAPCE_IS_MAINTAIN_KEY = "namesapce_is_maintain"
 )
 
 const (

@@ -58,6 +58,7 @@ const (
 	SYSTEM_ENABLE_RTP_TRACKING             string = "enable_rtp_tracking"
 	SYSTEM_ENV                             string = "env"
 	SYSTEM_BET_RECORD_SPLIT_START_DATETIME string = "bet_record_split_start_datetime"
+	SYSTEM_NAMESPACE                       string = "namespace"
 
 	WEB_API_API_CENTER_DOMAIN                  string = "api_center_domain"
 	WEB_API_GAME_SERVER_DOMAIN                 string = "game_server_domain"
