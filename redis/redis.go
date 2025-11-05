@@ -1130,16 +1130,37 @@ func DeleteWithContext(ctx context.Context, keys []string) error {
 }
 
 func AccessLimit(ctx context.Context, key string, interval int, limit int) (cnt int64, err error) {
-	accessLimitScript := redis.NewScript(`
-	local count = redis.call('INCR', KEYS[1])
-	if count == 1 then
-	redis.call('EXPIRE', KEYS[1], ARGV[1])
-	end
-	return count`)
-
-	cnt, err = accessLimitScript.Run(ctx, redisConn, []string{key}, interval).Int64()
+	// 使用預先加載的 SHA 執行腳本
+	result, err := redisConn.EvalSha(
+		ctx,
+		accessLimitScriptSHA,
+		[]string{key},
+		interval,
+	).Result()
 	if err != nil {
-		return 0, err
+		// 處理 Redis 重啟導致腳本丟失的情況
+		if strings.Contains(err.Error(), "NOSCRIPT") {
+			// 重新加載腳本
+			sha, loadErr := redisConn.ScriptLoad(ctx, accessLimitScriptContent).Result()
+			if loadErr != nil {
+				return 0, fmt.Errorf("failed to reload access limit script: %w", loadErr)
+			}
+			accessLimitScriptSHA = sha
+
+			// 重試
+			result, err = redisConn.EvalSha(ctx, accessLimitScriptSHA, []string{key}, interval).Result()
+			if err != nil {
+				return 0, err
+			}
+		} else {
+			return 0, err
+		}
+	}
+
+	// 轉換結果
+	cnt, ok := result.(int64)
+	if !ok {
+		return 0, fmt.Errorf("unexpected result type: %T", result)
 	}
 
 	if cnt >= int64(limit) {
