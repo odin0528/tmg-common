@@ -102,8 +102,8 @@ if reserved == 0 then
     -- Player loses: add house_gain to pool
     redis.call('INCRBYFLOAT', availableKey, house_gain)
     gain_added = house_gain
-  elseif result == 'win' then
-    -- Player wins: add house_gain but deduct actual_payout
+  elseif result == 'win' or result == 'tie' then
+    -- Player wins or tie: add house_gain but deduct actual_payout
     local delta = house_gain - actual_payout
     redis.call('INCRBYFLOAT', availableKey, delta)
     gain_added = house_gain
@@ -113,9 +113,9 @@ if reserved == 0 then
   return {4, "0", tostring(gain_added), "0"} -- status=4 (settled without reservation)
 end
 
--- Process win/lose
-if result == 'win' then
-  -- Player wins: return difference (reserved - actual_payout) + add house_gain
+-- Process win/lose/tie
+if result == 'win' or result == 'tie' then
+  -- Player wins or tie: return difference (reserved - actual_payout) + add house_gain
   if reserved > actual_payout then
     delta_return = reserved - actual_payout
   else
