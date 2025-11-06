@@ -98,9 +98,14 @@ local gain_added = 0
 
 if reserved == 0 then
   -- No reservation (might be expired and GC'd)
-  -- Only add house_gain if player lost
   if result == 'lose' and house_gain > 0 then
+    -- Player loses: add house_gain to pool
     redis.call('INCRBYFLOAT', availableKey, house_gain)
+    gain_added = house_gain
+  elseif result == 'win' then
+    -- Player wins: add house_gain but deduct actual_payout
+    local delta = house_gain - actual_payout
+    redis.call('INCRBYFLOAT', availableKey, delta)
     gain_added = house_gain
   end
   redis.call('SADD', settledSetKey, bet_id)
