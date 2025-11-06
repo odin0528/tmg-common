@@ -10,6 +10,7 @@ var (
 
 	riskPoolReserveSHA string // 水池預扣
 	riskPoolSettleSHA  string // 水池結算
+	riskPoolCleanupSHA string // 水池過期預扣清理
 )
 
 // Access Limit Lua 腳本
@@ -150,6 +151,38 @@ redis.call('EXPIRE', settledSetKey, 86400) -- expire after 24h
 return {2, tostring(delta_return), tostring(gain_added), tostring(reserved)} -- status=2 (success), delta_return, gain_added, original_reserved
 `
 
+// Risk Pool Cleanup Lua Script
+// 清理過期預扣腳本：查找過期 + 歸還金額 + 刪除記錄
+const riskPoolCleanupScript = `
+-- KEYS: [1]availableKey, [2]resvAmtKey, [3]resvZKey
+-- ARGV: [1]now_ms, [2]limit
+
+local availableKey = KEYS[1]
+local resvAmtKey   = KEYS[2]
+local resvZKey     = KEYS[3]
+
+local now_ms = tonumber(ARGV[1])
+local limit  = tonumber(ARGV[2])
+
+-- 查找過期的預扣
+local expired = redis.call('ZRANGEBYSCORE', resvZKey, 0, now_ms, 'LIMIT', 0, limit)
+local cleaned_count = 0
+local total_returned = 0
+
+for i, bet_id in ipairs(expired) do
+  local amt = tonumber(redis.call('HGET', resvAmtKey, bet_id) or '0')
+  if amt > 0 then
+    redis.call('INCRBYFLOAT', availableKey, amt)
+    total_returned = total_returned + amt
+  end
+  redis.call('HDEL', resvAmtKey, bet_id)
+  redis.call('ZREM', resvZKey, bet_id)
+  cleaned_count = cleaned_count + 1
+end
+
+return {cleaned_count, tostring(total_returned)}
+`
+
 // InitLuaScripts loads Lua scripts into Redis
 func InitLuaScripts(ctx context.Context) error {
 	// 載入 Access Limit Lua 腳本
@@ -173,6 +206,13 @@ func InitLuaScripts(ctx context.Context) error {
 	}
 	riskPoolSettleSHA = sha
 
+	// Load Cleanup Script
+	sha, err = redisConn.ScriptLoad(ctx, riskPoolCleanupScript).Result()
+	if err != nil {
+		return fmt.Errorf("failed to load cleanup script: %w", err)
+	}
+	riskPoolCleanupSHA = sha
+
 	return nil
 }
 
@@ -184,4 +224,9 @@ func GetRiskPoolReserveSHA() string {
 // GetRiskPoolSettleSHA returns the SHA of settle script
 func GetRiskPoolSettleSHA() string {
 	return riskPoolSettleSHA
+}
+
+// GetRiskPoolCleanupSHA returns the SHA of cleanup script
+func GetRiskPoolCleanupSHA() string {
+	return riskPoolCleanupSHA
 }

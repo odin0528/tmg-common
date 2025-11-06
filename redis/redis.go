@@ -204,6 +204,15 @@ func Delete(keys []string) error {
 	return redisConn.Del(context.Background(), keys...).Err()
 }
 
+// ScanKeys 使用 SCAN 命令查找匹配模式的 keys
+func ScanKeys(ctx context.Context, cursor uint64, pattern string, count int64) (keys []string, nextCursor uint64, err error) {
+	result, nextCursor, err := redisConn.Scan(ctx, cursor, pattern, count).Result()
+	if err != nil {
+		return nil, 0, err
+	}
+	return result, nextCursor, nil
+}
+
 func GetKey(key string) bool {
 	_, ok := redisConn.Get(context.Background(), key).Result()
 

@@ -177,3 +177,31 @@ func parseFloatString(s string) (float64, error) {
 	_, err := fmt.Sscanf(s, "%f", &f)
 	return f, err
 }
+
+// CleanupExpiredReserves 清理過期預扣
+func CleanupExpiredReserves(ctx context.Context, gameName, currency string, limit int) (cleaned int, returned float64, err error) {
+	availableKey := GetRiskPoolAvailableKey(gameName, currency)
+	resvAmtKey := GetRiskPoolResvAmtKey(gameName, currency)
+	resvZKey := GetRiskPoolResvZKey(gameName, currency)
+
+	nowMs := time.Now().UnixMilli()
+
+	result, err := redisConn.EvalSha(ctx, GetRiskPoolCleanupSHA(),
+		[]string{availableKey, resvAmtKey, resvZKey},
+		nowMs, limit,
+	).Result()
+	if err != nil {
+		return 0, 0, err
+	}
+
+	if results, ok := result.([]interface{}); ok && len(results) == 2 {
+		if cleanedInt, ok := results[0].(int64); ok {
+			cleaned = int(cleanedInt)
+		}
+		if returnedStr, ok := results[1].(string); ok {
+			_, _ = fmt.Sscanf(returnedStr, "%f", &returned)
+		}
+	}
+
+	return cleaned, returned, nil
+}
