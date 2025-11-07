@@ -30,7 +30,7 @@ func TestRiskPoolReserve_Success(t *testing.T) {
 	setupTestPool(t, gameName, currency, 10000)
 
 	// 執行 Reserve
-	result, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10)
+	result, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10, 1)
 
 	// 驗證
 	require.NoError(t, err)
@@ -57,12 +57,12 @@ func TestRiskPoolReserve_Idempotent(t *testing.T) {
 	setupTestPool(t, gameName, currency, 10000)
 
 	// 第一次 Reserve
-	result1, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10)
+	result1, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10, 1)
 	require.NoError(t, err)
 	assert.Equal(t, 2, result1.Status)
 
 	// 第二次 Reserve（相同 bet_id）
-	result2, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10)
+	result2, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10, 1)
 	require.NoError(t, err)
 	assert.Equal(t, 1, result2.Status, "應該返回 already_reserved 狀態")
 	assert.Equal(t, 120.0, result2.ReservedAmount)
@@ -83,7 +83,7 @@ func TestRiskPoolReserve_Insufficient(t *testing.T) {
 	setupTestPool(t, gameName, currency, 100) // 只有 100
 
 	// 嘗試 Reserve 120
-	result, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10)
+	result, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10, 1)
 
 	require.NoError(t, err)
 	assert.Equal(t, 0, result.Status, "應該返回 insufficient 狀態")
@@ -105,11 +105,11 @@ func TestRiskPoolSettle_Win(t *testing.T) {
 	setupTestPool(t, gameName, currency, 10000)
 
 	// 先 Reserve
-	_, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10)
+	_, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10, 1)
 	require.NoError(t, err)
 
 	// Settle Win
-	result, err := RiskPoolSettle(ctx, gameName, currency, betID, "win", 78.8, 38)
+	result, err := RiskPoolSettle(ctx, gameName, currency, betID, "win", 78.8, 38, 1)
 
 	require.NoError(t, err)
 	assert.Equal(t, 2, result.Status, "應該返回 success 狀態")
@@ -142,11 +142,11 @@ func TestRiskPoolSettle_Lose(t *testing.T) {
 	setupTestPool(t, gameName, currency, 10000)
 
 	// 先 Reserve
-	_, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10)
+	_, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10, 1)
 	require.NoError(t, err)
 
 	// Settle Lose
-	result, err := RiskPoolSettle(ctx, gameName, currency, betID, "lose", 0, 38)
+	result, err := RiskPoolSettle(ctx, gameName, currency, betID, "lose", 0, 38, 1)
 
 	require.NoError(t, err)
 	assert.Equal(t, 2, result.Status, "應該返回 success 狀態")
@@ -170,17 +170,17 @@ func TestRiskPoolSettle_Idempotent(t *testing.T) {
 	setupTestPool(t, gameName, currency, 10000)
 
 	// Reserve + Settle
-	_, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10)
+	_, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10, 1)
 	require.NoError(t, err)
 
-	result1, err := RiskPoolSettle(ctx, gameName, currency, betID, "lose", 0, 38)
+	result1, err := RiskPoolSettle(ctx, gameName, currency, betID, "lose", 0, 38, 1)
 	require.NoError(t, err)
 	assert.Equal(t, 2, result1.Status)
 
 	poolAfterFirstSettle := getPoolAmount(t, gameName, currency)
 
 	// 第二次 Settle（相同 bet_id）
-	result2, err := RiskPoolSettle(ctx, gameName, currency, betID, "lose", 0, 38)
+	result2, err := RiskPoolSettle(ctx, gameName, currency, betID, "lose", 0, 38, 1)
 	require.NoError(t, err)
 	assert.Equal(t, 3, result2.Status, "應該返回 already_settled 狀態")
 
@@ -200,7 +200,7 @@ func TestRiskPoolGarbageCollection(t *testing.T) {
 
 	// 創建一個已過期的預扣（TTL 設為 1 毫秒）
 	betID1 := "TEST_BET_EXPIRED"
-	_, err := RiskPoolReserve(ctx, gameName, currency, betID1, 100, 1*time.Millisecond, 10)
+	_, err := RiskPoolReserve(ctx, gameName, currency, betID1, 100, 1*time.Millisecond, 10, 1)
 	require.NoError(t, err)
 
 	// 等待過期
@@ -208,7 +208,7 @@ func TestRiskPoolGarbageCollection(t *testing.T) {
 
 	// 創建新的預扣，應該觸發 GC
 	betID2 := "TEST_BET_NEW"
-	result, err := RiskPoolReserve(ctx, gameName, currency, betID2, 50, 20*time.Minute, 10)
+	result, err := RiskPoolReserve(ctx, gameName, currency, betID2, 50, 20*time.Minute, 10, 1)
 	require.NoError(t, err)
 	assert.Equal(t, 2, result.Status)
 	assert.Equal(t, int64(1), result.GCCount, "應該清理了 1 個過期的預扣")
@@ -233,7 +233,7 @@ func TestRiskPoolConcurrent(t *testing.T) {
 	for i := 0; i < 3; i++ {
 		go func(idx int) {
 			betID := fmt.Sprintf("CONCURRENT_BET_%d", idx)
-			result, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10)
+			result, err := RiskPoolReserve(ctx, gameName, currency, betID, 120, 20*time.Minute, 10, 1)
 			if err != nil {
 				t.Logf("Reserve error: %v", err)
 			}
@@ -275,7 +275,7 @@ func TestRiskPoolSettle_WithoutReservation(t *testing.T) {
 	setupTestPool(t, gameName, currency, 10000)
 
 	// 直接 Settle（沒有 Reserve）
-	result, err := RiskPoolSettle(ctx, gameName, currency, betID, "lose", 0, 38)
+	result, err := RiskPoolSettle(ctx, gameName, currency, betID, "lose", 0, 38, 1)
 
 	require.NoError(t, err)
 	assert.Equal(t, 4, result.Status, "應該返回 settled_without_reservation 狀態")
@@ -289,13 +289,13 @@ func TestRiskPoolSettle_WithoutReservation(t *testing.T) {
 // 輔助函數
 
 func setupTestPool(t *testing.T, gameName, currency string, amount float64) {
-	key := GetRiskPoolAvailableKey(gameName, currency)
+	key := GetRiskPoolAvailableKey(gameName, currency, 1) // 默認 level 1
 	err := redisConn.Set(context.Background(), key, amount, 0).Err()
 	require.NoError(t, err, "設置測試獎池失敗")
 }
 
 func getPoolAmount(t *testing.T, gameName, currency string) float64 {
-	key := GetRiskPoolAvailableKey(gameName, currency)
+	key := GetRiskPoolAvailableKey(gameName, currency, 1) // 默認 level 1
 	val, err := redisConn.Get(context.Background(), key).Float64()
 	if err != nil {
 		return 0
@@ -304,7 +304,7 @@ func getPoolAmount(t *testing.T, gameName, currency string) float64 {
 }
 
 func getReservedAmount(t *testing.T, gameName, currency, betID string) float64 {
-	key := GetRiskPoolResvAmtKey(gameName, currency)
+	key := GetRiskPoolResvAmtKey(gameName, currency, 1) // 默認 level 1
 	val, err := redisConn.HGet(context.Background(), key, betID).Float64()
 	if err != nil {
 		return 0
@@ -313,7 +313,7 @@ func getReservedAmount(t *testing.T, gameName, currency, betID string) float64 {
 }
 
 func isSettled(t *testing.T, gameName, currency, betID string) bool {
-	key := GetRiskPoolSettledSetKey(gameName, currency)
+	key := GetRiskPoolSettledSetKey(gameName, currency, 1) // 默認 level 1
 	val, err := redisConn.SIsMember(context.Background(), key, betID).Result()
 	if err != nil {
 		return false
@@ -324,10 +324,10 @@ func isSettled(t *testing.T, gameName, currency, betID string) bool {
 func cleanupTestData(t *testing.T, gameName, currency string) {
 	ctx := context.Background()
 	keys := []string{
-		GetRiskPoolAvailableKey(gameName, currency),
-		GetRiskPoolResvAmtKey(gameName, currency),
-		GetRiskPoolResvZKey(gameName, currency),
-		GetRiskPoolSettledSetKey(gameName, currency),
+		GetRiskPoolAvailableKey(gameName, currency, 1),
+		GetRiskPoolResvAmtKey(gameName, currency, 1),
+		GetRiskPoolResvZKey(gameName, currency, 1),
+		GetRiskPoolSettledSetKey(gameName, currency, 1),
 	}
 	for _, key := range keys {
 		_ = redisConn.Del(ctx, key)

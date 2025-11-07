@@ -8,25 +8,37 @@ import (
 )
 
 // Risk Pool Redis Keys
-func GetRiskPoolAvailableKey(gameName, currency string) string {
-	// 使用原本的 risk_prevent_pool:amount key，保持一致性
+// Key 格式: risk_prevent_pool:{type}:{CURRENCY}:{LEVEL}:{GAME_NAME}
+func GetRiskPoolAvailableKey(gameName, currency string, level int) string {
 	gameName = strings.ToUpper(gameName)
-	return fmt.Sprintf("risk_prevent_pool:amount:%s:%s", gameName, currency)
+	if level <= 0 {
+		level = 1 // 默認等級 1
+	}
+	return fmt.Sprintf("risk_prevent_pool:amount:%s:%d:%s", currency, level, gameName)
 }
 
-func GetRiskPoolResvAmtKey(gameName, currency string) string {
+func GetRiskPoolResvAmtKey(gameName, currency string, level int) string {
 	gameName = strings.ToUpper(gameName)
-	return fmt.Sprintf("risk_prevent_pool:resv:amt:%s:%s", gameName, currency)
+	if level <= 0 {
+		level = 1
+	}
+	return fmt.Sprintf("risk_prevent_pool:resv:amt:%s:%d:%s", currency, level, gameName)
 }
 
-func GetRiskPoolResvZKey(gameName, currency string) string {
+func GetRiskPoolResvZKey(gameName, currency string, level int) string {
 	gameName = strings.ToUpper(gameName)
-	return fmt.Sprintf("risk_prevent_pool:resv:exp:%s:%s", gameName, currency)
+	if level <= 0 {
+		level = 1
+	}
+	return fmt.Sprintf("risk_prevent_pool:resv:exp:%s:%d:%s", currency, level, gameName)
 }
 
-func GetRiskPoolSettledSetKey(gameName, currency string) string {
+func GetRiskPoolSettledSetKey(gameName, currency string, level int) string {
 	gameName = strings.ToUpper(gameName)
-	return fmt.Sprintf("risk_prevent_pool:settled:%s:%s", gameName, currency)
+	if level <= 0 {
+		level = 1
+	}
+	return fmt.Sprintf("risk_prevent_pool:settled:%s:%d:%s", currency, level, gameName)
 }
 
 // RiskPoolReserveResult represents the result of reserve operation
@@ -47,10 +59,10 @@ type RiskPoolSettleResult struct {
 
 // RiskPoolReserve executes the reserve Lua script
 // Returns: result, error
-func RiskPoolReserve(ctx context.Context, gameName, currency, betID string, amount float64, ttl time.Duration, gcLimit int64) (*RiskPoolReserveResult, error) {
-	availableKey := GetRiskPoolAvailableKey(gameName, currency)
-	resvAmtKey := GetRiskPoolResvAmtKey(gameName, currency)
-	resvZKey := GetRiskPoolResvZKey(gameName, currency)
+func RiskPoolReserve(ctx context.Context, gameName, currency, betID string, amount float64, ttl time.Duration, gcLimit int64, level int) (*RiskPoolReserveResult, error) {
+	availableKey := GetRiskPoolAvailableKey(gameName, currency, level)
+	resvAmtKey := GetRiskPoolResvAmtKey(gameName, currency, level)
+	resvZKey := GetRiskPoolResvZKey(gameName, currency, level)
 
 	nowMs := time.Now().UnixMilli()
 	expireAtMs := nowMs + ttl.Milliseconds()
@@ -98,11 +110,11 @@ func RiskPoolReserve(ctx context.Context, gameName, currency, betID string, amou
 }
 
 // RiskPoolSettle executes the settle Lua script
-func RiskPoolSettle(ctx context.Context, gameName, currency, betID, result string, actualPayout, houseGain float64) (*RiskPoolSettleResult, error) {
-	availableKey := GetRiskPoolAvailableKey(gameName, currency)
-	resvAmtKey := GetRiskPoolResvAmtKey(gameName, currency)
-	resvZKey := GetRiskPoolResvZKey(gameName, currency)
-	settledSetKey := GetRiskPoolSettledSetKey(gameName, currency)
+func RiskPoolSettle(ctx context.Context, gameName, currency, betID, result string, actualPayout, houseGain float64, level int) (*RiskPoolSettleResult, error) {
+	availableKey := GetRiskPoolAvailableKey(gameName, currency, level)
+	resvAmtKey := GetRiskPoolResvAmtKey(gameName, currency, level)
+	resvZKey := GetRiskPoolResvZKey(gameName, currency, level)
+	settledSetKey := GetRiskPoolSettledSetKey(gameName, currency, level)
 
 	// Execute Lua script
 	res, err := redisConn.EvalSha(
@@ -139,8 +151,8 @@ func RiskPoolSettle(ctx context.Context, gameName, currency, betID, result strin
 }
 
 // GetRiskPoolAvailable gets the current available pool amount
-func GetRiskPoolAvailable(ctx context.Context, gameName, currency string) (float64, error) {
-	key := GetRiskPoolAvailableKey(gameName, currency)
+func GetRiskPoolAvailable(ctx context.Context, gameName, currency string, level int) (float64, error) {
+	key := GetRiskPoolAvailableKey(gameName, currency, level)
 	val, err := redisConn.Get(ctx, key).Result()
 	if err != nil {
 		if err.Error() == "redis: nil" {
@@ -152,8 +164,8 @@ func GetRiskPoolAvailable(ctx context.Context, gameName, currency string) (float
 }
 
 // SetRiskPoolAvailable sets the available pool amount (for initialization/admin)
-func SetRiskPoolAvailable(ctx context.Context, gameName, currency string, amount float64) error {
-	key := GetRiskPoolAvailableKey(gameName, currency)
+func SetRiskPoolAvailable(ctx context.Context, gameName, currency string, amount float64, level int) error {
+	key := GetRiskPoolAvailableKey(gameName, currency, level)
 	return redisConn.Set(ctx, key, amount, 0).Err()
 }
 
@@ -179,10 +191,10 @@ func parseFloatString(s string) (float64, error) {
 }
 
 // CleanupExpiredReserves 清理過期預扣
-func CleanupExpiredReserves(ctx context.Context, gameName, currency string, limit int) (cleaned int, returned float64, err error) {
-	availableKey := GetRiskPoolAvailableKey(gameName, currency)
-	resvAmtKey := GetRiskPoolResvAmtKey(gameName, currency)
-	resvZKey := GetRiskPoolResvZKey(gameName, currency)
+func CleanupExpiredReserves(ctx context.Context, gameName, currency string, limit int, level int) (cleaned int, returned float64, err error) {
+	availableKey := GetRiskPoolAvailableKey(gameName, currency, level)
+	resvAmtKey := GetRiskPoolResvAmtKey(gameName, currency, level)
+	resvZKey := GetRiskPoolResvZKey(gameName, currency, level)
 
 	nowMs := time.Now().UnixMilli()
 
