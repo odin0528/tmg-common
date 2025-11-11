@@ -179,6 +179,10 @@ const (
 	MAILBOX_CLAIM_MAIL_LOCK_KEY = "mailbox_claim_mail_lock_key"
 )
 
+const (
+	PLAYER_BALANCE_UPDATE_CHANNEL = "player_balance_update"
+)
+
 var ANNOUNCEMENT_MODE_LIST = []int{
 	ANNOUNCEMENT_MODE_SYSTEM,
 	ANNOUNCEMENT_MODE_NORMAL,
@@ -241,6 +245,16 @@ type TargetRule struct {
 
 type DeviceCountingFromLogin struct {
 	TotalCount int
+}
+
+type PlayerBalanceUpdate struct {
+	Platform      string  `json:"platform"`
+	PlayerAccount string  `json:"player_account"`
+	Currency      string  `json:"currency"`
+	Money         float64 `json:"money"`          // 變動金額（正數為增加，負數為減少）
+	Balance       float64 `json:"balance"`        // 最新餘額
+	TransactionID string  `json:"transaction_id"` // 交易編號
+	Timestamp     int64   `json:"timestamp"`      // 時間戳（Unix timestamp）
 }
 
 type UpdateHundredGameInfo struct {
