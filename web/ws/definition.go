@@ -1,10 +1,11 @@
 package ws
 
 const (
-	EVENT_WS_WEBSOCKET    = "websocket"
-	EVENT_WS_SERVER_ERROR = "server_error"
-	EVENT_WS_KEEP_ALIVE   = "keep_alive"
-	EVENT_WS_ANNOUNCEMENT = "announcement"
+	EVENT_WS_WEBSOCKET      = "websocket"
+	EVENT_WS_SERVER_ERROR   = "server_error"
+	EVENT_WS_KEEP_ALIVE     = "keep_alive"
+	EVENT_WS_ANNOUNCEMENT   = "announcement"
+	EVENT_WS_UPDATE_BALANCE = "update_balance"
 
 	HEX_MAX_BIT = 255
 )
