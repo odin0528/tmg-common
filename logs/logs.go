@@ -22,12 +22,18 @@ func init() {
 }
 
 func InitLogs() {
+	// Check if file output is enabled
+	enableFileOutput := configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_FILE_OUTPUT, configs.YES)
+
 	filePath := configs.Get(configs.SECTION_LOG, configs.LOG_FILE_PATH, configs.LOG_DEFAULT_PATH)
 	isDaily := configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_DAILY, configs.NO)
 
-	if _, err := os.Stat(filePath); os.IsNotExist(err) {
-		if createErr := os.MkdirAll(filePath, 0o755); createErr != nil {
-			log.Panicln("Failed to create log file path.")
+	// Only create log directory if file output is enabled
+	if configs.YES == enableFileOutput {
+		if _, err := os.Stat(filePath); os.IsNotExist(err) {
+			if createErr := os.MkdirAll(filePath, 0o755); createErr != nil {
+				log.Panicln("Failed to create log file path.")
+			}
 		}
 	}
 
@@ -84,84 +90,122 @@ func InitLogs() {
 	files := configs.Get(configs.SECTION_LOG, configs.LOG_FILE, configs.LOG_DEFAULT_FILE)
 	fileList := strings.Split(files, ",")
 
-	for _, file := range fileList {
-		if file == LOG_FILE_SYSTEM {
-			if isDaily == configs.YES {
-				systemLogger, systemLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_SYSTEM))
-			} else {
-				systemLogger, systemLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_SYSTEM))
+	// If file output is disabled, create logger without file path
+	if configs.NO == enableFileOutput {
+		// Initialize all loggers to use stdout only
+		for _, file := range fileList {
+			if file == LOG_FILE_SYSTEM {
+				systemLogger, systemLoggerCloseFunc = newLogger("")
+			}
+			if file == LOG_FILE_RECORD {
+				recordLogger, recordLoggerCloseFunc = newLogger("")
+			}
+			if file == LOG_FILE_CMS {
+				cmsLogger, cmsLoggerCloseFunc = newLogger("")
+			}
+			if file == LOG_FILE_PANIC_RECOVER {
+				panicRecvoerLogger, panicRecvoerLoggerCloseFunc = newLogger("")
+			}
+			if file == LOG_FILE_BET {
+				betLogger, betLoggerCloseFunc = newLogger("")
+			}
+			if file == LOG_FILE_HTTP {
+				httpLogger, httpLoggerCloseFunc = newLogger("")
+			}
+			if file == LOG_FILE_RISK_CONTROL {
+				riskControlLogger, riskControlLoggerCloseFunc = newLogger("")
+			}
+			if file == LOG_FILE_GSI_API {
+				gsiApiLogger, gsiApiLoggerCloseFunc = newLogger("")
+			}
+			if file == LOG_FILE_RABBIT_MQ {
+				rabbitMqLogger, rabbitMqLoggerCloseFunc = newLogger("")
+			}
+			if file == LOG_FILE_AI_AGENT {
+				aiAgentLogger, aiAgentLoggerCloseFunc = newLogger("")
 			}
 		}
-
-		if file == LOG_FILE_RECORD {
-			if isDaily == configs.YES {
-				recordLogger, recordLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RECORD))
-			} else {
-				recordLogger, recordLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RECORD))
+	} else {
+		// File output is enabled - use existing logic
+		for _, file := range fileList {
+			if file == LOG_FILE_SYSTEM {
+				if isDaily == configs.YES {
+					systemLogger, systemLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_SYSTEM))
+				} else {
+					systemLogger, systemLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_SYSTEM))
+				}
 			}
-		}
 
-		if file == LOG_FILE_CMS {
-			if isDaily == configs.YES {
-				cmsLogger, cmsLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_CMS))
-			} else {
-				cmsLogger, cmsLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_CMS))
+			if file == LOG_FILE_RECORD {
+				if isDaily == configs.YES {
+					recordLogger, recordLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RECORD))
+				} else {
+					recordLogger, recordLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RECORD))
+				}
 			}
-		}
 
-		if file == LOG_FILE_PANIC_RECOVER {
-			if isDaily == configs.YES {
-				panicRecvoerLogger, panicRecvoerLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_PANIC_RECOVER))
-			} else {
-				panicRecvoerLogger, panicRecvoerLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_PANIC_RECOVER))
+			if file == LOG_FILE_CMS {
+				if isDaily == configs.YES {
+					cmsLogger, cmsLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_CMS))
+				} else {
+					cmsLogger, cmsLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_CMS))
+				}
 			}
-		}
 
-		if file == LOG_FILE_BET {
-			if isDaily == configs.YES {
-				betLogger, betLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_BET))
-			} else {
-				betLogger, betLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_BET))
+			if file == LOG_FILE_PANIC_RECOVER {
+				if isDaily == configs.YES {
+					panicRecvoerLogger, panicRecvoerLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_PANIC_RECOVER))
+				} else {
+					panicRecvoerLogger, panicRecvoerLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_PANIC_RECOVER))
+				}
 			}
-		}
 
-		if file == LOG_FILE_HTTP {
-			if isDaily == configs.YES {
-				httpLogger, httpLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_HTTP))
-			} else {
-				httpLogger, httpLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_HTTP))
+			if file == LOG_FILE_BET {
+				if isDaily == configs.YES {
+					betLogger, betLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_BET))
+				} else {
+					betLogger, betLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_BET))
+				}
 			}
-		}
 
-		if file == LOG_FILE_RISK_CONTROL {
-			if isDaily == configs.YES {
-				riskControlLogger, riskControlLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RISK_CONTROL))
-			} else {
-				riskControlLogger, riskControlLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RISK_CONTROL))
+			if file == LOG_FILE_HTTP {
+				if isDaily == configs.YES {
+					httpLogger, httpLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_HTTP))
+				} else {
+					httpLogger, httpLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_HTTP))
+				}
 			}
-		}
 
-		if file == LOG_FILE_GSI_API {
-			if isDaily == configs.YES {
-				gsiApiLogger, gsiApiLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_GSI_API))
-			} else {
-				gsiApiLogger, gsiApiLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_GSI_API))
+			if file == LOG_FILE_RISK_CONTROL {
+				if isDaily == configs.YES {
+					riskControlLogger, riskControlLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RISK_CONTROL))
+				} else {
+					riskControlLogger, riskControlLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RISK_CONTROL))
+				}
 			}
-		}
 
-		if file == LOG_FILE_RABBIT_MQ {
-			if isDaily == configs.YES {
-				rabbitMqLogger, rabbitMqLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RABBIT_MQ))
-			} else {
-				rabbitMqLogger, rabbitMqLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RABBIT_MQ))
+			if file == LOG_FILE_GSI_API {
+				if isDaily == configs.YES {
+					gsiApiLogger, gsiApiLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_GSI_API))
+				} else {
+					gsiApiLogger, gsiApiLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_GSI_API))
+				}
 			}
-		}
 
-		if file == LOG_FILE_AI_AGENT {
-			if isDaily == configs.YES {
-				aiAgentLogger, aiAgentLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_AI_AGENT))
-			} else {
-				aiAgentLogger, aiAgentLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_AI_AGENT))
+			if file == LOG_FILE_RABBIT_MQ {
+				if isDaily == configs.YES {
+					rabbitMqLogger, rabbitMqLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_RABBIT_MQ))
+				} else {
+					rabbitMqLogger, rabbitMqLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_RABBIT_MQ))
+				}
+			}
+
+			if file == LOG_FILE_AI_AGENT {
+				if isDaily == configs.YES {
+					aiAgentLogger, aiAgentLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s_%s", filePath, currentDate, LOG_FILE_AI_AGENT))
+				} else {
+					aiAgentLogger, aiAgentLoggerCloseFunc = newLogger(fmt.Sprintf("%s/%s", filePath, LOG_FILE_AI_AGENT))
+				}
 			}
 		}
 	}
@@ -187,6 +231,14 @@ func initSystemLog() {
 
 // Turn on panic log in linux environment
 func initPanicLog() {
+	// Check if file output is enabled
+	enableFileOutput := configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_FILE_OUTPUT, configs.YES)
+
+	// If file output is disabled, panic will go to stderr automatically
+	if configs.NO == enableFileOutput {
+		return
+	}
+
 	if configs.NO == configs.Get(configs.SECTION_LOG, configs.LOG_PANIC_TO_FILE, configs.NO) {
 		return
 	}
@@ -203,28 +255,10 @@ func initPanicLog() {
 	}
 }
 
+// newLogger creates a logger that writes to file (if enabled) or stdout/stderr
 func newLogger(filepath string) (*zap.Logger, func()) {
-	fWriter, closeFileFunc, err := zap.Open(filepath)
-	if err != nil {
-		fmt.Println("newLogger err:", err.Error())
-		os.Exit(1)
-	}
-
-	writer := zapcore.AddSync(fWriter)
-
-	fileEncoderConfig := zapcore.EncoderConfig{
-		TimeKey:        TIME_KEY,
-		LevelKey:       LEVEL_KEY,
-		NameKey:        NAME_KEY,
-		CallerKey:      CALLER_KEY,
-		MessageKey:     MESSAGE_KEY,
-		StacktraceKey:  STACKTRACE_KEY,
-		LineEnding:     zapcore.DefaultLineEnding,
-		EncodeLevel:    zapcore.CapitalLevelEncoder,
-		EncodeTime:     zapcore.ISO8601TimeEncoder,
-		EncodeDuration: zapcore.SecondsDurationEncoder,
-		EncodeCaller:   zapcore.ShortCallerEncoder,
-	}
+	// Check if file output is enabled
+	enableFileOutput := configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_FILE_OUTPUT, configs.YES)
 
 	stdEncoderConfig := zapcore.EncoderConfig{
 		TimeKey:        TIME_KEY,
@@ -247,12 +281,53 @@ func newLogger(filepath string) (*zap.Logger, func()) {
 	}
 
 	cores := make([]zapcore.Core, 0)
+
+	// If file output is disabled, only use stdout/stderr
+	if configs.NO == enableFileOutput {
+		// Use stdout for all logs when file output is disabled
+		cores = append(cores, zapcore.NewCore(
+			zapcore.NewJSONEncoder(stdEncoderConfig),
+			zapcore.Lock(os.Stdout),
+			level,
+		))
+
+		// No-op close function when not using files
+		noOpCloseFunc := func() {}
+		core := zapcore.NewTee(cores...)
+		caller := zap.AddCaller()
+		return zap.New(core, caller, zap.AddCallerSkip(1)), noOpCloseFunc
+	}
+
+	// File output is enabled - use existing file-based logic
+	fWriter, closeFileFunc, err := zap.Open(filepath)
+	if err != nil {
+		fmt.Println("newLogger err:", err.Error())
+		os.Exit(1)
+	}
+
+	writer := zapcore.AddSync(fWriter)
+
+	fileEncoderConfig := zapcore.EncoderConfig{
+		TimeKey:        TIME_KEY,
+		LevelKey:       LEVEL_KEY,
+		NameKey:        NAME_KEY,
+		CallerKey:      CALLER_KEY,
+		MessageKey:     MESSAGE_KEY,
+		StacktraceKey:  STACKTRACE_KEY,
+		LineEnding:     zapcore.DefaultLineEnding,
+		EncodeLevel:    zapcore.CapitalLevelEncoder,
+		EncodeTime:     zapcore.ISO8601TimeEncoder,
+		EncodeDuration: zapcore.SecondsDurationEncoder,
+		EncodeCaller:   zapcore.ShortCallerEncoder,
+	}
+
 	cores = append(cores, zapcore.NewCore(
 		zapcore.NewJSONEncoder(fileEncoderConfig),
 		writer,
 		level,
 	))
 
+	// Also output to stdout if enabled (development mode)
 	if configs.MODE_DEVELOPMENT == configs.Get(configs.SECTION_SYSTEM, configs.SYSTEM_APP_MODE, configs.MODE_PRODUCTION) {
 		if configs.YES == configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_STD_OUT, configs.NO) {
 			cores = append(cores, zapcore.NewCore(
