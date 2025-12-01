@@ -2,11 +2,11 @@ package redis
 
 import (
 	"fmt"
+	"mgmt/common/configs"
+	"mgmt/common/utils"
 	"strconv"
 	"strings"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/utils"
 )
 
 func GetPlayerBetInfoHashKey(account string) string {

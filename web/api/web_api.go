@@ -3,9 +3,9 @@ package api
 import (
 	"bytes"
 	"fmt"
-	"xxx/common/configs"
-	"xxx/common/logs"
-	"xxx/common/redis"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
+	"mgmt/common/redis"
 
 	"encoding/json"
 	"errors"

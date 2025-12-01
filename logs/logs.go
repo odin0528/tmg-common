@@ -7,10 +7,10 @@ import (
 	"os"
 	"reflect"
 	"strings"
-	"syscall"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/utils"
+
+	"mgmt/common/configs"
+	"mgmt/common/utils"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -21,12 +21,18 @@ func init() {
 }
 
 func InitLogs() {
+	// Check if file output is enabled
+	enableFileOutput := configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_FILE_OUTPUT, configs.YES)
+
 	filePath := configs.Get(configs.SECTION_LOG, configs.LOG_FILE_PATH, configs.LOG_DEFAULT_PATH)
 	isDaily := configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_DAILY, configs.NO)
 
-	if _, err := os.Stat(filePath); os.IsNotExist(err) {
-		if createErr := os.MkdirAll(filePath, 0o755); createErr != nil {
-			log.Panicln("Failed to create log file path.")
+	// Only create log directory if file output is enabled
+	if configs.YES == enableFileOutput {
+		if _, err := os.Stat(filePath); os.IsNotExist(err) {
+			if createErr := os.MkdirAll(filePath, 0o755); createErr != nil {
+				log.Panicln("Failed to create log file path.")
+			}
 		}
 	}
 
@@ -83,6 +89,7 @@ func InitLogs() {
 	files := configs.Get(configs.SECTION_LOG, configs.LOG_FILE, configs.LOG_DEFAULT_FILE)
 	fileList := strings.Split(files, ",")
 
+	// Initialize loggers - newLogger will decide output based on enable_file_output and enable_std_out
 	for _, file := range fileList {
 		if file == LOG_FILE_SYSTEM {
 			if isDaily == configs.YES {
@@ -186,6 +193,14 @@ func initSystemLog() {
 
 // Turn on panic log in linux environment
 func initPanicLog() {
+	// Check if file output is enabled
+	enableFileOutput := configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_FILE_OUTPUT, configs.YES)
+
+	// If file output is disabled, panic will go to stderr automatically
+	if configs.NO == enableFileOutput {
+		return
+	}
+
 	if configs.NO == configs.Get(configs.SECTION_LOG, configs.LOG_PANIC_TO_FILE, configs.NO) {
 		return
 	}
@@ -196,34 +211,19 @@ func initPanicLog() {
 		log.Panicln(err)
 		return
 	}
-	if err = syscall.Dup2(int(file.Fd()), int(os.Stderr.Fd())); err != nil {
-		log.Panicln(err)
-		return
-	}
+	_ = file
+	// if err = syscall.Dup2(int(file.Fd()), int(os.Stderr.Fd())); err != nil {
+	// 	log.Panicln(err)
+	// 	return
+	// }
 }
 
+// newLogger creates a logger based on enable_file_output and enable_std_out settings
+// Both settings are independent and not affected by app_mode
 func newLogger(filepath string) (*zap.Logger, func()) {
-	fWriter, closeFileFunc, err := zap.Open(filepath)
-	if err != nil {
-		fmt.Println("newLogger err:", err.Error())
-		os.Exit(1)
-	}
-
-	writer := zapcore.AddSync(fWriter)
-
-	fileEncoderConfig := zapcore.EncoderConfig{
-		TimeKey:        TIME_KEY,
-		LevelKey:       LEVEL_KEY,
-		NameKey:        NAME_KEY,
-		CallerKey:      CALLER_KEY,
-		MessageKey:     MESSAGE_KEY,
-		StacktraceKey:  STACKTRACE_KEY,
-		LineEnding:     zapcore.DefaultLineEnding,
-		EncodeLevel:    zapcore.CapitalLevelEncoder,
-		EncodeTime:     zapcore.ISO8601TimeEncoder,
-		EncodeDuration: zapcore.SecondsDurationEncoder,
-		EncodeCaller:   zapcore.ShortCallerEncoder,
-	}
+	// Read both settings independently (not affected by environment)
+	enableFileOutput := configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_FILE_OUTPUT, configs.YES)
+	enableStdOut := configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_STD_OUT, configs.NO)
 
 	stdEncoderConfig := zapcore.EncoderConfig{
 		TimeKey:        TIME_KEY,
@@ -246,26 +246,64 @@ func newLogger(filepath string) (*zap.Logger, func()) {
 	}
 
 	cores := make([]zapcore.Core, 0)
-	cores = append(cores, zapcore.NewCore(
-		zapcore.NewJSONEncoder(fileEncoderConfig),
-		writer,
-		level,
-	))
+	var closeFileFunc func()
+	noOpCloseFunc := func() {}
 
-	if configs.MODE_DEVELOPMENT == configs.Get(configs.SECTION_SYSTEM, configs.SYSTEM_APP_MODE, configs.MODE_PRODUCTION) {
-		if configs.YES == configs.Get(configs.SECTION_LOG, configs.LOG_ENABLE_STD_OUT, configs.NO) {
-			cores = append(cores, zapcore.NewCore(
-				zapcore.NewJSONEncoder(stdEncoderConfig),
-				zapcore.Lock(os.Stdout),
-				level,
-			))
+	// Add stdout output if enabled (independent of environment)
+	if configs.YES == enableStdOut {
+		cores = append(cores, zapcore.NewCore(
+			zapcore.NewJSONEncoder(stdEncoderConfig),
+			zapcore.Lock(os.Stdout),
+			level,
+		))
+	}
+
+	if configs.YES == enableFileOutput {
+		fWriter, fileCf, err := zap.Open(filepath)
+		if err != nil {
+			fmt.Println("newLogger err:", err.Error())
+			os.Exit(1)
 		}
+		closeFileFunc = fileCf
+
+		writer := zapcore.AddSync(fWriter)
+
+		fileEncoderConfig := zapcore.EncoderConfig{
+			TimeKey:        TIME_KEY,
+			LevelKey:       LEVEL_KEY,
+			NameKey:        NAME_KEY,
+			CallerKey:      CALLER_KEY,
+			MessageKey:     MESSAGE_KEY,
+			StacktraceKey:  STACKTRACE_KEY,
+			LineEnding:     zapcore.DefaultLineEnding,
+			EncodeLevel:    zapcore.CapitalLevelEncoder,
+			EncodeTime:     zapcore.ISO8601TimeEncoder,
+			EncodeDuration: zapcore.SecondsDurationEncoder,
+			EncodeCaller:   zapcore.ShortCallerEncoder,
+		}
+
+		cores = append(cores, zapcore.NewCore(
+			zapcore.NewJSONEncoder(fileEncoderConfig),
+			writer,
+			level,
+		))
+	}
+
+	if len(cores) == 0 {
+		cores = append(cores, zapcore.NewCore(
+			zapcore.NewJSONEncoder(stdEncoderConfig),
+			zapcore.Lock(os.Stdout),
+			level,
+		))
 	}
 
 	core := zapcore.NewTee(cores...)
 	caller := zap.AddCaller()
 
-	return zap.New(core, caller, zap.AddCallerSkip(1)), closeFileFunc
+	if closeFileFunc != nil {
+		return zap.New(core, caller, zap.AddCallerSkip(1)), closeFileFunc
+	}
+	return zap.New(core, caller, zap.AddCallerSkip(1)), noOpCloseFunc
 }
 
 func getLogger(logType string) *zap.Logger {
