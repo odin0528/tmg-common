@@ -3,8 +3,8 @@ package utils
 import (
 	"errors"
 	"fmt"
-	"mgmt/common/math_tool"
 	"strconv"
+	"xxx/common/math_tool"
 )
 
 func GetRandomString(length int) string {

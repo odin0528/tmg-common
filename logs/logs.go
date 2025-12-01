@@ -8,9 +8,8 @@ import (
 	"reflect"
 	"strings"
 	"time"
-
-	"mgmt/common/configs"
-	"mgmt/common/utils"
+	"xxx/common/configs"
+	"xxx/common/utils"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

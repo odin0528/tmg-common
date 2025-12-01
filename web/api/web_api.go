@@ -2,17 +2,16 @@ package api
 
 import (
 	"bytes"
-	"fmt"
-	"mgmt/common/configs"
-	"mgmt/common/logs"
-	"mgmt/common/redis"
-
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"time"
+	"xxx/common/configs"
+	"xxx/common/logs"
+	"xxx/common/redis"
 )
 
 func InitUserAgentSwitch() {
@@ -45,7 +44,6 @@ func sendRequest(method HTTP_METHOD, url string, header map[string]string, body 
 
 	if body != nil {
 		bodyBytes, err = json.Marshal(body)
-
 		if err != nil {
 			return []byte{}, err
 		}
@@ -75,7 +73,6 @@ func sendRequest(method HTTP_METHOD, url string, header map[string]string, body 
 		Transport: &tr,
 	}
 	resp, err := client.Do(request)
-
 	if err != nil {
 		return []byte{}, err
 	}
@@ -145,7 +142,6 @@ func sendRequestGeneral(method HTTP_METHOD, url string, header map[string]string
 		Transport: &tr,
 	}
 	resp, err := client.Do(request)
-
 	if err != nil {
 		return []byte{}, err
 	}

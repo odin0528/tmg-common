@@ -2,8 +2,7 @@ package logs
 
 import (
 	"testing"
-
-	"mgmt/common/configs"
+	"xxx/common/configs"
 )
 
 func TestWriteLog(t *testing.T) {
