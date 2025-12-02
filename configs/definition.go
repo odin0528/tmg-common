@@ -100,7 +100,7 @@ const (
 
 	LOG_FILE_PATH          = "file_path"
 	LOG_FILE               = "file"
-	LOG_ENABLE_STD_OUT     = "enable_std_out"
+	LOG_ENABLE_STD_OUT     = "enable_logger_std_out"
 	LOG_ENABLE_DEBUG_LOG   = "enable_debug_log"
 	LOG_KEYS               = "log_keys"
 	LOG_PANIC_TO_FILE      = "panic_to_file"

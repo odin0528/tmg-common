@@ -88,7 +88,7 @@ func InitLogs() {
 	files := configs.Get(configs.SECTION_LOG, configs.LOG_FILE, configs.LOG_DEFAULT_FILE)
 	fileList := strings.Split(files, ",")
 
-	// Initialize loggers - newLogger will decide output based on enable_file_output and enable_std_out
+	// Initialize loggers - newLogger will decide output based on enable_file_output and enable_logger_std_out
 	for _, file := range fileList {
 		if file == LOG_FILE_SYSTEM {
 			if isDaily == configs.YES {
@@ -217,7 +217,7 @@ func initPanicLog() {
 	// }
 }
 
-// newLogger creates a logger based on enable_file_output and enable_std_out settings
+// newLogger creates a logger based on enable_file_output and enable_logger_std_out settings
 // Both settings are independent and not affected by app_mode
 func newLogger(filepath string) (*zap.Logger, func()) {
 	// Read both settings independently (not affected by environment)
