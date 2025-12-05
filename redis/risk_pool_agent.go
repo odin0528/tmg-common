@@ -64,9 +64,6 @@ func RiskPoolAgentReserve(ctx context.Context, agentAccount, gameName, currency,
 	resvAmtKey := GetRiskPoolAgentResvAmtKey(agentAccount, gameName, currency, level)
 	resvZKey := GetRiskPoolAgentResvZKey(agentAccount, gameName, currency, level)
 
-	fmt.Println(fmt.Sprintf("agentAccount:%s, gameName:%s, currency:%s, betID:%s ", agentAccount, gameName, currency, betID))
-	fmt.Println(fmt.Sprintf("availableKey:%s, resvAmtKey:%s, resvZKey:%s, betID:%s ", availableKey, resvAmtKey, resvZKey))
-
 	nowMs := time.Now().UnixMilli()
 	expireAtMs := nowMs + ttl.Milliseconds()
 
