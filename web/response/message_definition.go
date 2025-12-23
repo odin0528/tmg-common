@@ -34,6 +34,7 @@ const (
 	MSG_API_TIMEOUT_ERROR             = "api timeout error"
 	MSG_INTERNAL_NETWORK_ERROR        = "Internal network error"
 	MSG_GAME_ABNORMAL_NOTIFY_CUSTOMER = "Game is abnormal, please notify customer service for assistance"
+	MSG_SLOT_MACHINE_ERROR            = "slot machine response error"
 )
 
 // ws
