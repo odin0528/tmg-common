@@ -53,6 +53,7 @@ const (
 	SYSTEM_SERVICE_NAME                    string = "service_name"
 	SYSTEM_SERVICE_NAME_WOW_GAMING         string = "wow_gaming"
 	SYSTEM_SERVICE_NAME_AI_LIVE_CASINO     string = "ai_live_casino"
+	SYSTEM_SERVICE_NAME_MAGIC_POKER        string = "magic_poker"
 	SYSTEM_ENABLE_CHECK_JP_THRESHOLD       string = "enable_check_jp_threshold"
 	SYSTEM_ENABLE_TEST_MODE                string = "enable_test_mode"
 	SYSTEM_ENABLE_RTP_TRACKING             string = "enable_rtp_tracking"
