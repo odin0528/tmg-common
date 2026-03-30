@@ -75,6 +75,7 @@ const (
 // game
 const (
 	MSG_ROOM_IS_FINISH           = "room is finish"
+	MSG_RECONNECT_EXPIRED        = "reconnect window expired"
 	MSG_GAME_IS_NOT_INIT         = "game is not init"
 	MSG_NOT_IN_STATE             = "not in %s state, current state: %s"
 	MSG_GAME_IN_NOT_BET_STATE    = "not in bet state"
