@@ -102,3 +102,11 @@ func IsNamespaceMaintain() bool {
 	namespace := configs.Get(configs.SECTION_SYSTEM, configs.SYSTEM_NAMESPACE, "blue")
 	return IsExistByAllType(GetCacheKey(NAMESAPCE_IS_MAINTAIN_KEY, namespace))
 }
+
+func GetAgentReverseByReverseCodeRedisKey(reverseCode string) string {
+	return GetCacheKey(AGENT_REVERSE_PREFIX, REDIS_KEY_REVERSE_CODE, reverseCode)
+}
+
+func GetAgentReversePlayerTransactionKeyRedisKey(agentAccount, playerAccount string) string {
+	return GetCacheKey(AGENT_REVERSE_PREFIX, agentAccount, REDIS_KEY_REVERSE_TRANSACTION_PLAYER, playerAccount)
+}

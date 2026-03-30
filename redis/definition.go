@@ -158,6 +158,10 @@ const (
 	AGENT_REVERSE_GAME_MAP_PREFIX = "agent_reverse_game_map_prefix"
 
 	NAMESAPCE_IS_MAINTAIN_KEY = "namesapce_is_maintain"
+
+	REDIS_KEY_REVERSE_CODE                   = "reverse_code"
+	REDIS_KEY_REVERSE_TRANSACTION_PLAYER     = "transaction_player"
+	REDIS_KEY_REVERSE_TRANSACTION_PLAYER_TTL = time.Hour * 24 * 7
 )
 
 const (
