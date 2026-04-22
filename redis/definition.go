@@ -164,6 +164,8 @@ const (
 	REDIS_KEY_REVERSE_TRANSACTION_PLAYER_TTL = time.Hour * 24 * 7
 
 	RISK_POOL_CLEAN_RANDOM_DATE_KEY = "risk_pool_clean_random_date"
+
+	AGENT_GAME_RTP_SETTING_HASH_MAP_KEY = "agent_game_rtp_settings"
 )
 
 const (
