@@ -111,7 +111,6 @@ func GetAgentReversePlayerTransactionKeyRedisKey(agentAccount, playerAccount str
 	return GetCacheKey(AGENT_REVERSE_PREFIX, agentAccount, REDIS_KEY_REVERSE_TRANSACTION_PLAYER, playerAccount)
 }
 
-func GetAgentGameRtpSettingHashKey(agentAccount, gameName string, control_type int) string {
-	controlType := strconv.Itoa(control_type)
-	return GetCacheKey(agentAccount, gameName, controlType)
+func GetAgentGameRtpSettingHashKey(agentAccount, gameName string, controlType int) string {
+	return GetCacheKey(agentAccount, gameName, strconv.Itoa(controlType))
 }
