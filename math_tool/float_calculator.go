@@ -162,3 +162,8 @@ func makeDisplayRoundDown(value float64, n int32) float64 {
 	v, _ := decimal.RoundDown(n).Float64()
 	return v
 }
+
+// RoundFloatDown 無條件捨去至小數第 n 位（n >= 0）。
+func RoundFloatDown(value float64, n int32) float64 {
+	return makeDisplayRoundDown(value, n)
+}
