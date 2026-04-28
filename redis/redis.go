@@ -1464,3 +1464,26 @@ func EnsureHash(key string, ttl time.Duration) error {
 	}
 	return nil
 }
+
+func HScanMatchKeys(hashKey, pattern string) ([]string, error) {
+	var cursor uint64
+	var keys []string
+
+	for {
+		result, nextCursor, err := redisConn.HScan(context.Background(), hashKey, cursor, pattern, 1000).Result()
+		if err != nil {
+			return []string{}, err
+		}
+		// 只取 field (偶數 index) ，奇數 index 為 value
+		for i := 0; i < len(result); i += 2 {
+			keys = append(keys, result[i])
+		}
+
+		cursor = nextCursor
+		if cursor == 0 {
+			break
+		}
+	}
+
+	return keys, nil
+}

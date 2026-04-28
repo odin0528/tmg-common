@@ -110,3 +110,7 @@ func GetAgentReverseByReverseCodeRedisKey(reverseCode string) string {
 func GetAgentReversePlayerTransactionKeyRedisKey(agentAccount, playerAccount string) string {
 	return GetCacheKey(AGENT_REVERSE_PREFIX, agentAccount, REDIS_KEY_REVERSE_TRANSACTION_PLAYER, playerAccount)
 }
+
+func GetAgentGameRtpSettingHashKey(agentAccount, gameName string, controlType int) string {
+	return GetCacheKey(agentAccount, gameName, strconv.Itoa(controlType))
+}

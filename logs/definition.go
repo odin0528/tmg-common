@@ -81,6 +81,7 @@ const (
 	LOG_KEY_NOTIFY              = "notify"
 	LOG_KEY_TG_BOT              = "tg_bot"
 	LOG_KEY_AI_AGENT            = "ai_agent"
+	LOG_KEY_SLOT_MACHINE        = "slot_machine"
 
 	LOG_KEY_CAMP_WAR_PLAYER_AWARD_RECORD = "camp_war_player_award_record"
 )
