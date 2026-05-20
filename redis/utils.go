@@ -114,3 +114,7 @@ func GetAgentReversePlayerTransactionKeyRedisKey(agentAccount, playerAccount str
 func GetAgentGameRtpSettingHashKey(agentAccount, gameName string, controlType int) string {
 	return GetCacheKey(agentAccount, gameName, strconv.Itoa(controlType))
 }
+
+func GetRtpForceWinCacheKey(platformName, gameName, currency, playerName string) string {
+	return GetCacheKey(RTP_FORCE_WIN_REDIS_KEY_FORMAT, platformName, gameName, currency, playerName)
+}
