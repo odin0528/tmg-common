@@ -169,6 +169,8 @@ const (
 
 	RTP_FORCE_WIN_REDIS_KEY_FORMAT = "RTP_FORCE_WIN"
 	RTP_FORCE_WIN_REDIS_EXPIRY     = 24 * time.Hour
+
+	HEADER_KEY_X_API_CENTER_TOKEN_KEY = "x_api_center_token_key"
 )
 
 const (

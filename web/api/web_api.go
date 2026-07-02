@@ -8,6 +8,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 	"xxx/common/configs"
 	"xxx/common/logs"
@@ -62,6 +63,14 @@ func sendRequest(method HTTP_METHOD, url string, header map[string]string, body 
 
 	if enableCustomUserAgent.Load() {
 		request.Header.Set(HEADER_KEY_USER_AGENT, getUserAgent())
+	}
+
+	targetDomain := configs.Get(configs.SECTION_WEB_API, configs.WEB_API_API_CENTER_DOMAIN, "http://localhost:8888")
+	cleanTarget := strings.TrimPrefix(strings.TrimPrefix(targetDomain, "https://"), "http://")
+
+	if request.URL.Host == cleanTarget || strings.HasPrefix(request.URL.String(), targetDomain) {
+		xApiCenterToken, _ := redis.GetString(redis.HEADER_KEY_X_API_CENTER_TOKEN_KEY)
+		request.Header.Set(HEADER_KEY_X_API_CENTER_TOKEN, xApiCenterToken)
 	}
 
 	tr := http.Transport{

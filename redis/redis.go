@@ -16,6 +16,7 @@ import (
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
 	"github.com/go-redsync/redsync/v4/redis/goredis/v8"
+	"github.com/google/uuid"
 	jsoniter "github.com/json-iterator/go"
 )
 
@@ -1486,4 +1487,10 @@ func HScanMatchKeys(hashKey, pattern string) ([]string, error) {
 	}
 
 	return keys, nil
+}
+
+func InitApiCenterToken() {
+	randomCode := uuid.New().String()
+
+	Put(HEADER_KEY_X_API_CENTER_TOKEN_KEY, randomCode, 0)
 }

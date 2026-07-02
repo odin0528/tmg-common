@@ -16,9 +16,10 @@ const (
 	METHOD_DELETE HTTP_METHOD = "DELETE"
 	METHOD_PUT    HTTP_METHOD = "PUT"
 
-	HEADER_KEY_CONTENT_TYPE = "Content-Type"
-	HEADER_KEY_AUTH         = "Authorization"
-	HEADER_KEY_USER_AGENT   = "User-Agent"
+	HEADER_KEY_CONTENT_TYPE       = "Content-Type"
+	HEADER_KEY_AUTH               = "Authorization"
+	HEADER_KEY_USER_AGENT         = "User-Agent"
+	HEADER_KEY_X_API_CENTER_TOKEN = "X-API-Center-Token"
 
 	CONTENT_TYPE_JSON = "application/json;charset=UTF-8"
 
