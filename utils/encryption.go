@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"crypto/hmac"
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 )
 
@@ -19,4 +21,12 @@ func CheckSHA256Hash(input, hash string) bool {
 func GetAPIKeyHash(platformName, privateKey, timeStamp string) string {
 	temp := platformName + "-" + privateKey + "-" + timeStamp
 	return GetSHA256Hash(temp)
+}
+
+func GenerateSignature(token, method, path, timestamp string) string {
+	payload := fmt.Sprintf("%s|%s|%s", method, path, timestamp)
+	h := hmac.New(sha256.New, []byte(token))
+	h.Write([]byte(payload))
+
+	return hex.EncodeToString(h.Sum(nil))
 }
