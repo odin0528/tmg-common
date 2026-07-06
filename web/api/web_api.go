@@ -75,7 +75,7 @@ func sendRequest(method HTTP_METHOD, url string, header map[string]string, body 
 		request.Header.Set(HEADER_KEY_X_API_CENTER_TOKEN, xApiCenterToken)
 		timestampStr := strconv.FormatInt(time.Now().Unix(), 10)
 
-		signature := utils.GenerateSignature(xApiCenterToken, string(method), request.URL.Path, timestampStr)
+		signature := utils.GenerateSignature(xApiCenterToken, timestampStr)
 
 		request.Header.Set(HEADER_KEY_X_API_CENTER_TIMESTAMP, timestampStr)
 		request.Header.Set(HEADER_KEY_X_API_CENTER_SIGNATURE, signature)
