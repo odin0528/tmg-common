@@ -72,7 +72,6 @@ func sendRequest(method HTTP_METHOD, url string, header map[string]string, body 
 
 	if request.URL.Host == cleanTarget || strings.HasPrefix(request.URL.String(), targetDomain) {
 		xApiCenterToken, _ := redis.GetString(redis.HEADER_KEY_X_API_CENTER_TOKEN_KEY)
-		request.Header.Set(HEADER_KEY_X_API_CENTER_TOKEN, xApiCenterToken)
 		timestampStr := strconv.FormatInt(time.Now().Unix(), 10)
 
 		signature := utils.GenerateSignature(xApiCenterToken, timestampStr)
