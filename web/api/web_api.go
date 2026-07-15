@@ -8,10 +8,13 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"strconv"
+	"strings"
 	"time"
 	"xxx/common/configs"
 	"xxx/common/logs"
 	"xxx/common/redis"
+	"xxx/common/utils"
 )
 
 func InitUserAgentSwitch() {
@@ -62,6 +65,19 @@ func sendRequest(method HTTP_METHOD, url string, header map[string]string, body 
 
 	if enableCustomUserAgent.Load() {
 		request.Header.Set(HEADER_KEY_USER_AGENT, getUserAgent())
+	}
+
+	targetDomain := configs.Get(configs.SECTION_WEB_API, configs.WEB_API_API_CENTER_DOMAIN, "http://localhost:8888")
+	cleanTarget := strings.TrimPrefix(strings.TrimPrefix(targetDomain, "https://"), "http://")
+
+	if request.URL.Host == cleanTarget || strings.HasPrefix(request.URL.String(), targetDomain) {
+		xApiCenterToken, _ := redis.GetString(redis.HEADER_KEY_X_API_CENTER_TOKEN_KEY)
+		timestampStr := strconv.FormatInt(time.Now().Unix(), 10)
+
+		signature := utils.GenerateSignature(xApiCenterToken, timestampStr)
+
+		request.Header.Set(HEADER_KEY_X_API_CENTER_TIMESTAMP, timestampStr)
+		request.Header.Set(HEADER_KEY_X_API_CENTER_SIGNATURE, signature)
 	}
 
 	tr := http.Transport{

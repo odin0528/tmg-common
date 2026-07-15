@@ -83,6 +83,7 @@ const (
 	WEB_API_APP_PROFILE_WOW_GAMING_STAGING     string = "wow_gaming_staging"
 	WEB_API_APP_PROFILE_AI_LIVE_CASINO_PROD    string = "ai_live_casino_prod"
 	WEB_API_APP_PROFILE_AI_LIVE_CASINO_STAGING string = "ai_live_casino_staging"
+	WEB_API_ENABLE_AUTH_API_CENTER_TOKEN       string = "enable_auth_api_center_token"
 
 	MOCK_PLAYER                   = "mock_player"
 	MOCK_ENABLE_MOCK_PLAYER       = "enable_mock_player"
