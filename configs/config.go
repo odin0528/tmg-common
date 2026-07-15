@@ -8,12 +8,19 @@ import (
 )
 
 func HasSection(section string) bool {
+	if envConfig == nil {
+		return false
+	}
 	return envConfig.HasSection(section)
 }
 
 func Get(section, key, defaultValue string) string {
 	configMutex.RLock()
 	defer configMutex.RUnlock()
+
+	if envConfig == nil {
+		return defaultValue
+	}
 
 	var value = defaultValue
 	if v := envConfig.Section(section).Key(key).String(); v != "" {
@@ -27,8 +34,11 @@ func GetInt(section, key string, defaultValue int) int {
 	configMutex.RLock()
 	defer configMutex.RUnlock()
 
-	var value = defaultValue
+	if envConfig == nil {
+		return defaultValue
+	}
 
+	var value = defaultValue
 	if v, err := envConfig.Section(section).Key(key).Int(); nil == err {
 		value = v
 	}
@@ -39,6 +49,10 @@ func GetInt(section, key string, defaultValue int) int {
 func GetBool(section, key string, defaultValue bool) bool {
 	configMutex.RLock()
 	defer configMutex.RUnlock()
+
+	if envConfig == nil {
+		return defaultValue
+	}
 
 	var value = defaultValue
 	if v, err := envConfig.Section(section).Key(key).Bool(); nil == err {
@@ -52,8 +66,11 @@ func GetFloat64(section, key string, defaultValue float64) float64 {
 	configMutex.RLock()
 	defer configMutex.RUnlock()
 
-	var value = defaultValue
+	if envConfig == nil {
+		return defaultValue
+	}
 
+	var value = defaultValue
 	if v, err := envConfig.Section(section).Key(key).Float64(); nil == err {
 		value = v
 	}
@@ -89,6 +106,37 @@ func loadDefaultConfig(path string) error {
 	}
 
 	return LoadConfig(configList)
+}
+
+// LoadConfigFromBytes loads configuration from an in-memory byte slice.
+// The data should be in INI format. If envConfig is already initialized,
+// the data is appended; otherwise a new config is created.
+// Primarily used in tests to load a minimal config without files on disk.
+func LoadConfigFromBytes(data []byte) error {
+	configMutex.Lock()
+	defer configMutex.Unlock()
+
+	var loadOptions = ini.LoadOptions{
+		SpaceBeforeInlineComment: true,
+	}
+
+	if envConfig != nil {
+		return envConfig.Append(data)
+	}
+
+	iniFile, err := ini.LoadSources(loadOptions, data)
+	if err != nil {
+		return err
+	}
+	envConfig = iniFile
+	return nil
+}
+
+// ResetConfig clears the loaded configuration. Intended for use in tests only.
+func ResetConfig() {
+	configMutex.Lock()
+	defer configMutex.Unlock()
+	envConfig = nil
 }
 
 // path should include file name. Ex: "config/env.ini"
