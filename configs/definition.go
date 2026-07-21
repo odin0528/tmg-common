@@ -139,6 +139,9 @@ const (
 	BOT_ENABLE_TELEGRAM_ALARM_INTERNAL          string = "enable_telegram_alarm_internal"
 	BOT_TELEGRAM_ALARM_INTERNAL_CHAT_ROOM_ID    string = "telegram_alarm_internal_chat_room_id"
 	BOT_TELEGRAM_ALARM_INTERNAL_BOT_TOKEN       string = "telegram_alarm_internal_bot_token"
+	BOT_ENABLE_TELEGRAM_ALARM_HANDS_UP          string = "enable_telegram_alarm_hands_up"
+	BOT_TELEGRAM_ALARM_HANDS_UP_CHAT_ROOM_ID    string = "telegram_alarm_hands_up_chat_room_id"
+	BOT_TELEGRAM_ALARM_HANDS_UP_BOT_TOKEN       string = "telegram_alarm_hands_up_bot_token"
 
 	MQ_PROTOCOL                                 string = "protocol"
 	MQ_USERNAME                                 string = "username"
