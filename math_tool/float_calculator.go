@@ -163,6 +163,18 @@ func makeDisplayRoundDown(value float64, n int32) float64 {
 	return v
 }
 
+// GetDisplayFloatDecimalRound 四捨五入至小數第二位（對齊新版操作費公式「四捨五入到
+// 小數第二位」，跟既有 Up/Down 的無條件進位/捨去不同）。
+func GetDisplayFloatDecimalRound(value float64) float64 {
+	return makeDisplayRound(value, ROUND_DISPLAY_PRECISION)
+}
+
+func makeDisplayRound(value float64, n int32) float64 {
+	decimal := decimal.NewFromFloat(value)
+	v, _ := decimal.Round(n).Float64()
+	return v
+}
+
 // RoundFloatDown 無條件捨去至小數第 n 位（n >= 0）。
 func RoundFloatDown(value float64, n int32) float64 {
 	return makeDisplayRoundDown(value, n)
