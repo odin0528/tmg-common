@@ -118,3 +118,8 @@ func GetAgentGameRtpSettingHashKey(agentAccount, gameName string, controlType in
 func GetRtpForceWinCacheKey(platformName, gameName, currency, playerName string) string {
 	return GetCacheKey(RTP_FORCE_WIN_REDIS_KEY_FORMAT, platformName, gameName, currency, playerName)
 }
+
+
+func GetGameRtpTagRedisKey(platform, gameName string) string {
+	return fmt.Sprintf("%s_%s", platform, gameName)
+}

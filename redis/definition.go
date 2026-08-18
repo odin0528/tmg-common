@@ -171,6 +171,8 @@ const (
 	RTP_FORCE_WIN_REDIS_EXPIRY     = 24 * time.Hour
 
 	HEADER_KEY_X_API_CENTER_TOKEN_KEY = "x_api_center_token_key"
+
+	GAME_RTP_TAG_HASH_KEY = "game_rtp_tag_hash_key"
 )
 
 const (
