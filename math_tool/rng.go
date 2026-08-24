@@ -1,7 +1,7 @@
 package math_tool
 
 import (
-	"gltw.6633663.com/Backend_GSGame/common/math_rng"
+	"github.com/odin0528/tmg-common/math_rng"
 )
 
 func GetRandomInt64(max int64) int64 {
