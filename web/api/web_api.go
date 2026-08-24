@@ -7,14 +7,14 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
+	"mgmt/common/redis"
+	"mgmt/common/utils"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
-	"xxx/common/configs"
-	"xxx/common/logs"
-	"xxx/common/redis"
-	"xxx/common/utils"
 )
 
 func InitUserAgentSwitch() {
@@ -113,6 +113,10 @@ func getUserAgent() string {
 		return "WOWGaming-GameServer//2.0.1 (prod; golang)"
 	case configs.WEB_API_APP_PROFILE_WOW_GAMING_STAGING:
 		return "WOWGaming-GameServer//2.0.1 (staging; golang)"
+	case configs.WEB_API_APP_PROFILE_TMG_PROD:
+		return "TMG-GameServer//2.0.1 (prod; golang)"
+	case configs.WEB_API_APP_PROFILE_TMG_STAGING:
+		return "TMG-GameServer//2.0.1 (staging; golang)"
 	case configs.WEB_API_APP_PROFILE_AI_LIVE_CASINO_PROD:
 		return "AILiveCasino-GameServer//2.0.1 (prod; golang)"
 	case configs.WEB_API_APP_PROFILE_AI_LIVE_CASINO_STAGING:

@@ -5,7 +5,7 @@ import (
 	"sync"
 	"testing"
 	"time"
-	"xxx/common/configs"
+	"mgmt/common/configs"
 
 	"github.com/stretchr/testify/assert"
 )

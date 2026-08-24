@@ -6,9 +6,9 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
-	"xxx/common/configs"
-	"xxx/common/logs"
-	"xxx/common/math_tool"
+	"mgmt/common/configs"
+	"mgmt/common/logs"
+	"mgmt/common/math_tool"
 
 	"github.com/vmihailenco/msgpack/v5"
 )

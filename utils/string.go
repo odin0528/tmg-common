@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
-	"xxx/common/math_tool"
+	"mgmt/common/math_tool"
 )
 
 func GetRandomString(length int) string {
